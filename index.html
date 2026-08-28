@@ -3,56 +3,323 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#0f172a">
+<meta name="theme-color" content="#ffcc00">
 <title>Flottafotó</title>
 <style>
-:root{--bg:#f4f7fb;--card:#fff;--text:#172033;--muted:#6b7280;--line:#e4e9f1;--accent:#2563eb;--accent2:#1d4ed8;--ok:#16803c;--miss:#b45309}
-*{box-sizing:border-box}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text)}
-button,input,select{font:inherit}.top{background:#0f172a;color:white}.topin{max-width:1180px;margin:auto;padding:22px 24px;display:flex;justify-content:space-between;align-items:center;gap:18px}.brand h1{margin:0;font-size:25px}.brand p{margin:4px 0 0;color:#aeb8c8;font-size:13px}.user{background:#1e293b;border:1px solid #334155;border-radius:999px;padding:9px 14px;font-size:13px}
-.shell{max-width:1180px;margin:auto;padding:22px 24px 50px}.tabs{display:flex;gap:8px;margin-bottom:20px}.tab{border:1px solid var(--line);background:#fff;color:#475569;border-radius:11px;padding:10px 15px;font-weight:700;cursor:pointer}.tab.active{background:var(--accent);border-color:var(--accent);color:#fff}
-.view{display:none}.view.active{display:block}.grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(280px,.75fr);gap:18px}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px;box-shadow:0 8px 24px rgba(15,23,42,.04)}h2,h3{margin:0}h2{font-size:21px}h3{font-size:16px}.muted{color:var(--muted);font-size:14px;line-height:1.5}.form{display:grid;gap:17px;margin-top:22px}.label{font-size:13px;font-weight:750;margin-bottom:7px;display:block}.control{width:100%;min-height:48px;border:1px solid #d8dee8;border-radius:12px;background:white;padding:11px 13px;outline:none}.control:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(37,99,235,.12)}
-.drop{border:2px dashed #cbd5e1;border-radius:15px;padding:26px 18px;text-align:center;background:#f8fafc}.drop input{width:100%;margin-top:10px}.drop strong{display:block}.meta{display:grid;grid-template-columns:1fr 1fr;gap:12px}.mini{background:#f8fafc;border:1px solid var(--line);border-radius:12px;padding:13px}.mini span{display:block;color:var(--muted);font-size:11px;margin-bottom:3px}.primary{border:0;background:var(--accent);color:white;border-radius:12px;min-height:49px;padding:12px 18px;font-weight:800;cursor:pointer}.primary:hover{background:var(--accent2)}.status{min-height:20px;color:var(--ok);font-size:13px}
-.list{display:grid;gap:10px;margin-top:16px}.item{border:1px solid var(--line);border-radius:13px;padding:14px;display:flex;align-items:center;justify-content:space-between;gap:12px;background:#fff}.plate{font-weight:850;letter-spacing:.3px}.small{font-size:12px;color:var(--muted);margin-top:3px}.badge{white-space:nowrap;background:#f1f5f9;border-radius:9px;padding:7px 9px;font-size:12px}
-.headrow{display:flex;align-items:end;justify-content:space-between;gap:12px}.filters{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:18px}.big{font-size:27px;font-weight:850}.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}.stat{border:1px solid var(--line);border-radius:14px;padding:17px}.stat .n{font-size:30px;font-weight:850;margin-top:4px}.weekly-row{border:1px solid var(--line);border-radius:12px;padding:13px 14px;display:flex;justify-content:space-between;align-items:center}.done{color:var(--ok);font-weight:750}.missing{color:var(--miss);font-weight:750}
-@media(max-width:760px){.topin,.shell{padding-left:16px;padding-right:16px}.topin{align-items:flex-start}.user{font-size:12px}.tabs{overflow:auto;padding-bottom:2px}.tab{white-space:nowrap}.grid,.filters{grid-template-columns:1fr}.meta{grid-template-columns:1fr 1fr}.card{padding:18px}.drop{padding:20px 12px}}
-@media(max-width:390px){.brand h1{font-size:21px}.topin{padding-top:17px;padding-bottom:17px}.user{padding:7px 9px}.meta,.stats{grid-template-columns:1fr}}
+:root{
+  --yellow:#ffcc00;
+  --yellow-soft:#fff7d6;
+  --yellow-deep:#f5b800;
+  --red:#d40511;
+  --red-dark:#b8040e;
+  --bg:#f7f7f8;
+  --card:#ffffff;
+  --text:#171717;
+  --muted:#6b7280;
+  --line:#e6e6e6;
+  --green:#16803c;
+  --orange:#b45309;
+  --sidebar:#ffffff;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text)}
+button,input,select{font:inherit}
+.app{min-height:100vh}
+.topbar{background:var(--yellow);border-bottom:1px solid rgba(0,0,0,.08)}
+.topinner{max-width:1440px;margin:auto;padding:18px 26px;display:flex;justify-content:space-between;align-items:center;gap:18px}
+.brand h1{margin:0;color:var(--red);font-size:28px;letter-spacing:-.4px}
+.brand p{margin:3px 0 0;font-size:13px;color:#3b3b3b}
+.user{display:flex;align-items:center;gap:10px;font-weight:800}
+.userchip{width:40px;height:40px;border-radius:50%;background:#fff;display:grid;place-items:center;border:1px solid rgba(0,0,0,.08)}
+.layout{max-width:1440px;margin:auto;display:grid;grid-template-columns:230px minmax(0,1fr);min-height:calc(100vh - 77px)}
+.sidebar{background:var(--sidebar);border-right:1px solid var(--line);padding:24px 18px;display:flex;flex-direction:column;justify-content:space-between}
+.nav{display:grid;gap:10px}
+.navbtn{border:0;background:transparent;color:#222;text-align:left;border-radius:12px;padding:13px 14px;font-weight:750;cursor:pointer;display:flex;gap:10px;align-items:center}
+.navbtn.active{background:var(--yellow-soft);color:var(--red)}
+.navbtn:hover{background:#f8f8f8}
+.sidehelp{font-size:12px;color:var(--muted);line-height:1.5;border-top:1px solid var(--line);padding-top:16px}
+.main{padding:28px}
+.view{display:none}
+.view.active{display:block}
+.dashboard{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(300px,.65fr);gap:22px}
+.leftcol,.rightcol{display:grid;gap:22px;align-content:start}
+.sectionhead{display:flex;align-items:center;gap:12px;margin-bottom:15px}
+.iconbox{width:42px;height:42px;border-radius:12px;background:var(--yellow);display:grid;place-items:center;font-size:20px}
+.sectionhead h2{margin:0;font-size:22px}
+.sectionhead p{margin:4px 0 0;color:var(--muted);font-size:13px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:0 6px 20px rgba(0,0,0,.035)}
+.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.field{display:grid;gap:7px}
+.label{font-size:13px;font-weight:800}
+.control{width:100%;min-height:48px;border:1px solid #d8d8d8;border-radius:10px;padding:11px 12px;background:#fff;outline:none}
+.control:focus{border-color:var(--yellow-deep);box-shadow:0 0 0 3px rgba(255,204,0,.18)}
+.uploadbox{border:1.5px dashed #f0bf00;border-radius:12px;background:#fffdf3;padding:23px;text-align:center}
+.uploadbox strong{display:block;color:var(--red);margin-bottom:4px}
+.uploadbox input{width:100%;margin-top:10px}
+.meta{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px}
+.metabox{border:1px solid var(--line);border-radius:10px;padding:12px;background:#fafafa}
+.metabox span{display:block;font-size:11px;color:var(--muted);margin-bottom:3px}
+.primary{width:100%;border:0;background:var(--red);color:white;border-radius:10px;padding:14px 18px;font-weight:900;cursor:pointer;margin-top:4px}
+.primary:hover{background:var(--red-dark)}
+.status{min-height:18px;color:var(--green);font-size:13px}
+.list{display:grid;gap:10px}
+.item{border:1px solid var(--line);border-radius:12px;padding:13px 14px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.plate{font-weight:900}
+.small{font-size:12px;color:var(--muted);margin-top:3px}
+.badge{background:var(--yellow-soft);border:1px solid #f7db74;color:#7a5a00;padding:7px 9px;border-radius:999px;font-size:12px;font-weight:800;white-space:nowrap}
+.summary{background:#fffdf3;border-color:#f2d675}
+.summaryrow{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #eee}
+.summaryrow:last-child{border-bottom:0}
+.progress{height:8px;background:#eee;border-radius:999px;overflow:hidden;margin:10px 0 4px}
+.progress>span{display:block;height:100%;background:var(--yellow);width:0}
+.red{color:var(--red);font-weight:900}
+.green{color:var(--green);font-weight:900}
+.headrow{display:flex;justify-content:space-between;align-items:end;gap:10px}
+.filters{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:16px}
+.big{font-size:28px;font-weight:900}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:15px}
+.stat{border:1px solid var(--line);border-radius:12px;padding:16px}
+.stat .n{font-size:29px;font-weight:900;margin-top:3px}
+.weekrow{border:1px solid var(--line);border-radius:12px;padding:13px 14px;display:flex;justify-content:space-between;align-items:center}
+.footer{background:var(--yellow);border-top:3px solid var(--red);text-align:center;padding:14px;font-size:12px;color:#6a5600;font-weight:700}
+.mobiletabs{display:none}
+
+@media(max-width:980px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{display:none}
+  .mobiletabs{display:flex;gap:8px;overflow:auto;margin-bottom:18px}
+  .mobiletabs .navbtn{background:#fff;border:1px solid var(--line);white-space:nowrap}
+  .mobiletabs .navbtn.active{background:var(--yellow-soft);border-color:#f0d36c}
+  .dashboard{grid-template-columns:1fr}
+}
+@media(max-width:700px){
+  .topinner{padding:15px 16px}
+  .brand h1{font-size:23px}
+  .main{padding:18px 14px}
+  .formgrid,.filters,.meta,.stats{grid-template-columns:1fr}
+  .card{padding:17px}
+  .sectionhead h2{font-size:19px}
+  .user span:last-child{display:none}
+}
 </style>
 </head>
 <body>
-<header class="top"><div class="topin"><div class="brand"><h1>Flottafotó</h1><p>Heti járműfotó-nyilvántartó</p></div><div class="user">Kovács Péter</div></div></header>
-<main class="shell">
-<nav class="tabs"><button class="tab active" data-view="upload">Feltöltés</button><button class="tab" data-view="archive">Archívum</button><button class="tab" data-view="weekly">Heti áttekintés</button></nav>
+<div class="app">
+<header class="topbar">
+  <div class="topinner">
+    <div class="brand">
+      <h1>Flottafotó</h1>
+      <p>Heti járműfotó-nyilvántartó</p>
+    </div>
+    <div class="user"><div class="userchip">👤</div><span>Kovács Péter</span></div>
+  </div>
+</header>
 
-<section id="upload" class="view active"><div class="grid">
-<article class="card"><h2>Új fotófeltöltés</h2><p class="muted">Válaszd ki a rendszámot, töltsd fel a képeket, majd mentsd el.</p>
-<form id="form" class="form">
-<div><label class="label" for="plate">Rendszám</label><select id="plate" class="control" required><option value="">Válassz rendszámot</option><option>ABC-123</option><option>DEF-456</option><option>GHI-789</option><option>JKL-012</option><option>MNO-345</option><option>PQR-678</option></select></div>
-<div><span class="label">Képek</span><div class="drop"><strong>📷 Képek kiválasztása</strong><span class="muted">Telefonról egyszerre több fotót is feltölthetsz.</span><input id="photos" type="file" accept="image/*" multiple required><div id="fileInfo" class="small">Még nincs kiválasztott kép.</div></div></div>
-<div class="meta"><div class="mini"><span>Dátum</span><b id="today"></b></div><div class="mini"><span>Feltöltő</span><b>Kovács Péter</b></div></div>
-<button class="primary" type="submit">Feltöltés mentése</button><div id="status" class="status"></div>
-</form></article>
-<aside class="card"><h3>Mai feltöltések</h3><p class="muted">A ma rögzített járműfotók.</p><div id="todayList" class="list"></div></aside>
-</div></section>
+<div class="layout">
+  <aside class="sidebar">
+    <nav class="nav">
+      <button class="navbtn active" data-view="upload">⬆️ Feltöltés</button>
+      <button class="navbtn" data-view="archive">📁 Archívum</button>
+      <button class="navbtn" data-view="weekly">📈 Heti áttekintés</button>
+    </nav>
+    <div class="sidehelp">Flottafotó v3<br>Egyszerű heti járműfotó-feltöltés és visszakeresés.</div>
+  </aside>
 
-<section id="archive" class="view"><article class="card"><div class="headrow"><div><h2>Archívum</h2><p class="muted">Keresés rendszám, dátum vagy feltöltő alapján.</p></div><div><div class="small">Találatok</div><div id="count" class="big">0</div></div></div>
-<div class="filters"><div><label class="label">Rendszám</label><input id="qPlate" class="control" placeholder="ABC-123"></div><div><label class="label">Dátum</label><input id="qDate" class="control" type="date"></div><div><label class="label">Feltöltő</label><select id="qUser" class="control"><option value="">Mindenki</option><option>Kovács Péter</option><option>Nagy Gábor</option><option>Tóth András</option></select></div></div><div id="archiveList" class="list"></div></article></section>
+  <main class="main">
+    <div class="mobiletabs">
+      <button class="navbtn active" data-view="upload">⬆️ Feltöltés</button>
+      <button class="navbtn" data-view="archive">📁 Archívum</button>
+      <button class="navbtn" data-view="weekly">📈 Heti áttekintés</button>
+    </div>
 
-<section id="weekly" class="view"><div class="grid"><article class="card"><h2>Heti összesítő</h2><p class="muted">Melyik autóról érkezett már kép az aktuális héten?</p><div class="stats"><div class="stat"><div class="small">Flotta</div><div id="fleetN" class="n"></div></div><div class="stat"><div class="small">Feltöltve</div><div id="doneN" class="n"></div></div><div class="stat"><div class="small">Hiányzik</div><div id="missN" class="n"></div></div><div class="stat"><div class="small">Aktuális hét</div><div id="weekN" class="n"></div></div></div></article>
-<article class="card"><div class="headrow"><h3>Rendszámok állapota</h3><select id="weekFilter" class="control" style="width:auto;min-height:42px"><option value="all">Összes</option><option value="done">Feltöltve</option><option value="missing">Hiányzik</option></select></div><div id="weekList" class="list"></div></article></div></section>
-</main>
+    <section id="upload" class="view active">
+      <div class="dashboard">
+        <div class="leftcol">
+          <div>
+            <div class="sectionhead">
+              <div class="iconbox">📷</div>
+              <div><h2>Új fotófeltöltés</h2><p>Válaszd ki a rendszámot, töltsd fel a képeket, majd mentsd el.</p></div>
+            </div>
+            <article class="card">
+              <form id="form" class="formgrid">
+                <div class="field">
+                  <label class="label" for="plate">Rendszám</label>
+                  <select id="plate" class="control" required>
+                    <option value="">Válassz rendszámot</option>
+                    <option>ABC-123</option><option>DEF-456</option><option>GHI-789</option>
+                    <option>JKL-012</option><option>MNO-345</option><option>PQR-678</option>
+                  </select>
+
+                  <div class="metabox"><span>Dátum</span><b id="today"></b></div>
+                  <div class="metabox"><span>Feltöltő</span><b>Kovács Péter</b></div>
+                </div>
+
+                <div class="field">
+                  <span class="label">Képek</span>
+                  <div class="uploadbox">
+                    <strong>Képek kiválasztása</strong>
+                    <span class="small">Telefonról egyszerre több fotót is feltölthetsz.</span>
+                    <input id="photos" type="file" accept="image/*" multiple required>
+                    <div id="fileInfo" class="small">Még nincs kiválasztott kép.</div>
+                  </div>
+                </div>
+
+                <div style="grid-column:1/-1">
+                  <button class="primary" type="submit">⬆ Feltöltés mentése</button>
+                  <div id="status" class="status"></div>
+                </div>
+              </form>
+            </article>
+          </div>
+
+          <div>
+            <div class="sectionhead">
+              <div class="iconbox">🗓️</div>
+              <div><h2>Mai feltöltések</h2><p>A ma rögzített járműfotók.</p></div>
+            </div>
+            <article class="card"><div id="todayList" class="list"></div></article>
+          </div>
+        </div>
+
+        <div class="rightcol">
+          <article class="card summary">
+            <div class="sectionhead"><div class="iconbox">📊</div><div><h2>Heti összesítő</h2><p>Melyik autóról érkezett már kép az aktuális héten?</p></div></div>
+            <div class="summaryrow"><span>Flotta</span><b id="fleetSummary"></b></div>
+            <div class="progress"><span id="progressBar"></span></div>
+            <div class="summaryrow"><span>Feltöltve</span><b id="doneSummary" class="green"></b></div>
+            <div class="summaryrow"><span>Hiányzik</span><b id="missSummary" class="red"></b></div>
+            <div class="summaryrow"><span>Aktuális hét</span><b id="weekSummary" class="red"></b></div>
+          </article>
+
+          <article class="card">
+            <div class="sectionhead"><div class="iconbox">🚗</div><div><h2>Rendszámok állapota</h2><p>Gyors heti státusz.</p></div></div>
+            <div id="quickStatus"></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="archive" class="view">
+      <article class="card">
+        <div class="headrow">
+          <div><h2>Archívum</h2><p class="small">Keresés rendszám, dátum vagy feltöltő alapján.</p></div>
+          <div><div class="small">Találatok</div><div id="count" class="big">0</div></div>
+        </div>
+        <div class="filters">
+          <div class="field"><label class="label">Rendszám</label><input id="qPlate" class="control" placeholder="ABC-123"></div>
+          <div class="field"><label class="label">Dátum</label><input id="qDate" class="control" type="date"></div>
+          <div class="field"><label class="label">Feltöltő</label><select id="qUser" class="control"><option value="">Mindenki</option><option>Kovács Péter</option><option>Nagy Gábor</option><option>Tóth András</option></select></div>
+        </div>
+        <div id="archiveList" class="list" style="margin-top:16px"></div>
+      </article>
+    </section>
+
+    <section id="weekly" class="view">
+      <div class="dashboard">
+        <article class="card">
+          <div class="sectionhead"><div class="iconbox">📊</div><div><h2>Heti összesítő</h2><p>Aktuális heti teljesítés.</p></div></div>
+          <div class="stats">
+            <div class="stat"><div class="small">Flotta</div><div id="fleetN" class="n"></div></div>
+            <div class="stat"><div class="small">Feltöltve</div><div id="doneN" class="n green"></div></div>
+            <div class="stat"><div class="small">Hiányzik</div><div id="missN" class="n red"></div></div>
+            <div class="stat"><div class="small">Aktuális hét</div><div id="weekN" class="n"></div></div>
+          </div>
+        </article>
+        <article class="card">
+          <div class="headrow">
+            <div><h2>Rendszámok állapota</h2><p class="small">Szűrhető heti státuszlista.</p></div>
+            <select id="weekFilter" class="control" style="width:auto;min-height:42px">
+              <option value="all">Összes</option><option value="done">Feltöltve</option><option value="missing">Hiányzik</option>
+            </select>
+          </div>
+          <div id="weekList" class="list" style="margin-top:14px"></div>
+        </article>
+      </div>
+    </section>
+  </main>
+</div>
+
+<footer class="footer">Flottafotó • heti járműfotó-nyilvántartó</footer>
+</div>
+
 <script>
 const fleet=['ABC-123','DEF-456','GHI-789','JKL-012','MNO-345','PQR-678'];
 const now=new Date(), iso=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
 function week(d){const x=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate()));const n=x.getUTCDay()||7;x.setUTCDate(x.getUTCDate()+4-n);const y=new Date(Date.UTC(x.getUTCFullYear(),0,1));return Math.ceil((((x-y)/86400000)+1)/7)}
 const w=week(now);
-const records=[{plate:'ABC-123',date:iso,user:'Kovács Péter',photos:6,week:w},{plate:'DEF-456',date:iso,user:'Nagy Gábor',photos:5,week:w},{plate:'JKL-012',date:iso,user:'Tóth András',photos:7,week:w}];
-const fmt=s=>{const [y,m,d]=s.split('-');return `${y}.${m}.${d}.`}; document.querySelector('#today').textContent=fmt(iso);
-document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===b.dataset.view));render()}));
-photos.addEventListener('change',()=>fileInfo.textContent=photos.files.length?`${photos.files.length} kép kiválasztva.`:'Még nincs kiválasztott kép.');
-form.addEventListener('submit',e=>{e.preventDefault();if(!plate.value||!photos.files.length)return;records.unshift({plate:plate.value,date:iso,user:'Kovács Péter',photos:photos.files.length,week:w});status.textContent='✓ Sikeres mentés a demó archívumba.';form.reset();fileInfo.textContent='Még nincs kiválasztott kép.';render()});
-[qPlate,qDate,qUser].forEach(x=>x.addEventListener('input',render));weekFilter.addEventListener('change',render);
-function item(r){return `<div class="item"><div><div class="plate">${r.plate}</div><div class="small">${fmt(r.date)} · ${r.user}</div></div><div class="badge">📷 ${r.photos} kép</div></div>`}
-function render(){todayList.innerHTML=records.filter(r=>r.date===iso).map(item).join('')||'<p class="muted">Ma még nincs feltöltés.</p>';const a=records.filter(r=>(!qPlate.value||r.plate.includes(qPlate.value.toUpperCase()))&&(!qDate.value||r.date===qDate.value)&&(!qUser.value||r.user===qUser.value));count.textContent=a.length;archiveList.innerHTML=a.map(item).join('')||'<p class="muted">Nincs találat.</p>';const done=new Set(records.filter(r=>r.week===w).map(r=>r.plate));fleetN.textContent=fleet.length;doneN.textContent=done.size;missN.textContent=fleet.length-done.size;weekN.textContent=w;weekList.innerHTML=fleet.filter(p=>weekFilter.value==='all'||(weekFilter.value==='done'&&done.has(p))||(weekFilter.value==='missing'&&!done.has(p))).map(p=>`<div class="weekly-row"><b>${p}</b><span class="${done.has(p)?'done':'missing'}">${done.has(p)?'✓ Feltöltve':'○ Hiányzik'}</span></div>`).join('')}
+const records=[
+  {plate:'ABC-123',date:iso,user:'Kovács Péter',photos:5,week:w},
+  {plate:'DEF-456',date:iso,user:'Kovács Péter',photos:4,week:w},
+  {plate:'GHI-789',date:iso,user:'Kovács Péter',photos:3,week:w},
+  {plate:'JKL-012',date:iso,user:'Kovács Péter',photos:6,week:w}
+];
+const fmt=s=>{const [y,m,d]=s.split('-');return `${y}.${m}.${d}.`};
+document.querySelector('#today').textContent=fmt(iso);
+
+document.querySelectorAll('.navbtn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const v=btn.dataset.view;
+    document.querySelectorAll('.navbtn').forEach(x=>x.classList.toggle('active',x.dataset.view===v));
+    document.querySelectorAll('.view').forEach(x=>x.classList.toggle('active',x.id===v));
+    render();
+  });
+});
+
+photos.addEventListener('change',()=>{
+  fileInfo.textContent=photos.files.length?`${photos.files.length} kép kiválasztva.`:'Még nincs kiválasztott kép.';
+});
+
+form.addEventListener('submit',e=>{
+  e.preventDefault();
+  if(!plate.value||!photos.files.length)return;
+  records.unshift({plate:plate.value,date:iso,user:'Kovács Péter',photos:photos.files.length,week:w});
+  status.textContent='✓ Sikeres mentés a demó archívumba.';
+  form.reset();
+  fileInfo.textContent='Még nincs kiválasztott kép.';
+  render();
+});
+
+[qPlate,qDate,qUser].forEach(x=>x.addEventListener('input',render));
+weekFilter.addEventListener('change',render);
+
+function item(r){
+  return `<div class="item"><div><div class="plate">${r.plate}</div><div class="small">${fmt(r.date)} · ${r.user}</div></div><div class="badge">📷 ${r.photos} kép</div></div>`;
+}
+
+function render(){
+  todayList.innerHTML=records.filter(r=>r.date===iso).map(item).join('')||'<p class="small">Ma még nincs feltöltés.</p>';
+
+  const filtered=records.filter(r=>
+    (!qPlate.value||r.plate.includes(qPlate.value.toUpperCase())) &&
+    (!qDate.value||r.date===qDate.value) &&
+    (!qUser.value||r.user===qUser.value)
+  );
+  count.textContent=filtered.length;
+  archiveList.innerHTML=filtered.map(item).join('')||'<p class="small">Nincs találat.</p>';
+
+  const done=new Set(records.filter(r=>r.week===w).map(r=>r.plate));
+  const doneNval=done.size, miss=fleet.length-doneNval;
+  fleetN.textContent=fleet.length;
+  doneN.textContent=doneNval;
+  missN.textContent=miss;
+  weekN.textContent=w;
+  fleetSummary.textContent=`${doneNval} / ${fleet.length}`;
+  doneSummary.textContent=doneNval;
+  missSummary.textContent=miss;
+  weekSummary.textContent=`${w}. hét`;
+  progressBar.style.width=`${Math.round((doneNval/fleet.length)*100)}%`;
+
+  quickStatus.innerHTML=`
+    <div class="summaryrow"><span>Összes</span><b>${fleet.length}</b></div>
+    <div class="summaryrow"><span>Feltöltve</span><b class="green">${doneNval}</b></div>
+    <div class="summaryrow"><span>Hiányzik</span><b class="red">${miss}</b></div>`;
+
+  weekList.innerHTML=fleet
+    .filter(p=>weekFilter.value==='all'||(weekFilter.value==='done'&&done.has(p))||(weekFilter.value==='missing'&&!done.has(p)))
+    .map(p=>`<div class="weekrow"><b>${p}</b><span class="${done.has(p)?'green':'red'}">${done.has(p)?'✓ Feltöltve':'○ Hiányzik'}</span></div>`)
+    .join('');
+}
 render();
 </script>
-</body></html>
+</body>
+</html>

@@ -1,8 +1,9 @@
-FLOTTAFOTÓ V2
+FLOTTAFOTÓ V3
 
-1. A GitHub repositoryban cseréld le a régi index.html fájlt erre az index.html-re.
-2. Commit changes.
-3. A Vercel automatikusan új deployt készít.
+1. Csomagold ki a ZIP-et.
+2. GitHubon cseréld le a jelenlegi index.html fájlt erre.
+3. Commit changes.
+4. A Vercel automatikusan újradeployolja.
 
-Ez a V2 egyetlen index.html fájlban tartalmazza a dizájnt és a JavaScriptet, így nem tud hiányozni külön style.css vagy app.js.
-Az adatok továbbra is demóadatok; az adatbázist később kötjük rá.
+A V3 a sárga-piros, DHL-hangulatú színvilágot használja logó nélkül.
+Az adatok továbbra is demóadatok, adatbázis még nincs bekötve.
