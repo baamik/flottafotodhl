@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="hu">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#111827" />
+  <title>Flottafotó</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1>Flottafotó</h1>
+      <p>Heti járműfotó-nyilvántartó</p>
+    </div>
+    <div class="user-chip">Kovács Péter</div>
+  </header>
+
+  <main class="app-shell">
+    <nav class="tabs" aria-label="Fő navigáció">
+      <button class="tab active" data-view="upload">Feltöltés</button>
+      <button class="tab" data-view="archive">Archívum</button>
+      <button class="tab" data-view="weekly">Heti áttekintés</button>
+    </nav>
+
+    <section id="upload" class="view active">
+      <div class="grid two-col">
+        <article class="card">
+          <h2>Új fotófeltöltés</h2>
+          <p class="muted">Válaszd ki a rendszámot, töltsd fel a képeket, majd mentsd el.</p>
+
+          <form id="uploadForm" class="form-stack">
+            <label>
+              <span>Rendszám</span>
+              <select id="plate" required>
+                <option value="">Válassz rendszámot</option>
+                <option>ABC-123</option>
+                <option>DEF-456</option>
+                <option>GHI-789</option>
+                <option>JKL-012</option>
+                <option>MNO-345</option>
+                <option>PQR-678</option>
+              </select>
+            </label>
+
+            <label>
+              <span>Képek</span>
+              <input id="photos" type="file" accept="image/*" multiple required />
+              <small id="fileInfo">Még nincs kiválasztott kép.</small>
+            </label>
+
+            <div class="meta-grid">
+              <div class="meta-box"><small>Dátum</small><strong id="todayText"></strong></div>
+              <div class="meta-box"><small>Feltöltő</small><strong>Kovács Péter</strong></div>
+            </div>
+
+            <button class="primary" type="submit">Feltöltés mentése</button>
+            <p id="uploadStatus" class="status" aria-live="polite"></p>
+          </form>
+        </article>
+
+        <aside class="card">
+          <h2>Mai feltöltések</h2>
+          <div id="todayUploads" class="list"></div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="archive" class="view">
+      <article class="card">
+        <div class="section-head">
+          <div>
+            <h2>Archívum</h2>
+            <p class="muted">Keresés rendszám, dátum vagy feltöltő alapján.</p>
+          </div>
+          <div class="counter"><small>Találatok</small><strong id="archiveCount">0</strong></div>
+        </div>
+
+        <div class="filters">
+          <label><span>Rendszám</span><input id="searchPlate" type="text" placeholder="ABC-123" /></label>
+          <label><span>Dátum</span><input id="searchDate" type="date" /></label>
+          <label><span>Feltöltő</span>
+            <select id="searchUploader">
+              <option value="">Mindenki</option>
+              <option>Kovács Péter</option>
+              <option>Nagy Gábor</option>
+              <option>Tóth András</option>
+              <option>Szabó Márk</option>
+            </select>
+          </label>
+        </div>
+
+        <div id="archiveList" class="list"></div>
+      </article>
+    </section>
+
+    <section id="weekly" class="view">
+      <div class="grid two-col">
+        <article class="card">
+          <h2>Heti összesítő</h2>
+          <p class="muted">Melyik autóról érkezett már kép az aktuális héten?</p>
+          <div class="stats">
+            <div class="stat"><small>Flotta</small><strong id="fleetCount"></strong></div>
+            <div class="stat"><small>Feltöltve</small><strong id="uploadedCount"></strong></div>
+            <div class="stat"><small>Hiányzik</small><strong id="missingCount"></strong></div>
+            <div class="stat"><small>Aktuális hét</small><strong id="weekNumber"></strong></div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="section-head">
+            <h2>Rendszámok állapota</h2>
+            <select id="weeklyFilter" class="compact-select">
+              <option value="all">Összes</option>
+              <option value="done">Feltöltve</option>
+              <option value="missing">Hiányzik</option>
+            </select>
+          </div>
+          <div id="weeklyList" class="list"></div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
