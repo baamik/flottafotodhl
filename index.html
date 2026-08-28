@@ -1,127 +1,58 @@
 <!doctype html>
 <html lang="hu">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="theme-color" content="#111827" />
-  <title>Flottafotó</title>
-  <link rel="stylesheet" href="style.css" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0f172a">
+<title>Flottafotó</title>
+<style>
+:root{--bg:#f4f7fb;--card:#fff;--text:#172033;--muted:#6b7280;--line:#e4e9f1;--accent:#2563eb;--accent2:#1d4ed8;--ok:#16803c;--miss:#b45309}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text)}
+button,input,select{font:inherit}.top{background:#0f172a;color:white}.topin{max-width:1180px;margin:auto;padding:22px 24px;display:flex;justify-content:space-between;align-items:center;gap:18px}.brand h1{margin:0;font-size:25px}.brand p{margin:4px 0 0;color:#aeb8c8;font-size:13px}.user{background:#1e293b;border:1px solid #334155;border-radius:999px;padding:9px 14px;font-size:13px}
+.shell{max-width:1180px;margin:auto;padding:22px 24px 50px}.tabs{display:flex;gap:8px;margin-bottom:20px}.tab{border:1px solid var(--line);background:#fff;color:#475569;border-radius:11px;padding:10px 15px;font-weight:700;cursor:pointer}.tab.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.view{display:none}.view.active{display:block}.grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(280px,.75fr);gap:18px}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px;box-shadow:0 8px 24px rgba(15,23,42,.04)}h2,h3{margin:0}h2{font-size:21px}h3{font-size:16px}.muted{color:var(--muted);font-size:14px;line-height:1.5}.form{display:grid;gap:17px;margin-top:22px}.label{font-size:13px;font-weight:750;margin-bottom:7px;display:block}.control{width:100%;min-height:48px;border:1px solid #d8dee8;border-radius:12px;background:white;padding:11px 13px;outline:none}.control:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(37,99,235,.12)}
+.drop{border:2px dashed #cbd5e1;border-radius:15px;padding:26px 18px;text-align:center;background:#f8fafc}.drop input{width:100%;margin-top:10px}.drop strong{display:block}.meta{display:grid;grid-template-columns:1fr 1fr;gap:12px}.mini{background:#f8fafc;border:1px solid var(--line);border-radius:12px;padding:13px}.mini span{display:block;color:var(--muted);font-size:11px;margin-bottom:3px}.primary{border:0;background:var(--accent);color:white;border-radius:12px;min-height:49px;padding:12px 18px;font-weight:800;cursor:pointer}.primary:hover{background:var(--accent2)}.status{min-height:20px;color:var(--ok);font-size:13px}
+.list{display:grid;gap:10px;margin-top:16px}.item{border:1px solid var(--line);border-radius:13px;padding:14px;display:flex;align-items:center;justify-content:space-between;gap:12px;background:#fff}.plate{font-weight:850;letter-spacing:.3px}.small{font-size:12px;color:var(--muted);margin-top:3px}.badge{white-space:nowrap;background:#f1f5f9;border-radius:9px;padding:7px 9px;font-size:12px}
+.headrow{display:flex;align-items:end;justify-content:space-between;gap:12px}.filters{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:18px}.big{font-size:27px;font-weight:850}.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}.stat{border:1px solid var(--line);border-radius:14px;padding:17px}.stat .n{font-size:30px;font-weight:850;margin-top:4px}.weekly-row{border:1px solid var(--line);border-radius:12px;padding:13px 14px;display:flex;justify-content:space-between;align-items:center}.done{color:var(--ok);font-weight:750}.missing{color:var(--miss);font-weight:750}
+@media(max-width:760px){.topin,.shell{padding-left:16px;padding-right:16px}.topin{align-items:flex-start}.user{font-size:12px}.tabs{overflow:auto;padding-bottom:2px}.tab{white-space:nowrap}.grid,.filters{grid-template-columns:1fr}.meta{grid-template-columns:1fr 1fr}.card{padding:18px}.drop{padding:20px 12px}}
+@media(max-width:390px){.brand h1{font-size:21px}.topin{padding-top:17px;padding-bottom:17px}.user{padding:7px 9px}.meta,.stats{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
-  <header class="topbar">
-    <div>
-      <h1>Flottafotó</h1>
-      <p>Heti járműfotó-nyilvántartó</p>
-    </div>
-    <div class="user-chip">Kovács Péter</div>
-  </header>
+<header class="top"><div class="topin"><div class="brand"><h1>Flottafotó</h1><p>Heti járműfotó-nyilvántartó</p></div><div class="user">Kovács Péter</div></div></header>
+<main class="shell">
+<nav class="tabs"><button class="tab active" data-view="upload">Feltöltés</button><button class="tab" data-view="archive">Archívum</button><button class="tab" data-view="weekly">Heti áttekintés</button></nav>
 
-  <main class="app-shell">
-    <nav class="tabs" aria-label="Fő navigáció">
-      <button class="tab active" data-view="upload">Feltöltés</button>
-      <button class="tab" data-view="archive">Archívum</button>
-      <button class="tab" data-view="weekly">Heti áttekintés</button>
-    </nav>
+<section id="upload" class="view active"><div class="grid">
+<article class="card"><h2>Új fotófeltöltés</h2><p class="muted">Válaszd ki a rendszámot, töltsd fel a képeket, majd mentsd el.</p>
+<form id="form" class="form">
+<div><label class="label" for="plate">Rendszám</label><select id="plate" class="control" required><option value="">Válassz rendszámot</option><option>ABC-123</option><option>DEF-456</option><option>GHI-789</option><option>JKL-012</option><option>MNO-345</option><option>PQR-678</option></select></div>
+<div><span class="label">Képek</span><div class="drop"><strong>📷 Képek kiválasztása</strong><span class="muted">Telefonról egyszerre több fotót is feltölthetsz.</span><input id="photos" type="file" accept="image/*" multiple required><div id="fileInfo" class="small">Még nincs kiválasztott kép.</div></div></div>
+<div class="meta"><div class="mini"><span>Dátum</span><b id="today"></b></div><div class="mini"><span>Feltöltő</span><b>Kovács Péter</b></div></div>
+<button class="primary" type="submit">Feltöltés mentése</button><div id="status" class="status"></div>
+</form></article>
+<aside class="card"><h3>Mai feltöltések</h3><p class="muted">A ma rögzített járműfotók.</p><div id="todayList" class="list"></div></aside>
+</div></section>
 
-    <section id="upload" class="view active">
-      <div class="grid two-col">
-        <article class="card">
-          <h2>Új fotófeltöltés</h2>
-          <p class="muted">Válaszd ki a rendszámot, töltsd fel a képeket, majd mentsd el.</p>
+<section id="archive" class="view"><article class="card"><div class="headrow"><div><h2>Archívum</h2><p class="muted">Keresés rendszám, dátum vagy feltöltő alapján.</p></div><div><div class="small">Találatok</div><div id="count" class="big">0</div></div></div>
+<div class="filters"><div><label class="label">Rendszám</label><input id="qPlate" class="control" placeholder="ABC-123"></div><div><label class="label">Dátum</label><input id="qDate" class="control" type="date"></div><div><label class="label">Feltöltő</label><select id="qUser" class="control"><option value="">Mindenki</option><option>Kovács Péter</option><option>Nagy Gábor</option><option>Tóth András</option></select></div></div><div id="archiveList" class="list"></div></article></section>
 
-          <form id="uploadForm" class="form-stack">
-            <label>
-              <span>Rendszám</span>
-              <select id="plate" required>
-                <option value="">Válassz rendszámot</option>
-                <option>ABC-123</option>
-                <option>DEF-456</option>
-                <option>GHI-789</option>
-                <option>JKL-012</option>
-                <option>MNO-345</option>
-                <option>PQR-678</option>
-              </select>
-            </label>
-
-            <label>
-              <span>Képek</span>
-              <input id="photos" type="file" accept="image/*" multiple required />
-              <small id="fileInfo">Még nincs kiválasztott kép.</small>
-            </label>
-
-            <div class="meta-grid">
-              <div class="meta-box"><small>Dátum</small><strong id="todayText"></strong></div>
-              <div class="meta-box"><small>Feltöltő</small><strong>Kovács Péter</strong></div>
-            </div>
-
-            <button class="primary" type="submit">Feltöltés mentése</button>
-            <p id="uploadStatus" class="status" aria-live="polite"></p>
-          </form>
-        </article>
-
-        <aside class="card">
-          <h2>Mai feltöltések</h2>
-          <div id="todayUploads" class="list"></div>
-        </aside>
-      </div>
-    </section>
-
-    <section id="archive" class="view">
-      <article class="card">
-        <div class="section-head">
-          <div>
-            <h2>Archívum</h2>
-            <p class="muted">Keresés rendszám, dátum vagy feltöltő alapján.</p>
-          </div>
-          <div class="counter"><small>Találatok</small><strong id="archiveCount">0</strong></div>
-        </div>
-
-        <div class="filters">
-          <label><span>Rendszám</span><input id="searchPlate" type="text" placeholder="ABC-123" /></label>
-          <label><span>Dátum</span><input id="searchDate" type="date" /></label>
-          <label><span>Feltöltő</span>
-            <select id="searchUploader">
-              <option value="">Mindenki</option>
-              <option>Kovács Péter</option>
-              <option>Nagy Gábor</option>
-              <option>Tóth András</option>
-              <option>Szabó Márk</option>
-            </select>
-          </label>
-        </div>
-
-        <div id="archiveList" class="list"></div>
-      </article>
-    </section>
-
-    <section id="weekly" class="view">
-      <div class="grid two-col">
-        <article class="card">
-          <h2>Heti összesítő</h2>
-          <p class="muted">Melyik autóról érkezett már kép az aktuális héten?</p>
-          <div class="stats">
-            <div class="stat"><small>Flotta</small><strong id="fleetCount"></strong></div>
-            <div class="stat"><small>Feltöltve</small><strong id="uploadedCount"></strong></div>
-            <div class="stat"><small>Hiányzik</small><strong id="missingCount"></strong></div>
-            <div class="stat"><small>Aktuális hét</small><strong id="weekNumber"></strong></div>
-          </div>
-        </article>
-
-        <article class="card">
-          <div class="section-head">
-            <h2>Rendszámok állapota</h2>
-            <select id="weeklyFilter" class="compact-select">
-              <option value="all">Összes</option>
-              <option value="done">Feltöltve</option>
-              <option value="missing">Hiányzik</option>
-            </select>
-          </div>
-          <div id="weeklyList" class="list"></div>
-        </article>
-      </div>
-    </section>
-  </main>
-
-  <script src="app.js"></script>
-</body>
-</html>
+<section id="weekly" class="view"><div class="grid"><article class="card"><h2>Heti összesítő</h2><p class="muted">Melyik autóról érkezett már kép az aktuális héten?</p><div class="stats"><div class="stat"><div class="small">Flotta</div><div id="fleetN" class="n"></div></div><div class="stat"><div class="small">Feltöltve</div><div id="doneN" class="n"></div></div><div class="stat"><div class="small">Hiányzik</div><div id="missN" class="n"></div></div><div class="stat"><div class="small">Aktuális hét</div><div id="weekN" class="n"></div></div></div></article>
+<article class="card"><div class="headrow"><h3>Rendszámok állapota</h3><select id="weekFilter" class="control" style="width:auto;min-height:42px"><option value="all">Összes</option><option value="done">Feltöltve</option><option value="missing">Hiányzik</option></select></div><div id="weekList" class="list"></div></article></div></section>
+</main>
+<script>
+const fleet=['ABC-123','DEF-456','GHI-789','JKL-012','MNO-345','PQR-678'];
+const now=new Date(), iso=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+function week(d){const x=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate()));const n=x.getUTCDay()||7;x.setUTCDate(x.getUTCDate()+4-n);const y=new Date(Date.UTC(x.getUTCFullYear(),0,1));return Math.ceil((((x-y)/86400000)+1)/7)}
+const w=week(now);
+const records=[{plate:'ABC-123',date:iso,user:'Kovács Péter',photos:6,week:w},{plate:'DEF-456',date:iso,user:'Nagy Gábor',photos:5,week:w},{plate:'JKL-012',date:iso,user:'Tóth András',photos:7,week:w}];
+const fmt=s=>{const [y,m,d]=s.split('-');return `${y}.${m}.${d}.`}; document.querySelector('#today').textContent=fmt(iso);
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===b.dataset.view));render()}));
+photos.addEventListener('change',()=>fileInfo.textContent=photos.files.length?`${photos.files.length} kép kiválasztva.`:'Még nincs kiválasztott kép.');
+form.addEventListener('submit',e=>{e.preventDefault();if(!plate.value||!photos.files.length)return;records.unshift({plate:plate.value,date:iso,user:'Kovács Péter',photos:photos.files.length,week:w});status.textContent='✓ Sikeres mentés a demó archívumba.';form.reset();fileInfo.textContent='Még nincs kiválasztott kép.';render()});
+[qPlate,qDate,qUser].forEach(x=>x.addEventListener('input',render));weekFilter.addEventListener('change',render);
+function item(r){return `<div class="item"><div><div class="plate">${r.plate}</div><div class="small">${fmt(r.date)} · ${r.user}</div></div><div class="badge">📷 ${r.photos} kép</div></div>`}
+function render(){todayList.innerHTML=records.filter(r=>r.date===iso).map(item).join('')||'<p class="muted">Ma még nincs feltöltés.</p>';const a=records.filter(r=>(!qPlate.value||r.plate.includes(qPlate.value.toUpperCase()))&&(!qDate.value||r.date===qDate.value)&&(!qUser.value||r.user===qUser.value));count.textContent=a.length;archiveList.innerHTML=a.map(item).join('')||'<p class="muted">Nincs találat.</p>';const done=new Set(records.filter(r=>r.week===w).map(r=>r.plate));fleetN.textContent=fleet.length;doneN.textContent=done.size;missN.textContent=fleet.length-done.size;weekN.textContent=w;weekList.innerHTML=fleet.filter(p=>weekFilter.value==='all'||(weekFilter.value==='done'&&done.has(p))||(weekFilter.value==='missing'&&!done.has(p))).map(p=>`<div class="weekly-row"><b>${p}</b><span class="${done.has(p)?'done':'missing'}">${done.has(p)?'✓ Feltöltve':'○ Hiányzik'}</span></div>`).join('')}
+render();
+</script>
+</body></html>
