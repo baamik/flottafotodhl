@@ -135,8 +135,12 @@ async function changeAdminPassword(){
 function showAdminDash(){show('adminDash');document.body.classList.add('adminMode');$('adminPage').classList.add('adminShell');if($('adminSideName'))$('adminSideName').textContent=adminName;loadUploads();loadAdminOverview()}
 function adminSection(name,btn){document.querySelectorAll('.adminSection').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.adminNav button').forEach(x=>x.classList.remove('active'));let s=$('admin-'+name);if(s)s.classList.add('active');if(btn)btn.classList.add('active');if(name==='overview')loadAdminOverview();if(name==='uploads')loadUploads()}
 async function loadAdminOverview(){
+ if(!adminSession){return handleAdminSessionExpired()}
  const {data,error}=await db.rpc('admin_portal_overview',{p_session:adminSession});
- if(error){console.error(error);return}
+ if(error){
+   if(String(error.message||'').includes('ADMIN_SESSION_REQUIRED')) return handleAdminSessionExpired();
+   console.error(error);return
+ }
  const o=data||{},total=Number(o.total||0),done=Number(o.done||0),missing=Number(o.missing||0),pct=total?Math.round(done/total*100):0;
  $('kpiTotal').textContent=total;$('kpiDone').textContent=done;$('kpiMissing').textContent=missing;$('kpiToday').textContent=Number(o.today||0);
  $('progressDone').textContent=done;$('progressTotal').textContent=total;$('progressPct').textContent=pct+'% teljesítettség';$('progressFill').style.width=pct+'%';
@@ -149,8 +153,10 @@ function openPhotosFromDash(id){let x=(uploadRows||[]).find(r=>r.upload_id===id)
 
 async function loadUploads(){
  const box=$('uploadList'); if(box) box.innerHTML='<p>Feltöltések betöltése…</p>';
+ if(!adminSession){return handleAdminSessionExpired()}
  const {data,error}=await db.rpc('admin_portal_uploads',{p_session:adminSession});
  if(error){
+   if(String(error.message||'').includes('ADMIN_SESSION_REQUIRED')) return handleAdminSessionExpired();
    if(box) box.innerHTML='<p class="error">Hiba a feltöltések betöltésekor: '+esc(error.message||'ismeretlen hiba')+'</p>';
    console.error(error); return;
  }
@@ -194,6 +200,13 @@ async function openPhotos(x){
      console.error(e);
    }
  }
+}
+function handleAdminSessionExpired(){
+ sessionStorage.removeItem('ff_admin_session');sessionStorage.removeItem('ff_admin_name');
+ adminSession=null;adminName='';
+ if($('adminDash'))hide('adminDash');if($('changePass'))hide('changePass');if($('adminLogin'))show('adminLogin');
+ if($('adminErr'))$('adminErr').textContent='A munkameneted lejárt. Kérlek, jelentkezz be újra.';
+ window.scrollTo({top:0,behavior:'smooth'});
 }
 function adminLogout(){sessionStorage.removeItem('ff_admin_session');sessionStorage.removeItem('ff_admin_name');document.body.classList.remove('adminMode');location.href=location.pathname+'?admin=1'}
 
