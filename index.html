@@ -13,6 +13,12 @@
 .qritem b{display:block;font-size:16px}.qritem small{color:#666}
 .toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.toolbar input{flex:1;min-width:180px;padding:13px;border:1px solid #ccc;border-radius:10px}
 @media print{header,.noPrint,#qrAccess{display:none!important}.wrap{max-width:none;padding:0}.card{box-shadow:none}.qrgrid{grid-template-columns:repeat(3,1fr)}}
+
+#adminPage input{box-sizing:border-box;width:100%;padding:13px;border:1px solid #ccc;border-radius:10px;margin:6px 0 12px}
+.uploadrow{display:grid;grid-template-columns:1.2fr 1fr 1fr auto;gap:10px;align-items:center;padding:12px;border-bottom:1px solid #eee}
+.uploadrow button{width:auto;margin:0}
+.photoCard img{width:100%;height:180px;object-fit:cover;border-radius:10px;cursor:pointer}
+@media(max-width:700px){.uploadrow{grid-template-columns:1fr 1fr}.photoCard img{height:140px}}
 </style></head><body>
 <header><b>FLOTTAFOTÓ</b><a class="admin" href="?admin=1">Admin belépés</a></header><main class="wrap">
 <section id="start" class="card"><div class="step">1. LÉPÉS</div><div class="big">👤 Saját QR-kód</div><p>Olvasd be a személyes QR-kódodat a telefon kamerájával. Ha a QR nyitotta meg ezt az oldalt, automatikusan felismerünk.</p><button class="btn red" onclick="scan('user')">QR beolvasása</button></section>
@@ -22,17 +28,34 @@
 <section id="photoCard" class="card hidden"><div class="step">3. LÉPÉS</div><div class="big">📸 Járműfotók</div><div class="choice"><button class="btn yellow" onclick="camera.click()">📸 Fotózás</button><button class="btn gray" onclick="gallery.click()">🖼️ Galéria</button></div><input id="camera" hidden type="file" accept="image/*" capture="environment" multiple><input id="gallery" hidden type="file" accept="image/*" multiple><div id="photos" class="photos"></div><button id="uploadBtn" class="btn red hidden" onclick="uploadAll()">FOTÓK FELTÖLTÉSE</button><div id="status" class="status hidden"></div></section>
 <section id="scanner" class="card hidden"><div class="big">QR beolvasása</div><div id="reader"></div><button class="btn gray" onclick="stopScan()">Mégse</button></section>
 <section id="adminPage" class="card hidden">
-<div class="big">🔐 QR-kód központ</div>
-<div id="qrAccess">
-<p>Első teszthez olvasd be egy <b>admin személyi QR-kódját</b>. Ezután megjelenik az összes dolgozói és TGK QR.</p>
-<button class="btn red" onclick="scanAdminQr()">Admin QR beolvasása</button>
-<button class="btn gray" onclick="location.href=location.pathname">Vissza</button>
+<div id="adminLogin">
+  <div class="big">🔐 Admin belépés</div>
+  <p>Belépés felhasználónévvel és jelszóval.</p>
+  <label>Felhasználónév</label><input id="adminUser" autocomplete="username" placeholder="pl. amik.barnabas">
+  <label>Jelszó</label><input id="adminPass" type="password" autocomplete="current-password">
+  <button class="btn red" onclick="adminLogin()">Belépés</button>
+  <button class="btn gray" onclick="location.href=location.pathname">Vissza a fotózáshoz</button>
+  <p id="adminErr" class="error"></p>
 </div>
-<div id="qrCatalog" class="hidden">
-<div class="toolbar noPrint"><input id="qrSearch" placeholder="Keresés névre vagy rendszámra…" oninput="filterQr()"><button class="btn yellow" style="width:auto;margin:0" onclick="window.print()">🖨️ Nyomtatás</button></div>
-<div class="choice noPrint"><button class="btn gray" onclick="setQrType('user')">👤 Dolgozók</button><button class="btn gray" onclick="setQrType('vehicle')">🚚 TGK-k</button></div>
-<h2 id="qrTitle">QR-kódok</h2><div id="qrGrid" class="qrgrid"></div>
-</div></section>
+<div id="changePass" class="hidden">
+  <div class="big">🔑 Első belépés – jelszócsere</div>
+  <p>A kezdő jelszót biztonsági okból most meg kell változtatnod.</p>
+  <label>Új jelszó</label><input id="newPass1" type="password">
+  <label>Új jelszó újra</label><input id="newPass2" type="password">
+  <button class="btn red" onclick="changeAdminPassword()">Jelszó mentése</button>
+  <p id="passErr" class="error"></p>
+</div>
+<div id="adminDash" class="hidden">
+  <div style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap">
+    <div><div class="big">🚚 Flottafotó Admin</div><div id="adminHello"></div></div>
+    <button class="btn gray noPrint" style="width:auto;margin:0" onclick="adminLogout()">Kilépés</button>
+  </div>
+  <div class="toolbar noPrint"><input id="uploadSearch" placeholder="Keresés rendszámra vagy feltöltőre…" oninput="renderUploads()"><button class="btn yellow" style="width:auto;margin:0" onclick="loadUploads()">↻ Frissítés</button></div>
+  <h2>📸 Feltöltések</h2>
+  <div id="uploadList"></div>
+  <div id="photoPanel" class="hidden"><hr><h2 id="photoTitle">Képek</h2><div id="photoGrid" class="qrgrid"></div></div>
+</div>
+</section>
 </main><script>
 const SUPA_URL='https://rkxlzdkdwcsrryinflvd.supabase.co', SUPA_KEY='sb_publishable_noWXGqx4C5rn14qAo9LpEw_isMt-R_c';
 const db=supabase.createClient(SUPA_URL,SUPA_KEY); let userToken=null,vehicleToken=null,user=null,vehicle=null,files=[],scanner=null;
@@ -48,40 +71,57 @@ $('camera').onchange=e=>addFiles(e.target.files);$('gallery').onchange=e=>addFil
 async function uploadAll(){if(!files.length)return;let btn=$('uploadBtn');btn.disabled=true;show('status');$('status').textContent='Feltöltés előkészítése…';try{let {data,error}=await db.rpc('create_qr_upload',{p_user_token:userToken,p_vehicle_token:vehicleToken});if(error)throw error;let upload=data[0];for(let i=0;i<files.length;i++){let f=files[i], ext=(f.name.split('.').pop()||'jpg').replace(/[^a-z0-9]/gi,'');let path=`${upload.upload_id}/${Date.now()}-${i}.${ext}`;$('status').textContent=`Feltöltés: ${i+1}/${files.length}`;let r=await db.storage.from('vehicle-photos').upload(path,f,{contentType:f.type,upsert:false});if(r.error)throw r.error;let m=await db.from('photo_files').insert({upload_id:upload.upload_id,storage_path:path,original_name:f.name,mime_type:f.type,size_bytes:f.size});if(m.error)throw m.error}$('status').innerHTML='✅ <b>Sikeres feltöltés!</b><br>'+vehicle.plate+' • '+files.length+' fotó';files=[];renderPhotos();btn.textContent='KÉSZ';setTimeout(()=>resetAll(),3500)}catch(e){$('status').textContent='❌ '+(e.message||'Feltöltési hiba');btn.disabled=false}}
 function resetAll(){userToken=vehicleToken=null;user=vehicle=null;files=[];renderPhotos();['userCard','vehicleCard','vehicleOk','photoCard','scanner'].forEach(hide);show('start');$('uploadBtn').disabled=false;$('uploadBtn').textContent='FOTÓK FELTÖLTÉSE';hide('status')}
 
-let qrCatalogData=[],qrType='user';
-async function scanAdminQr(){
-  hide('adminPage'); show('scanner');
-  scanner=new Html5Qrcode('reader');
-  try{
-    await scanner.start({facingMode:'environment'},{fps:10,qrbox:{width:240,height:240}},async text=>{
-      await stopScan(); show('adminPage');
-      try{
-        let t=tokenFrom(text);
-        let {data,error}=await db.rpc('list_qr_catalog',{p_admin_token:t});
-        if(error) throw error;
-        qrCatalogData=data||[]; hide('qrAccess'); show('qrCatalog'); setQrType('user');
-      }catch(e){alert('Admin QR szükséges.');}
-    });
-  }catch(e){show('adminPage');alert('A kamera nem indítható.');}
+
+let adminSession=null, adminName='', uploadRows=[];
+async function adminLogin(){
+ $('adminErr').textContent='';
+ const {data,error}=await db.rpc('admin_portal_login',{p_username:$('adminUser').value,p_password:$('adminPass').value});
+ if(error||!data?.length){$('adminErr').textContent='Hibás felhasználónév vagy jelszó.';return}
+ adminSession=data[0].session_token;adminName=data[0].display_name;
+ sessionStorage.setItem('ff_admin_session',adminSession);sessionStorage.setItem('ff_admin_name',adminName);
+ hide('adminLogin');
+ if(data[0].must_change_password){show('changePass')}else{showAdminDash()}
 }
-function setQrType(t){qrType=t;$('qrTitle').textContent=t==='user'?'👤 Dolgozói QR-kódok':'🚚 Jármű QR-kódok';filterQr()}
-function filterQr(){
- let s=($('qrSearch')?.value||'').toLocaleLowerCase('hu');
- let rows=qrCatalogData.filter(x=>x.kind===qrType && (x.label+' '+(x.detail||'')).toLocaleLowerCase('hu').includes(s));
- renderQr(rows);
+async function changeAdminPassword(){
+ $('passErr').textContent='';let a=$('newPass1').value,b=$('newPass2').value;
+ if(a.length<8){$('passErr').textContent='Legalább 8 karakter legyen.';return}
+ if(a!==b){$('passErr').textContent='A két jelszó nem egyezik.';return}
+ const {data,error}=await db.rpc('admin_portal_change_password',{p_session:adminSession,p_new_password:a});
+ if(error||!data){$('passErr').textContent='A jelszócsere nem sikerült.';return}
+ hide('changePass');showAdminDash();
 }
-function renderQr(rows){
- let g=$('qrGrid');g.innerHTML='';
- rows.forEach(x=>{
-   let d=document.createElement('div');d.className='qritem';
-   let qr=document.createElement('div');qr.className='qrcode';
-   let b=document.createElement('b');b.textContent=x.label;
-   let sm=document.createElement('small');sm.textContent=x.detail||'';
-   d.append(b,sm,qr);g.appendChild(d);
-   let payload=x.kind==='user'?`${location.origin}${location.pathname}?u=${x.qr_token}`:`${location.origin}${location.pathname}?v=${x.qr_token}`;
-   new QRCode(qr,{text:payload,width:150,height:150,correctLevel:QRCode.CorrectLevel.M});
+function showAdminDash(){show('adminDash');$('adminHello').textContent='Belépve: '+adminName;loadUploads()}
+async function loadUploads(){
+ const {data,error}=await db.rpc('admin_portal_uploads',{p_session:adminSession});
+ if(error){alert('A munkamenet lejárt. Lépj be újra.');return adminLogout()}
+ uploadRows=data||[];renderUploads();
+}
+function renderUploads(){
+ let s=($('uploadSearch')?.value||'').toLocaleLowerCase('hu'),box=$('uploadList');box.innerHTML='';
+ uploadRows.filter(x=>(x.plate+' '+x.uploader_name).toLocaleLowerCase('hu').includes(s)).forEach(x=>{
+   let d=document.createElement('div');d.className='uploadrow';
+   let dt=new Date(x.uploaded_at).toLocaleString('hu-HU');
+   d.innerHTML=`<b>${esc(x.plate)}</b><span>${esc(x.uploader_name||'')}</span><span>${dt} • ${x.photo_count} kép</span><button class="btn yellow">Megnyitás</button>`;
+   d.querySelector('button').onclick=()=>openPhotos(x);box.appendChild(d);
  });
+ if(!box.children.length) box.innerHTML='<p>Nincs találat.</p>';
 }
+async function openPhotos(x){
+ $('photoTitle').textContent=`📸 ${x.plate} – ${x.uploader_name}`;let g=$('photoGrid');g.innerHTML='<p>Képek betöltése…</p>';show('photoPanel');
+ const {data,error}=await db.rpc('admin_portal_photo_paths',{p_session:adminSession,p_upload:x.upload_id});
+ if(error){g.innerHTML='<p class="error">A képek nem tölthetők be.</p>';return}
+ g.innerHTML='';
+ for(const p of data||[]){
+   const {data:signed,error:e}=await db.storage.from('vehicle-photos').createSignedUrl(p.storage_path,3600);
+   let d=document.createElement('div');d.className='qritem photoCard';
+   if(e){d.textContent=p.original_name||'Kép';}else{
+     d.innerHTML=`<img alt=""><b>${esc(p.original_name||'Fotó')}</b><a class="btn gray" target="_blank" rel="noopener">Megnyitás / letöltés</a>`;
+     d.querySelector('img').src=signed.signedUrl;d.querySelector('img').onclick=()=>window.open(signed.signedUrl,'_blank');
+     d.querySelector('a').href=signed.signedUrl;
+   } g.appendChild(d);
+ }
+}
+function adminLogout(){sessionStorage.removeItem('ff_admin_session');sessionStorage.removeItem('ff_admin_name');location.href=location.pathname+'?admin=1'}
 
 (async()=>{let q=new URLSearchParams(location.search);if(q.has('admin')){['start','userCard','vehicleCard','vehicleOk','photoCard'].forEach(hide);show('adminPage');return}let t=q.get('u');if(t){try{await identifyUser(t)}catch(e){alert(e.message)}}})();
 </script></body></html>

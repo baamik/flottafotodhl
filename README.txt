@@ -1,12 +1,14 @@
-Flottafotó V5.1 – QR-kód központ
+Flottafotó V6 – Admin belépés és feltöltések
 
-Töltsd fel az index.html fájlt a GitHub repo gyökerébe a jelenlegi index.html helyére, majd Commit changes.
-Vercel automatikusan frissít.
+Telepítés:
+1. GitHub repo gyökerében cseréld le a jelenlegi index.html fájlt erre.
+2. Commit changes.
+3. Vercel automatikusan deployol.
 
-Újdonság:
-- ?admin=1 alatt QR-kód központ
-- admin személyi QR-rel nyitható
-- dolgozói QR lista
-- TGK QR lista
-- keresés
-- nyomtatás
+Admin belépés:
+- URL: /?admin=1
+- Felhasználónév: amik.barnabas
+- Kezdő jelszó: Flotta1234
+- Első belépéskor kötelező jelszócsere.
+
+A mobil QR-feltöltési folyamat megmaradt.
