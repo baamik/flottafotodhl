@@ -1,9 +1,22 @@
-FLOTTAFOTÓ V3
+FLOTTAFOTÓ V4 – ADMIN + SUPABASE
 
-1. Csomagold ki a ZIP-et.
-2. GitHubon cseréld le a jelenlegi index.html fájlt erre.
-3. Commit changes.
-4. A Vercel automatikusan újradeployolja.
+Telepítés:
+1. GitHub repo → + → Upload files
+2. Töltsd fel ezt az index.html-t a jelenlegi helyére
+3. Commit changes
+4. Vercel automatikusan frissít
 
-A V3 a sárga-piros, DHL-hangulatú színvilágot használja logó nélkül.
-Az adatok továbbra is demóadatok, adatbázis még nincs bekötve.
+Első használat:
+- Regisztrálj az oldalon
+- Ha e-mail megerősítést kér, erősítsd meg
+- Jelentkezz be
+- Az első profil alapból user
+- Utána adminra állítjuk
+
+Admin funkciók:
+- járműlista a valódi Supabase-ből
+- keresés és szűrés
+- új jármű
+- szerkesztés
+- állandó/bérautó
+- aktiválás/inaktiválás

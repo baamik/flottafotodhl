@@ -4,322 +4,212 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#ffcc00">
-<title>Flottafotó</title>
+<title>Flottafotó V4</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-:root{
-  --yellow:#ffcc00;
-  --yellow-soft:#fff7d6;
-  --yellow-deep:#f5b800;
-  --red:#d40511;
-  --red-dark:#b8040e;
-  --bg:#f7f7f8;
-  --card:#ffffff;
-  --text:#171717;
-  --muted:#6b7280;
-  --line:#e6e6e6;
-  --green:#16803c;
-  --orange:#b45309;
-  --sidebar:#ffffff;
+:root {
+  --yellow:#ffcc00; --red:#d40511; --bg:#f6f7f8; --card:#fff; --text:#171717;
+  --muted:#6b7280; --line:#e5e7eb; --green:#16803c; --shadow:0 8px 26px rgba(0,0,0,.055);
 }
-*{box-sizing:border-box}
-body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text)}
-button,input,select{font:inherit}
-.app{min-height:100vh}
-.topbar{background:var(--yellow);border-bottom:1px solid rgba(0,0,0,.08)}
-.topinner{max-width:1440px;margin:auto;padding:18px 26px;display:flex;justify-content:space-between;align-items:center;gap:18px}
-.brand h1{margin:0;color:var(--red);font-size:28px;letter-spacing:-.4px}
-.brand p{margin:3px 0 0;font-size:13px;color:#3b3b3b}
-.user{display:flex;align-items:center;gap:10px;font-weight:800}
-.userchip{width:40px;height:40px;border-radius:50%;background:#fff;display:grid;place-items:center;border:1px solid rgba(0,0,0,.08)}
-.layout{max-width:1440px;margin:auto;display:grid;grid-template-columns:230px minmax(0,1fr);min-height:calc(100vh - 77px)}
-.sidebar{background:var(--sidebar);border-right:1px solid var(--line);padding:24px 18px;display:flex;flex-direction:column;justify-content:space-between}
-.nav{display:grid;gap:10px}
-.navbtn{border:0;background:transparent;color:#222;text-align:left;border-radius:12px;padding:13px 14px;font-weight:750;cursor:pointer;display:flex;gap:10px;align-items:center}
-.navbtn.active{background:var(--yellow-soft);color:var(--red)}
-.navbtn:hover{background:#f8f8f8}
-.sidehelp{font-size:12px;color:var(--muted);line-height:1.5;border-top:1px solid var(--line);padding-top:16px}
-.main{padding:28px}
-.view{display:none}
-.view.active{display:block}
-.dashboard{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(300px,.65fr);gap:22px}
-.leftcol,.rightcol{display:grid;gap:22px;align-content:start}
-.sectionhead{display:flex;align-items:center;gap:12px;margin-bottom:15px}
-.iconbox{width:42px;height:42px;border-radius:12px;background:var(--yellow);display:grid;place-items:center;font-size:20px}
-.sectionhead h2{margin:0;font-size:22px}
-.sectionhead p{margin:4px 0 0;color:var(--muted);font-size:13px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:0 6px 20px rgba(0,0,0,.035)}
-.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.field{display:grid;gap:7px}
-.label{font-size:13px;font-weight:800}
-.control{width:100%;min-height:48px;border:1px solid #d8d8d8;border-radius:10px;padding:11px 12px;background:#fff;outline:none}
-.control:focus{border-color:var(--yellow-deep);box-shadow:0 0 0 3px rgba(255,204,0,.18)}
-.uploadbox{border:1.5px dashed #f0bf00;border-radius:12px;background:#fffdf3;padding:23px;text-align:center}
-.uploadbox strong{display:block;color:var(--red);margin-bottom:4px}
-.uploadbox input{width:100%;margin-top:10px}
-.meta{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px}
-.metabox{border:1px solid var(--line);border-radius:10px;padding:12px;background:#fafafa}
-.metabox span{display:block;font-size:11px;color:var(--muted);margin-bottom:3px}
-.primary{width:100%;border:0;background:var(--red);color:white;border-radius:10px;padding:14px 18px;font-weight:900;cursor:pointer;margin-top:4px}
-.primary:hover{background:var(--red-dark)}
-.status{min-height:18px;color:var(--green);font-size:13px}
-.list{display:grid;gap:10px}
-.item{border:1px solid var(--line);border-radius:12px;padding:13px 14px;display:flex;justify-content:space-between;align-items:center;gap:12px}
-.plate{font-weight:900}
-.small{font-size:12px;color:var(--muted);margin-top:3px}
-.badge{background:var(--yellow-soft);border:1px solid #f7db74;color:#7a5a00;padding:7px 9px;border-radius:999px;font-size:12px;font-weight:800;white-space:nowrap}
-.summary{background:#fffdf3;border-color:#f2d675}
-.summaryrow{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #eee}
-.summaryrow:last-child{border-bottom:0}
-.progress{height:8px;background:#eee;border-radius:999px;overflow:hidden;margin:10px 0 4px}
-.progress>span{display:block;height:100%;background:var(--yellow);width:0}
-.red{color:var(--red);font-weight:900}
-.green{color:var(--green);font-weight:900}
-.headrow{display:flex;justify-content:space-between;align-items:end;gap:10px}
-.filters{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:16px}
-.big{font-size:28px;font-weight:900}
-.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:15px}
-.stat{border:1px solid var(--line);border-radius:12px;padding:16px}
-.stat .n{font-size:29px;font-weight:900;margin-top:3px}
-.weekrow{border:1px solid var(--line);border-radius:12px;padding:13px 14px;display:flex;justify-content:space-between;align-items:center}
-.footer{background:var(--yellow);border-top:3px solid var(--red);text-align:center;padding:14px;font-size:12px;color:#6a5600;font-weight:700}
-.mobiletabs{display:none}
-
-@media(max-width:980px){
-  .layout{grid-template-columns:1fr}
-  .sidebar{display:none}
-  .mobiletabs{display:flex;gap:8px;overflow:auto;margin-bottom:18px}
-  .mobiletabs .navbtn{background:#fff;border:1px solid var(--line);white-space:nowrap}
-  .mobiletabs .navbtn.active{background:var(--yellow-soft);border-color:#f0d36c}
-  .dashboard{grid-template-columns:1fr}
-}
-@media(max-width:700px){
-  .topinner{padding:15px 16px}
-  .brand h1{font-size:23px}
-  .main{padding:18px 14px}
-  .formgrid,.filters,.meta,.stats{grid-template-columns:1fr}
-  .card{padding:17px}
-  .sectionhead h2{font-size:19px}
-  .user span:last-child{display:none}
-}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--text)}
+button,input,select{font:inherit}button{cursor:pointer}.hidden{display:none!important}
+.topbar{background:var(--yellow);border-bottom:1px solid rgba(0,0,0,.08)}.topinner{max-width:1450px;margin:auto;padding:17px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand h1{margin:0;color:var(--red);font-size:27px}.brand p{margin:3px 0 0;font-size:12px;color:#4b4b4b}
+.userarea{display:flex;gap:10px;align-items:center}.usertext{text-align:right}.usertext b{display:block;font-size:13px}.usertext span{font-size:11px;color:#555}
+.avatar{width:39px;height:39px;border-radius:50%;background:#fff;display:grid;place-items:center;border:1px solid rgba(0,0,0,.08)}.logout{border:0;background:#fff;border-radius:9px;padding:9px 11px;font-weight:800}
+.layout{max-width:1450px;margin:auto;display:grid;grid-template-columns:235px 1fr;min-height:calc(100vh - 75px)}.sidebar{background:#fff;border-right:1px solid var(--line);padding:22px 16px;display:flex;flex-direction:column;gap:10px}
+.navbtn{width:100%;border:0;background:transparent;border-radius:11px;padding:12px 13px;text-align:left;font-weight:800;color:#292929}.navbtn:hover{background:#f7f7f7}.navbtn.active{background:#fff7d6;color:var(--red)}
+.navsep{height:1px;background:var(--line);margin:8px 0}.adminbadge{font-size:10px;background:var(--red);color:#fff;border-radius:999px;padding:3px 7px;margin-left:5px}
+.main{padding:27px}.view{display:none}.view.active{display:block}.mobiletabs{display:none;gap:8px;overflow:auto;margin-bottom:16px}
+.mobiletabs button{white-space:nowrap;border:1px solid var(--line);background:#fff;border-radius:10px;padding:10px 12px;font-weight:800}.mobiletabs button.active{background:#fff7d6;color:var(--red);border-color:#efd46e}
+.card{background:var(--card);border:1px solid var(--line);border-radius:17px;padding:21px;box-shadow:var(--shadow)}
+.pagehead{display:flex;justify-content:space-between;gap:16px;align-items:flex-end;margin-bottom:18px}.pagehead h2{margin:0;font-size:24px}.pagehead p{margin:5px 0 0;color:var(--muted);font-size:13px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+.stat{background:#fff;border:1px solid var(--line);border-radius:14px;padding:17px}.stat span{font-size:12px;color:var(--muted)}.stat b{display:block;font-size:27px;margin-top:5px}
+.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:13px}.field{display:grid;gap:6px}.field.full{grid-column:1/-1}label{font-size:12px;font-weight:850}
+.control{min-height:45px;border:1px solid #d7d7d7;border-radius:9px;padding:10px 11px;background:#fff;outline:none}.control:focus{border-color:#e7b900;box-shadow:0 0 0 3px rgba(255,204,0,.17)}
+.btn{border:0;border-radius:9px;padding:11px 14px;font-weight:900}.primary{background:var(--red);color:#fff}.secondary{background:#f1f1f1;color:#222}
+.success{background:#eaf7ee;color:var(--green);border:1px solid #c7e9d1;border-radius:10px;padding:10px 12px;font-size:13px}.error{background:#fff0f0;color:#a8000a;border:1px solid #ffc9cc;border-radius:10px;padding:10px 12px;font-size:13px}
+.toolbar{display:grid;grid-template-columns:1fr 180px 180px auto;gap:10px;margin-bottom:15px}.tablewrap{overflow:auto;border:1px solid var(--line);border-radius:13px}
+table{width:100%;border-collapse:collapse;min-width:820px;background:#fff}th,td{padding:12px 13px;text-align:left;border-bottom:1px solid #ededed;font-size:13px}th{font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:#666;background:#fafafa}
+.plate{font-weight:950;font-size:14px}.sub{font-size:11px;color:var(--muted);margin-top:3px}.pill{display:inline-flex;align-items:center;border-radius:999px;padding:5px 8px;font-size:11px;font-weight:850}
+.perm{background:#e8f2ff;color:#165a9e}.repl{background:#fff1d6;color:#8a5900}.activepill{background:#e8f7ec;color:var(--green)}.inactivepill{background:#f0f0f0;color:#777}
+.actions{display:flex;gap:6px}.sm{border:1px solid var(--line);background:#fff;border-radius:8px;padding:7px 9px;font-size:12px;font-weight:800}.danger{color:var(--red)}
+.empty,.loading{padding:24px;text-align:center;color:var(--muted)}.loginShell{min-height:100vh;background:linear-gradient(180deg,var(--yellow) 0 38%,var(--bg) 38%);display:grid;place-items:center;padding:20px}
+.loginCard{width:min(440px,100%);background:#fff;border-radius:20px;padding:26px;border:1px solid rgba(0,0,0,.08);box-shadow:0 18px 50px rgba(0,0,0,.13)}.loginBrand h1{margin:0;color:var(--red);font-size:30px}.loginBrand p{margin:5px 0 18px;color:var(--muted)}
+.loginTabs{display:grid;grid-template-columns:1fr 1fr;background:#f3f3f3;border-radius:10px;padding:4px;margin-bottom:16px}.loginTabs button{border:0;background:transparent;border-radius:8px;padding:9px;font-weight:850}.loginTabs button.active{background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.07)}
+.loginForm{display:grid;gap:12px}.notice{font-size:12px;color:var(--muted);line-height:1.5}.footer{background:var(--yellow);border-top:3px solid var(--red);text-align:center;padding:13px;font-size:12px;font-weight:700;color:#6e5900}
+.modalBack{position:fixed;inset:0;background:rgba(0,0,0,.42);display:grid;place-items:center;padding:18px;z-index:20}.modal{width:min(560px,100%);background:#fff;border-radius:17px;padding:21px;box-shadow:0 22px 70px rgba(0,0,0,.2)}.modalActions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}
+@media(max-width:1000px){.layout{grid-template-columns:1fr}.sidebar{display:none}.mobiletabs{display:flex}.main{padding:18px 14px}.stats{grid-template-columns:1fr 1fr}.toolbar{grid-template-columns:1fr 1fr}}
+@media(max-width:650px){.usertext{display:none}.grid2,.formgrid,.toolbar{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}.pagehead{align-items:flex-start;flex-direction:column}.main{padding:15px 11px}.card{padding:16px}}
 </style>
 </head>
 <body>
-<div class="app">
-<header class="topbar">
-  <div class="topinner">
-    <div class="brand">
-      <h1>Flottafotó</h1>
-      <p>Heti járműfotó-nyilvántartó</p>
-    </div>
-    <div class="user"><div class="userchip">👤</div><span>Kovács Péter</span></div>
+<div id="loginScreen" class="loginShell">
+  <div class="loginCard">
+    <div class="loginBrand"><h1>Flottafotó</h1><p>Jelentkezz be a rendszer használatához.</p></div>
+    <div class="loginTabs"><button id="loginTab" class="active">Belépés</button><button id="signupTab">Regisztráció</button></div>
+    <form id="authForm" class="loginForm">
+      <div id="nameField" class="field hidden"><label>Név</label><input id="displayName" class="control" placeholder="Pl. Kovács Péter"></div>
+      <div class="field"><label>E-mail</label><input id="email" class="control" type="email" required></div>
+      <div class="field"><label>Jelszó</label><input id="password" class="control" type="password" minlength="6" required></div>
+      <button id="authSubmit" class="btn primary" type="submit">Belépés</button><div id="authMsg"></div>
+      <div class="notice">Regisztráció után lehet, hogy e-mailben meg kell erősítened a címedet. Az első admin jogosultságot külön aktiváljuk.</div>
+    </form>
   </div>
-</header>
+</div>
 
+<div id="app" class="hidden">
+<header class="topbar"><div class="topinner">
+  <div class="brand"><h1>Flottafotó</h1><p>Heti járműfotó-nyilvántartó</p></div>
+  <div class="userarea"><div class="usertext"><b id="userName">Felhasználó</b><span id="userRole"></span></div><div class="avatar">👤</div><button id="logoutBtn" class="logout">Kilépés</button></div>
+</div></header>
 <div class="layout">
-  <aside class="sidebar">
-    <nav class="nav">
-      <button class="navbtn active" data-view="upload">⬆️ Feltöltés</button>
-      <button class="navbtn" data-view="archive">📁 Archívum</button>
-      <button class="navbtn" data-view="weekly">📈 Heti áttekintés</button>
-    </nav>
-    <div class="sidehelp">Flottafotó v3<br>Egyszerű heti járműfotó-feltöltés és visszakeresés.</div>
-  </aside>
+<aside class="sidebar">
+  <button class="navbtn active" data-view="upload">📷 Feltöltés</button>
+  <button class="navbtn" data-view="archive">📁 Archívum</button>
+  <button class="navbtn" data-view="weekly">📈 Heti áttekintés</button>
+  <div class="navsep"></div>
+  <button id="adminNav" class="navbtn hidden" data-view="admin">⚙️ Flotta kezelése <span class="adminbadge">ADMIN</span></button>
+</aside>
+<main class="main">
+  <div class="mobiletabs">
+    <button class="active" data-view="upload">📷 Feltöltés</button>
+    <button data-view="archive">📁 Archívum</button>
+    <button data-view="weekly">📈 Heti áttekintés</button>
+    <button id="adminMobile" class="hidden" data-view="admin">⚙️ Flotta</button>
+  </div>
 
-  <main class="main">
-    <div class="mobiletabs">
-      <button class="navbtn active" data-view="upload">⬆️ Feltöltés</button>
-      <button class="navbtn" data-view="archive">📁 Archívum</button>
-      <button class="navbtn" data-view="weekly">📈 Heti áttekintés</button>
+  <section id="upload" class="view active">
+    <div class="pagehead"><div><h2>Fotófeltöltés</h2><p>A rendszámok már a valódi Supabase flottából érkeznek.</p></div></div>
+    <div class="grid2">
+      <div class="card"><div class="formgrid">
+        <div class="field full"><label>Jármű</label><select id="vehicleSelect" class="control"><option>Betöltés...</option></select></div>
+        <div class="field"><label>Dátum</label><input id="uploadDate" class="control" disabled></div>
+        <div class="field"><label>Feltöltő</label><input id="uploadUser" class="control" disabled></div>
+        <div class="field full"><label>Képek</label><input id="photos" class="control" type="file" accept="image/*" multiple></div>
+        <div class="field full"><button id="demoUploadBtn" class="btn primary" type="button">Feltöltés mentése</button></div><div id="uploadMsg" class="field full"></div>
+      </div></div>
+      <div class="card"><h3 style="margin-top:0">Flotta státusz</h3><div id="uploadFleetStats" class="loading">Betöltés...</div></div>
     </div>
+  </section>
 
-    <section id="upload" class="view active">
-      <div class="dashboard">
-        <div class="leftcol">
-          <div>
-            <div class="sectionhead">
-              <div class="iconbox">📷</div>
-              <div><h2>Új fotófeltöltés</h2><p>Válaszd ki a rendszámot, töltsd fel a képeket, majd mentsd el.</p></div>
-            </div>
-            <article class="card">
-              <form id="form" class="formgrid">
-                <div class="field">
-                  <label class="label" for="plate">Rendszám</label>
-                  <select id="plate" class="control" required>
-                    <option value="">Válassz rendszámot</option>
-                    <option>ABC-123</option><option>DEF-456</option><option>GHI-789</option>
-                    <option>JKL-012</option><option>MNO-345</option><option>PQR-678</option>
-                  </select>
+  <section id="archive" class="view"><div class="pagehead"><div><h2>Archívum</h2><p>A fotóarchívum bekötése lesz a következő lépés.</p></div></div><div class="card"><div class="empty">Az admin felület elkészült; az archívum következőként kap valódi adatokat.</div></div></section>
 
-                  <div class="metabox"><span>Dátum</span><b id="today"></b></div>
-                  <div class="metabox"><span>Feltöltő</span><b>Kovács Péter</b></div>
-                </div>
+  <section id="weekly" class="view"><div class="pagehead"><div><h2>Heti áttekintés</h2><p>Aktív állandó és bérautók összesítése.</p></div></div><div id="weeklyStats" class="stats"></div><div class="card"><div id="weeklyList" class="loading">Betöltés...</div></div></section>
 
-                <div class="field">
-                  <span class="label">Képek</span>
-                  <div class="uploadbox">
-                    <strong>Képek kiválasztása</strong>
-                    <span class="small">Telefonról egyszerre több fotót is feltölthetsz.</span>
-                    <input id="photos" type="file" accept="image/*" multiple required>
-                    <div id="fileInfo" class="small">Még nincs kiválasztott kép.</div>
-                  </div>
-                </div>
-
-                <div style="grid-column:1/-1">
-                  <button class="primary" type="submit">⬆ Feltöltés mentése</button>
-                  <div id="status" class="status"></div>
-                </div>
-              </form>
-            </article>
-          </div>
-
-          <div>
-            <div class="sectionhead">
-              <div class="iconbox">🗓️</div>
-              <div><h2>Mai feltöltések</h2><p>A ma rögzített járműfotók.</p></div>
-            </div>
-            <article class="card"><div id="todayList" class="list"></div></article>
-          </div>
-        </div>
-
-        <div class="rightcol">
-          <article class="card summary">
-            <div class="sectionhead"><div class="iconbox">📊</div><div><h2>Heti összesítő</h2><p>Melyik autóról érkezett már kép az aktuális héten?</p></div></div>
-            <div class="summaryrow"><span>Flotta</span><b id="fleetSummary"></b></div>
-            <div class="progress"><span id="progressBar"></span></div>
-            <div class="summaryrow"><span>Feltöltve</span><b id="doneSummary" class="green"></b></div>
-            <div class="summaryrow"><span>Hiányzik</span><b id="missSummary" class="red"></b></div>
-            <div class="summaryrow"><span>Aktuális hét</span><b id="weekSummary" class="red"></b></div>
-          </article>
-
-          <article class="card">
-            <div class="sectionhead"><div class="iconbox">🚗</div><div><h2>Rendszámok állapota</h2><p>Gyors heti státusz.</p></div></div>
-            <div id="quickStatus"></div>
-          </article>
-        </div>
+  <section id="admin" class="view">
+    <div class="pagehead"><div><h2>⚙️ Flotta kezelése</h2><p>Új autók hozzáadása, módosítása és aktiválása/inaktiválása.</p></div><button id="newVehicleBtn" class="btn primary">+ Új jármű</button></div>
+    <div id="adminStats" class="stats"></div>
+    <div class="card">
+      <div class="toolbar">
+        <input id="searchVehicle" class="control" placeholder="Keresés rendszám, márka, modell...">
+        <select id="typeFilter" class="control"><option value="">Minden típus</option><option value="permanent">Állandó</option><option value="replacement">Bérautó</option></select>
+        <select id="activeFilter" class="control"><option value="">Minden státusz</option><option value="true">Aktív</option><option value="false">Inaktív</option></select>
+        <button id="refreshBtn" class="btn secondary">↻ Frissítés</button>
       </div>
-    </section>
-
-    <section id="archive" class="view">
-      <article class="card">
-        <div class="headrow">
-          <div><h2>Archívum</h2><p class="small">Keresés rendszám, dátum vagy feltöltő alapján.</p></div>
-          <div><div class="small">Találatok</div><div id="count" class="big">0</div></div>
-        </div>
-        <div class="filters">
-          <div class="field"><label class="label">Rendszám</label><input id="qPlate" class="control" placeholder="ABC-123"></div>
-          <div class="field"><label class="label">Dátum</label><input id="qDate" class="control" type="date"></div>
-          <div class="field"><label class="label">Feltöltő</label><select id="qUser" class="control"><option value="">Mindenki</option><option>Kovács Péter</option><option>Nagy Gábor</option><option>Tóth András</option></select></div>
-        </div>
-        <div id="archiveList" class="list" style="margin-top:16px"></div>
-      </article>
-    </section>
-
-    <section id="weekly" class="view">
-      <div class="dashboard">
-        <article class="card">
-          <div class="sectionhead"><div class="iconbox">📊</div><div><h2>Heti összesítő</h2><p>Aktuális heti teljesítés.</p></div></div>
-          <div class="stats">
-            <div class="stat"><div class="small">Flotta</div><div id="fleetN" class="n"></div></div>
-            <div class="stat"><div class="small">Feltöltve</div><div id="doneN" class="n green"></div></div>
-            <div class="stat"><div class="small">Hiányzik</div><div id="missN" class="n red"></div></div>
-            <div class="stat"><div class="small">Aktuális hét</div><div id="weekN" class="n"></div></div>
-          </div>
-        </article>
-        <article class="card">
-          <div class="headrow">
-            <div><h2>Rendszámok állapota</h2><p class="small">Szűrhető heti státuszlista.</p></div>
-            <select id="weekFilter" class="control" style="width:auto;min-height:42px">
-              <option value="all">Összes</option><option value="done">Feltöltve</option><option value="missing">Hiányzik</option>
-            </select>
-          </div>
-          <div id="weekList" class="list" style="margin-top:14px"></div>
-        </article>
-      </div>
-    </section>
-  </main>
+      <div class="tablewrap"><table><thead><tr><th>Rendszám</th><th>Jármű</th><th>Hajtás</th><th>Kategória</th><th>Státusz</th><th>Aktív időszak</th><th>Művelet</th></tr></thead><tbody id="vehicleRows"><tr><td colspan="7" class="loading">Betöltés...</td></tr></tbody></table></div>
+    </div>
+  </section>
+</main>
+</div>
+<footer class="footer">Flottafotó V4 • Supabase kapcsolattal</footer>
 </div>
 
-<footer class="footer">Flottafotó • heti járműfotó-nyilvántartó</footer>
-</div>
+<div id="vehicleModal" class="modalBack hidden"><div class="modal">
+<h3 id="modalTitle">Új jármű</h3>
+<form id="vehicleForm" class="formgrid">
+<input id="editId" type="hidden">
+<div class="field"><label>Rendszám</label><input id="vPlate" class="control" required></div>
+<div class="field"><label>Kategória</label><select id="vType" class="control"><option value="permanent">Állandó</option><option value="replacement">Bérautó</option></select></div>
+<div class="field"><label>Márka</label><input id="vMake" class="control"></div>
+<div class="field"><label>Modell</label><input id="vModel" class="control"></div>
+<div class="field"><label>Hajtás</label><select id="vPower" class="control"><option value="">—</option><option>Diesel</option><option>Electric</option><option>Petrol</option><option>Hybrid</option></select></div>
+<div class="field"><label>Aktív ettől</label><input id="vFrom" class="control" type="date"></div>
+<div class="field full"><label><input id="vActive" type="checkbox" checked> Jelenleg aktív</label></div><div id="vehicleMsg" class="field full"></div>
+</form>
+<div class="modalActions"><button id="cancelModal" class="btn secondary">Mégse</button><button id="saveVehicle" class="btn primary">Mentés</button></div>
+</div></div>
 
 <script>
-const fleet=['ABC-123','DEF-456','GHI-789','JKL-012','MNO-345','PQR-678'];
-const now=new Date(), iso=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
-function week(d){const x=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate()));const n=x.getUTCDay()||7;x.setUTCDate(x.getUTCDate()+4-n);const y=new Date(Date.UTC(x.getUTCFullYear(),0,1));return Math.ceil((((x-y)/86400000)+1)/7)}
-const w=week(now);
-const records=[
-  {plate:'ABC-123',date:iso,user:'Kovács Péter',photos:5,week:w},
-  {plate:'DEF-456',date:iso,user:'Kovács Péter',photos:4,week:w},
-  {plate:'GHI-789',date:iso,user:'Kovács Péter',photos:3,week:w},
-  {plate:'JKL-012',date:iso,user:'Kovács Péter',photos:6,week:w}
-];
-const fmt=s=>{const [y,m,d]=s.split('-');return `${y}.${m}.${d}.`};
-document.querySelector('#today').textContent=fmt(iso);
+const sb = window.supabase.createClient('https://rkxlzdkdwcsrryinflvd.supabase.co', 'sb_publishable_noWXGqx4C5rn14qAo9LpEw_isMt-R_c');
+let authMode='login', currentUser=null, currentProfile=null, vehicles=[];
+const $=id=>document.getElementById(id);
+const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const today=new Date().toISOString().slice(0,10); $('uploadDate').value=today;
 
-document.querySelectorAll('.navbtn').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    const v=btn.dataset.view;
-    document.querySelectorAll('.navbtn').forEach(x=>x.classList.toggle('active',x.dataset.view===v));
-    document.querySelectorAll('.view').forEach(x=>x.classList.toggle('active',x.id===v));
-    render();
-  });
+function setAuthMode(mode){authMode=mode;$('loginTab').classList.toggle('active',mode==='login');$('signupTab').classList.toggle('active',mode==='signup');$('nameField').classList.toggle('hidden',mode!=='signup');$('authSubmit').textContent=mode==='login'?'Belépés':'Regisztráció';$('authMsg').innerHTML='';}
+$('loginTab').onclick=()=>setAuthMode('login'); $('signupTab').onclick=()=>setAuthMode('signup');
+
+$('authForm').addEventListener('submit',async e=>{
+e.preventDefault(); $('authSubmit').disabled=true; $('authMsg').innerHTML='';
+const email=$('email').value.trim(),password=$('password').value;
+try{
+ if(authMode==='signup'){
+  const name=$('displayName').value.trim();
+  const {data,error}=await sb.auth.signUp({email,password,options:{data:{display_name:name}}});
+  if(error)throw error;
+  if(data.session) await bootstrap(); else {$('authMsg').innerHTML='<div class="success">Regisztráció sikeres. Erősítsd meg az e-mail címedet, majd lépj be.</div>';setAuthMode('login');}
+ } else {
+  const {error}=await sb.auth.signInWithPassword({email,password}); if(error)throw error; await bootstrap();
+ }
+}catch(err){$('authMsg').innerHTML=`<div class="error">${esc(err.message||err)}</div>`} finally{$('authSubmit').disabled=false}
 });
 
-photos.addEventListener('change',()=>{
-  fileInfo.textContent=photos.files.length?`${photos.files.length} kép kiválasztva.`:'Még nincs kiválasztott kép.';
-});
+$('logoutBtn').onclick=async()=>{await sb.auth.signOut();location.reload();};
 
-form.addEventListener('submit',e=>{
-  e.preventDefault();
-  if(!plate.value||!photos.files.length)return;
-  records.unshift({plate:plate.value,date:iso,user:'Kovács Péter',photos:photos.files.length,week:w});
-  status.textContent='✓ Sikeres mentés a demó archívumba.';
-  form.reset();
-  fileInfo.textContent='Még nincs kiválasztott kép.';
-  render();
-});
-
-[qPlate,qDate,qUser].forEach(x=>x.addEventListener('input',render));
-weekFilter.addEventListener('change',render);
-
-function item(r){
-  return `<div class="item"><div><div class="plate">${r.plate}</div><div class="small">${fmt(r.date)} · ${r.user}</div></div><div class="badge">📷 ${r.photos} kép</div></div>`;
+async function bootstrap(){
+const {data:{user},error}=await sb.auth.getUser();
+if(error||!user){$('loginScreen').classList.remove('hidden');$('app').classList.add('hidden');return}
+currentUser=user;
+const {data:profile}=await sb.from('profiles').select('*').eq('id',user.id).maybeSingle();
+currentProfile=profile;
+$('userName').textContent=profile?.display_name||user.email; $('uploadUser').value=profile?.display_name||user.email;
+$('userRole').textContent=profile?.role==='admin'?'Adminisztrátor':'Felhasználó';
+const isAdmin=profile?.role==='admin'; $('adminNav').classList.toggle('hidden',!isAdmin); $('adminMobile').classList.toggle('hidden',!isAdmin);
+$('loginScreen').classList.add('hidden');$('app').classList.remove('hidden'); await loadVehicles();
 }
 
-function render(){
-  todayList.innerHTML=records.filter(r=>r.date===iso).map(item).join('')||'<p class="small">Ma még nincs feltöltés.</p>';
-
-  const filtered=records.filter(r=>
-    (!qPlate.value||r.plate.includes(qPlate.value.toUpperCase())) &&
-    (!qDate.value||r.date===qDate.value) &&
-    (!qUser.value||r.user===qUser.value)
-  );
-  count.textContent=filtered.length;
-  archiveList.innerHTML=filtered.map(item).join('')||'<p class="small">Nincs találat.</p>';
-
-  const done=new Set(records.filter(r=>r.week===w).map(r=>r.plate));
-  const doneNval=done.size, miss=fleet.length-doneNval;
-  fleetN.textContent=fleet.length;
-  doneN.textContent=doneNval;
-  missN.textContent=miss;
-  weekN.textContent=w;
-  fleetSummary.textContent=`${doneNval} / ${fleet.length}`;
-  doneSummary.textContent=doneNval;
-  missSummary.textContent=miss;
-  weekSummary.textContent=`${w}. hét`;
-  progressBar.style.width=`${Math.round((doneNval/fleet.length)*100)}%`;
-
-  quickStatus.innerHTML=`
-    <div class="summaryrow"><span>Összes</span><b>${fleet.length}</b></div>
-    <div class="summaryrow"><span>Feltöltve</span><b class="green">${doneNval}</b></div>
-    <div class="summaryrow"><span>Hiányzik</span><b class="red">${miss}</b></div>`;
-
-  weekList.innerHTML=fleet
-    .filter(p=>weekFilter.value==='all'||(weekFilter.value==='done'&&done.has(p))||(weekFilter.value==='missing'&&!done.has(p)))
-    .map(p=>`<div class="weekrow"><b>${p}</b><span class="${done.has(p)?'green':'red'}">${done.has(p)?'✓ Feltöltve':'○ Hiányzik'}</span></div>`)
-    .join('');
+async function loadVehicles(){
+const {data,error}=await sb.from('vehicles').select('*').order('plate');
+if(error){console.error(error);$('vehicleRows').innerHTML=`<tr><td colspan="7"><div class="error">${esc(error.message)}</div></td></tr>`;return}
+vehicles=data||[]; renderAll();
 }
-render();
+
+function renderAll(){renderVehicleSelect();renderStats();renderVehicleTable();renderWeekly();}
+function renderVehicleSelect(){
+const active=vehicles.filter(v=>v.active);
+$('vehicleSelect').innerHTML='<option value="">Válassz járművet</option>'+active.map(v=>`<option value="${v.id}">${esc(v.plate)} — ${esc(v.make||'')} ${esc(v.model||'')}</option>`).join('');
+const perm=active.filter(v=>v.vehicle_type==='permanent').length,repl=active.filter(v=>v.vehicle_type==='replacement').length;
+$('uploadFleetStats').innerHTML=`<div class="stats" style="grid-template-columns:1fr 1fr"><div class="stat"><span>Aktív állandó</span><b>${perm}</b></div><div class="stat"><span>Aktív bérautó</span><b>${repl}</b></div></div>`;
+}
+function renderStats(){
+const total=vehicles.length,active=vehicles.filter(v=>v.active).length,perm=vehicles.filter(v=>v.active&&v.vehicle_type==='permanent').length,repl=vehicles.filter(v=>v.active&&v.vehicle_type==='replacement').length;
+const cards=`<div class="stat"><span>Összes rekord</span><b>${total}</b></div><div class="stat"><span>Aktív jármű</span><b>${active}</b></div><div class="stat"><span>Állandó</span><b>${perm}</b></div><div class="stat"><span>Bérautó</span><b>${repl}</b></div>`;
+$('adminStats').innerHTML=cards;$('weeklyStats').innerHTML=cards;
+}
+function filteredVehicles(){const q=$('searchVehicle').value.trim().toLowerCase(),type=$('typeFilter').value,a=$('activeFilter').value;return vehicles.filter(v=>{const hay=[v.plate,v.make,v.model,v.powertrain].join(' ').toLowerCase();return(!q||hay.includes(q))&&(!type||v.vehicle_type===type)&&(!a||String(v.active)===a)})}
+function renderVehicleTable(){
+if(currentProfile?.role!=='admin')return;const list=filteredVehicles();if(!list.length){$('vehicleRows').innerHTML='<tr><td colspan="7" class="empty">Nincs találat.</td></tr>';return}
+$('vehicleRows').innerHTML=list.map(v=>`<tr>
+<td><div class="plate">${esc(v.plate)}</div><div class="sub">${esc(v.id.slice(0,8))}…</div></td>
+<td><b>${esc(v.make||'—')}</b><div class="sub">${esc(v.model||'—')}</div></td><td>${esc(v.powertrain||'—')}</td>
+<td><span class="pill ${v.vehicle_type==='permanent'?'perm':'repl'}">${v.vehicle_type==='permanent'?'Állandó':'Bérautó'}</span></td>
+<td><span class="pill ${v.active?'activepill':'inactivepill'}">${v.active?'Aktív':'Inaktív'}</span></td>
+<td>${esc(v.active_from||'—')}<div class="sub">${v.active_until?'→ '+esc(v.active_until):''}</div></td>
+<td><div class="actions"><button class="sm" onclick="editVehicle('${v.id}')">Szerkesztés</button><button class="sm ${v.active?'danger':''}" onclick="toggleVehicle('${v.id}')">${v.active?'Inaktiválás':'Aktiválás'}</button></div></td></tr>`).join('');
+}
+function renderWeekly(){const active=vehicles.filter(v=>v.active);$('weeklyList').innerHTML=active.map(v=>`<div style="display:flex;justify-content:space-between;gap:12px;padding:11px 2px;border-bottom:1px solid #eee"><div><b>${esc(v.plate)}</b><div class="sub">${esc(v.make||'')} ${esc(v.model||'')}</div></div><span class="pill ${v.vehicle_type==='permanent'?'perm':'repl'}">${v.vehicle_type==='permanent'?'Állandó':'Bérautó'}</span></div>`).join('')||'<div class="empty">Nincs aktív jármű.</div>'}
+['searchVehicle','typeFilter','activeFilter'].forEach(id=>$(id).addEventListener('input',renderVehicleTable));$('refreshBtn').onclick=loadVehicles;
+
+function openModal(v=null){$('vehicleMsg').innerHTML='';$('editId').value=v?.id||'';$('modalTitle').textContent=v?'Jármű szerkesztése':'Új jármű';$('vPlate').value=v?.plate||'';$('vType').value=v?.vehicle_type||'permanent';$('vMake').value=v?.make||'';$('vModel').value=v?.model||'';$('vPower').value=v?.powertrain||'';$('vFrom').value=v?.active_from||today;$('vActive').checked=v?.active??true;$('vehicleModal').classList.remove('hidden')}
+$('newVehicleBtn').onclick=()=>openModal();$('cancelModal').onclick=()=>$('vehicleModal').classList.add('hidden');
+window.editVehicle=id=>{const v=vehicles.find(x=>x.id===id);if(v)openModal(v)};
+window.toggleVehicle=async id=>{const v=vehicles.find(x=>x.id===id);if(!v)return;const next=!v.active;if(!confirm(`${v.plate} státusza legyen ${next?'aktív':'inaktív'}?`))return;const {error}=await sb.from('vehicles').update({active:next,active_until:next?null:today}).eq('id',id);if(error)alert(error.message);else await loadVehicles();};
+$('saveVehicle').onclick=async()=>{const plate=$('vPlate').value.trim().toUpperCase();if(!plate){$('vehicleMsg').innerHTML='<div class="error">A rendszám kötelező.</div>';return}const payload={plate,vehicle_type:$('vType').value,make:$('vMake').value.trim()||null,model:$('vModel').value.trim()||null,powertrain:$('vPower').value||null,active_from:$('vFrom').value||today,active:$('vActive').checked,active_until:$('vActive').checked?null:today};const id=$('editId').value;let error;if(id)({error}=await sb.from('vehicles').update(payload).eq('id',id));else({error}=await sb.from('vehicles').insert(payload));if(error)$('vehicleMsg').innerHTML=`<div class="error">${esc(error.message)}</div>`;else{$('vehicleModal').classList.add('hidden');await loadVehicles()}};
+function switchView(view){if(view==='admin'&&currentProfile?.role!=='admin')return;document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===view));document.querySelectorAll('[data-view]').forEach(b=>b.classList.toggle('active',b.dataset.view===view))}
+document.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>switchView(b.dataset.view)));
+$('demoUploadBtn').onclick=()=>{$('uploadMsg').innerHTML='<div class="success">A járműlista már éles adatbázisból jön. A tényleges képfeltöltést a következő lépésben kötjük rá.</div>'};
+(async()=>{const {data:{session}}=await sb.auth.getSession();if(session)await bootstrap()})();
 </script>
-</body>
-</html>
+</body></html>
