@@ -1,7 +1,12 @@
-Flottafotó V5 QR
+Flottafotó V5.1 – QR-kód központ
 
-1. Töltsd fel az index.html fájlt a GitHub repo gyökerébe a régi helyére.
-2. Commit changes.
-3. Vercel automatikusan frissít.
+Töltsd fel az index.html fájlt a GitHub repo gyökerébe a jelenlegi index.html helyére, majd Commit changes.
+Vercel automatikusan frissít.
 
-V5: személyi QR, TGK QR, kamera, galéria, előnézet és Supabase feltöltés.
+Újdonság:
+- ?admin=1 alatt QR-kód központ
+- admin személyi QR-rel nyitható
+- dolgozói QR lista
+- TGK QR lista
+- keresés
+- nyomtatás
