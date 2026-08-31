@@ -72,6 +72,7 @@ async function uploadAll(){if(!files.length)return;let btn=$('uploadBtn');btn.di
 function resetAll(){userToken=vehicleToken=null;user=vehicle=null;files=[];renderPhotos();['userCard','vehicleCard','vehicleOk','photoCard','scanner'].forEach(hide);show('start');$('uploadBtn').disabled=false;$('uploadBtn').textContent='FOTÓK FELTÖLTÉSE';hide('status')}
 
 
+function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
 let adminSession=null, adminName='', uploadRows=[];
 async function adminLogin(){
  $('adminErr').textContent='';
@@ -92,8 +93,12 @@ async function changeAdminPassword(){
 }
 function showAdminDash(){show('adminDash');$('adminHello').textContent='Belépve: '+adminName;loadUploads()}
 async function loadUploads(){
+ const box=$('uploadList'); if(box) box.innerHTML='<p>Feltöltések betöltése…</p>';
  const {data,error}=await db.rpc('admin_portal_uploads',{p_session:adminSession});
- if(error){alert('A munkamenet lejárt. Lépj be újra.');return adminLogout()}
+ if(error){
+   if(box) box.innerHTML='<p class="error">Hiba a feltöltések betöltésekor: '+esc(error.message||'ismeretlen hiba')+'</p>';
+   console.error(error); return;
+ }
  uploadRows=data||[];renderUploads();
 }
 function renderUploads(){
@@ -104,7 +109,7 @@ function renderUploads(){
    d.innerHTML=`<b>${esc(x.plate)}</b><span>${esc(x.uploader_name||'')}</span><span>${dt} • ${x.photo_count} kép</span><button class="btn yellow">Megnyitás</button>`;
    d.querySelector('button').onclick=()=>openPhotos(x);box.appendChild(d);
  });
- if(!box.children.length) box.innerHTML='<p>Nincs találat.</p>';
+ if(!box.children.length) box.innerHTML='<p>Nincs találat a feltöltések között.</p>';
 }
 async function openPhotos(x){
  $('photoTitle').textContent=`📸 ${x.plate} – ${x.uploader_name}`;let g=$('photoGrid');g.innerHTML='<p>Képek betöltése…</p>';show('photoPanel');

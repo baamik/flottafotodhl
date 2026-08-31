@@ -1,14 +1,9 @@
-Flottafotó V6 – Admin belépés és feltöltések
+Flottafotó V6.1 – feltöltési lista javítás
+
+A V6-ban hiányzott egy JavaScript segédfüggvény, ezért a backendből megérkező feltöltések renderelése hibára futott.
+Ez a verzió javítja ezt, és a valódi backend hibát is kiírja, ha a lista betöltése nem sikerül.
 
 Telepítés:
-1. GitHub repo gyökerében cseréld le a jelenlegi index.html fájlt erre.
-2. Commit changes.
-3. Vercel automatikusan deployol.
-
-Admin belépés:
-- URL: /?admin=1
-- Felhasználónév: amik.barnabas
-- Kezdő jelszó: Flotta1234
-- Első belépéskor kötelező jelszócsere.
-
-A mobil QR-feltöltési folyamat megmaradt.
+- cseréld le a GitHub repo gyökerében az index.html fájlt
+- Commit changes
+- Vercel automatikusan frissít
