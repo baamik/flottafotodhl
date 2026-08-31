@@ -1,22 +1,7 @@
-FLOTTAFOTÓ V4 – ADMIN + SUPABASE
+Flottafotó V5 QR
 
-Telepítés:
-1. GitHub repo → + → Upload files
-2. Töltsd fel ezt az index.html-t a jelenlegi helyére
-3. Commit changes
-4. Vercel automatikusan frissít
+1. Töltsd fel az index.html fájlt a GitHub repo gyökerébe a régi helyére.
+2. Commit changes.
+3. Vercel automatikusan frissít.
 
-Első használat:
-- Regisztrálj az oldalon
-- Ha e-mail megerősítést kér, erősítsd meg
-- Jelentkezz be
-- Az első profil alapból user
-- Utána adminra állítjuk
-
-Admin funkciók:
-- járműlista a valódi Supabase-ből
-- keresés és szűrés
-- új jármű
-- szerkesztés
-- állandó/bérautó
-- aktiválás/inaktiválás
+V5: személyi QR, TGK QR, kamera, galéria, előnézet és Supabase feltöltés.
