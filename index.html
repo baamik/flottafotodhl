@@ -114,16 +114,21 @@ function renderUploads(){
 async function openPhotos(x){
  $('photoTitle').textContent=`📸 ${x.plate} – ${x.uploader_name}`;let g=$('photoGrid');g.innerHTML='<p>Képek betöltése…</p>';show('photoPanel');
  const {data,error}=await db.rpc('admin_portal_photo_paths',{p_session:adminSession,p_upload:x.upload_id});
- if(error){g.innerHTML='<p class="error">A képek nem tölthetők be.</p>';return}
+ if(error){g.innerHTML='<p class="error">A képek listája nem tölthető be: '+esc(error.message||'ismeretlen hiba')+'</p>';return}
  g.innerHTML='';
  for(const p of data||[]){
-   const {data:signed,error:e}=await db.storage.from('vehicle-photos').createSignedUrl(p.storage_path,3600);
    let d=document.createElement('div');d.className='qritem photoCard';
-   if(e){d.textContent=p.original_name||'Kép';}else{
-     d.innerHTML=`<img alt=""><b>${esc(p.original_name||'Fotó')}</b><a class="btn gray" target="_blank" rel="noopener">Megnyitás / letöltés</a>`;
-     d.querySelector('img').src=signed.signedUrl;d.querySelector('img').onclick=()=>window.open(signed.signedUrl,'_blank');
-     d.querySelector('a').href=signed.signedUrl;
-   } g.appendChild(d);
+   d.innerHTML=`<div style="min-height:180px;display:flex;align-items:center;justify-content:center">Kép betöltése…</div><b>${esc(p.original_name||'Fotó')}</b>`;
+   g.appendChild(d);
+   const {data:signed,error:e}=await db.functions.invoke('admin-photo-url',{body:{session_token:adminSession,storage_path:p.storage_path}});
+   if(e||!signed?.signedUrl){
+     d.firstElementChild.innerHTML='<span class="error">Nem sikerült megnyitni a képet.</span>';
+     console.error(e||signed);
+   }else{
+     d.firstElementChild.outerHTML='<img alt="">';
+     const img=d.querySelector('img'); img.src=signed.signedUrl; img.onclick=()=>window.open(signed.signedUrl,'_blank');
+     const a=document.createElement('a');a.className='btn gray';a.target='_blank';a.rel='noopener';a.href=signed.signedUrl;a.textContent='Megnyitás / letöltés';d.appendChild(a);
+   }
  }
 }
 function adminLogout(){sessionStorage.removeItem('ff_admin_session');sessionStorage.removeItem('ff_admin_name');location.href=location.pathname+'?admin=1'}

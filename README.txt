@@ -1,9 +1,9 @@
-Flottafotó V6.1 – feltöltési lista javítás
+Flottafotó V6.2 – admin képek megnyitásának javítása
 
-A V6-ban hiányzott egy JavaScript segédfüggvény, ezért a backendből megérkező feltöltések renderelése hibára futott.
-Ez a verzió javítja ezt, és a valódi backend hibát is kiírja, ha a lista betöltése nem sikerül.
+A privát vehicle-photos tárhely miatt az anonim böngésző nem tudott közvetlenül ideiglenes kép-linket kérni.
+A V6.2 az admin munkamenetet ellenőrző biztonságos backend funkción keresztül kéri a 60 perces megnyitási linket.
 
 Telepítés:
-- cseréld le a GitHub repo gyökerében az index.html fájlt
-- Commit changes
-- Vercel automatikusan frissít
+1. Cseréld le a GitHub repo gyökerében az index.html fájlt.
+2. Commit changes.
+3. Vercel automatikusan deployol.
