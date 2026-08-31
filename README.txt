@@ -1,9 +1,15 @@
-Flottafotó V6.2 – admin képek megnyitásának javítása
+Flottafotó V7 – új admin dashboard
 
-A privát vehicle-photos tárhely miatt az anonim böngésző nem tudott közvetlenül ideiglenes kép-linket kérni.
-A V6.2 az admin munkamenetet ellenőrző biztonságos backend funkción keresztül kéri a 60 perces megnyitási linket.
+Beépítve:
+- modern bal oldali admin menü
+- valós idejű KPI-k Supabase-ből
+- heti kész/hiányzik állapot
+- heti teljesítési sáv
+- legutóbbi feltöltések
+- hiányzó járművek
+- meglévő feltöltés- és fotónézet megtartva
+- mobil/reszponzív admin elrendezés
 
-Telepítés:
-1. Cseréld le a GitHub repo gyökerében az index.html fájlt.
-2. Commit changes.
-3. Vercel automatikusan deployol.
+A Heti áttekintés, Flotta kezelése és QR-kódok menüpontok helye elkészült; ezek funkcióit a következő körökben építjük ki.
+
+Telepítés: a repo gyökerében cseréld az index.html-t, Commit changes, majd Vercel automatikusan deployol.

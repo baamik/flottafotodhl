@@ -19,6 +19,26 @@
 .uploadrow button{width:auto;margin:0}
 .photoCard img{width:100%;height:180px;object-fit:cover;border-radius:10px;cursor:pointer}
 @media(max-width:700px){.uploadrow{grid-template-columns:1fr 1fr}.photoCard img{height:140px}}
+
+/* V7 admin dashboard */
+body.adminMode{background:#f5f6f8}
+body.adminMode header{display:none}
+body.adminMode .wrap{max-width:none;margin:0;padding:0}
+#adminPage.adminShell{margin:0;padding:0;border-radius:0;box-shadow:none;background:transparent;min-height:100vh}
+.adminLayout{display:grid;grid-template-columns:250px 1fr;min-height:100vh}
+.adminSide{background:#fff;border-right:1px solid #e8e8e8;display:flex;flex-direction:column;position:sticky;top:0;height:100vh}
+.adminBrand{padding:25px 22px;background:#ffcc00;color:#d40511;font-size:22px;font-weight:900;border-bottom:4px solid #d40511}
+.adminNav{padding:18px 12px;display:grid;gap:6px}.adminNav button{border:0;background:transparent;text-align:left;padding:13px 14px;border-radius:10px;font-weight:700;cursor:pointer;color:#313744}.adminNav button.active{background:#fff0b3;color:#b80610}.adminNav button:hover{background:#f6f6f6}
+.adminProfile{margin-top:auto;padding:16px;border-top:1px solid #eee}.adminProfileBox{padding:12px;border:1px solid #eee;border-radius:12px;font-weight:700}.logoutLink{border:0;background:none;padding:14px 4px 2px;cursor:pointer;color:#555;font-weight:700}
+.adminMain{padding:30px 34px;min-width:0}.adminTop{display:flex;justify-content:space-between;gap:18px;align-items:center;margin-bottom:24px}.adminTop h1{margin:0;font-size:29px}.adminTop p{margin:5px 0 0;color:#6c7280}.adminTopActions{display:flex;gap:10px}.smallBtn{border:1px solid #ddd;background:#fff;border-radius:10px;padding:11px 14px;font-weight:700;cursor:pointer}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}.kpi{background:#fff;border:1px solid #e8e8e8;border-radius:15px;padding:20px;display:flex;gap:15px;align-items:center}.kpiIcon{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;font-size:22px;background:#fff0b3}.kpi.green .kpiIcon{background:#dff4e5}.kpi.redK .kpiIcon{background:#fde2e4}.kpi.blue .kpiIcon{background:#e1ecff}.kpi small{display:block;color:#606777;font-weight:700}.kpi strong{display:block;font-size:28px;margin-top:4px}
+.dashGrid{display:grid;grid-template-columns:1.45fr .85fr;gap:18px;margin-top:18px}.dashCard{background:#fff;border:1px solid #e8e8e8;border-radius:15px;padding:20px}.dashCard h2{font-size:17px;margin:0 0 17px}.progressBig{font-size:35px;font-weight:900}.progressTrack{height:13px;background:#eee;border-radius:20px;overflow:hidden;margin:15px 0}.progressFill{height:100%;background:#31a64a;border-radius:20px}.recentRow{display:grid;grid-template-columns:90px 1fr auto;gap:10px;align-items:center;padding:12px 0;border-bottom:1px solid #eee}.recentRow b{font-size:16px}.recentRow small{color:#707786}.pill{display:inline-block;padding:5px 8px;border-radius:7px;font-size:12px;font-weight:800;background:#fde2e4;color:#c20c17}
+.missingTable{width:100%;border-collapse:collapse}.missingTable th,.missingTable td{text-align:left;padding:12px 8px;border-bottom:1px solid #eee;font-size:13px}.missingTable th{color:#59606c}
+.adminSection{display:none}.adminSection.active{display:block}.uploadPanel{background:#fff;border:1px solid #e8e8e8;border-radius:15px;padding:20px}.uploadPanel .toolbar{margin-top:0}
+.coming{padding:45px;text-align:center;background:#fff;border:1px dashed #ccc;border-radius:15px;color:#6b7280}
+#adminLogin,#changePass{max-width:520px;margin:70px auto;background:#fff;padding:28px;border-radius:18px;box-shadow:0 8px 30px #0001}
+@media(max-width:950px){.adminLayout{grid-template-columns:1fr}.adminSide{position:relative;height:auto}.adminNav{display:flex;overflow:auto}.adminProfile{display:none}.kpis{grid-template-columns:1fr 1fr}.dashGrid{grid-template-columns:1fr}.adminMain{padding:20px}.adminBrand{padding:18px}.adminTop{align-items:flex-start}}
+@media(max-width:560px){.kpis{grid-template-columns:1fr}.adminMain{padding:14px}.adminTopActions{display:none}.recentRow{grid-template-columns:75px 1fr}.recentRow button{grid-column:1/-1}}
 </style></head><body>
 <header><b>FLOTTAFOTÓ</b><a class="admin" href="?admin=1">Admin belépés</a></header><main class="wrap">
 <section id="start" class="card"><div class="step">1. LÉPÉS</div><div class="big">👤 Saját QR-kód</div><p>Olvasd be a személyes QR-kódodat a telefon kamerájával. Ha a QR nyitotta meg ezt az oldalt, automatikusan felismerünk.</p><button class="btn red" onclick="scan('user')">QR beolvasása</button></section>
@@ -29,31 +49,52 @@
 <section id="scanner" class="card hidden"><div class="big">QR beolvasása</div><div id="reader"></div><button class="btn gray" onclick="stopScan()">Mégse</button></section>
 <section id="adminPage" class="card hidden">
 <div id="adminLogin">
-  <div class="big">🔐 Admin belépés</div>
-  <p>Belépés felhasználónévvel és jelszóval.</p>
+  <div class="big">🔐 Flottafotó Admin</div><p>Belépés felhasználónévvel és jelszóval.</p>
   <label>Felhasználónév</label><input id="adminUser" autocomplete="username" placeholder="pl. amik.barnabas">
   <label>Jelszó</label><input id="adminPass" type="password" autocomplete="current-password">
-  <button class="btn red" onclick="adminLogin()">Belépés</button>
-  <button class="btn gray" onclick="location.href=location.pathname">Vissza a fotózáshoz</button>
-  <p id="adminErr" class="error"></p>
+  <button class="btn red" onclick="adminLogin()">Belépés</button><button class="btn gray" onclick="location.href=location.pathname">Vissza a fotózáshoz</button><p id="adminErr" class="error"></p>
 </div>
 <div id="changePass" class="hidden">
-  <div class="big">🔑 Első belépés – jelszócsere</div>
-  <p>A kezdő jelszót biztonsági okból most meg kell változtatnod.</p>
-  <label>Új jelszó</label><input id="newPass1" type="password">
-  <label>Új jelszó újra</label><input id="newPass2" type="password">
-  <button class="btn red" onclick="changeAdminPassword()">Jelszó mentése</button>
-  <p id="passErr" class="error"></p>
+  <div class="big">🔑 Első belépés – jelszócsere</div><p>A kezdő jelszót biztonsági okból most meg kell változtatnod.</p>
+  <label>Új jelszó</label><input id="newPass1" type="password"><label>Új jelszó újra</label><input id="newPass2" type="password">
+  <button class="btn red" onclick="changeAdminPassword()">Jelszó mentése</button><p id="passErr" class="error"></p>
 </div>
-<div id="adminDash" class="hidden">
-  <div style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap">
-    <div><div class="big">🚚 Flottafotó Admin</div><div id="adminHello"></div></div>
-    <button class="btn gray noPrint" style="width:auto;margin:0" onclick="adminLogout()">Kilépés</button>
-  </div>
-  <div class="toolbar noPrint"><input id="uploadSearch" placeholder="Keresés rendszámra vagy feltöltőre…" oninput="renderUploads()"><button class="btn yellow" style="width:auto;margin:0" onclick="loadUploads()">↻ Frissítés</button></div>
-  <h2>📸 Feltöltések</h2>
-  <div id="uploadList"></div>
-  <div id="photoPanel" class="hidden"><hr><h2 id="photoTitle">Képek</h2><div id="photoGrid" class="qrgrid"></div></div>
+<div id="adminDash" class="hidden adminLayout">
+ <aside class="adminSide">
+  <div class="adminBrand">🚚 Flottafotó Admin</div>
+  <nav class="adminNav">
+   <button class="active" data-section="overview" onclick="adminSection('overview',this)">🏠 &nbsp; Áttekintés</button>
+   <button data-section="uploads" onclick="adminSection('uploads',this)">⬆️ &nbsp; Feltöltések</button>
+   <button data-section="weekly" onclick="adminSection('weekly',this)">📅 &nbsp; Heti áttekintés</button>
+   <button data-section="fleet" onclick="adminSection('fleet',this)">🚚 &nbsp; Flotta kezelése</button>
+   <button data-section="qr" onclick="adminSection('qr',this)">▦ &nbsp; QR-kódok</button>
+  </nav>
+  <div class="adminProfile"><div class="adminProfileBox">👤 <span id="adminSideName"></span><br><small>Adminisztrátor</small></div><button class="logoutLink" onclick="adminLogout()">↪ Kijelentkezés</button></div>
+ </aside>
+ <main class="adminMain">
+  <section id="admin-overview" class="adminSection active">
+   <div class="adminTop"><div><h1>Áttekintés</h1><p>Itt láthatod a flotta aktuális állapotát és a legfontosabb információkat.</p></div><div class="adminTopActions"><button class="smallBtn" onclick="loadAdminOverview()">↻ Frissítés</button></div></div>
+   <div class="kpis">
+    <div class="kpi"><div class="kpiIcon">🚚</div><div><small>Összes jármű</small><strong id="kpiTotal">–</strong></div></div>
+    <div class="kpi green"><div class="kpiIcon">✓</div><div><small>Heti kész</small><strong id="kpiDone">–</strong></div></div>
+    <div class="kpi redK"><div class="kpiIcon">!</div><div><small>Hiányzik</small><strong id="kpiMissing">–</strong></div></div>
+    <div class="kpi blue"><div class="kpiIcon">📷</div><div><small>Mai feltöltések</small><strong id="kpiToday">–</strong></div></div>
+   </div>
+   <div class="dashGrid">
+    <div class="dashCard"><h2>Heti teljesítés áttekintés</h2><div class="progressBig"><span id="progressDone">–</span> <span style="font-size:22px;color:#777">/ <span id="progressTotal">–</span></span></div><div id="progressPct" style="color:#666">–% teljesítettség</div><div class="progressTrack"><div id="progressFill" class="progressFill" style="width:0%"></div></div><small>Cél: 100% heti fotófeltöltés</small></div>
+    <div class="dashCard"><h2>Legutóbbi feltöltések</h2><div id="recentUploads">Betöltés…</div><button class="smallBtn" style="margin-top:14px" onclick="adminSection('uploads',document.querySelector('[data-section=uploads]'))">Összes feltöltés →</button></div>
+    <div class="dashCard"><h2>Hiányzó járművek ezen a héten</h2><div id="missingVehicles">Betöltés…</div></div>
+    <div class="dashCard"><h2>Heti állapot</h2><div id="statusSummary" style="padding:12px 0">Betöltés…</div></div>
+   </div>
+  </section>
+  <section id="admin-uploads" class="adminSection">
+   <div class="adminTop"><div><h1>Feltöltések</h1><p>Fotófeltöltések keresése és megtekintése.</p></div></div>
+   <div class="uploadPanel"><div class="toolbar"><input id="uploadSearch" placeholder="Keresés rendszámra vagy feltöltőre…" oninput="renderUploads()"><button class="btn yellow" style="width:auto;margin:0" onclick="loadUploads()">↻ Frissítés</button></div><div id="uploadList"></div><div id="photoPanel" class="hidden"><hr><h2 id="photoTitle">Képek</h2><div id="photoGrid" class="qrgrid"></div></div></div>
+  </section>
+  <section id="admin-weekly" class="adminSection"><div class="adminTop"><div><h1>Heti áttekintés</h1><p>Kész és hiányzó járművek heti bontásban.</p></div></div><div class="coming">📅 A következő fejlesztési lépésben ide kerül a teljes heti járműlista.</div></section>
+  <section id="admin-fleet" class="adminSection"><div class="adminTop"><div><h1>Flotta kezelése</h1><p>Állandó és cserejárművek kezelése.</p></div></div><div class="coming">🚚 A flotta kezelőfelület következőként építhető be.</div></section>
+  <section id="admin-qr" class="adminSection"><div class="adminTop"><div><h1>QR-kódok</h1><p>Dolgozói és jármű QR-kódok kezelése.</p></div></div><div class="coming">▦ Itt lesz a kereshető és nyomtatható QR-központ.</div></section>
+ </main>
 </div>
 </section>
 </main><script>
@@ -91,7 +132,21 @@ async function changeAdminPassword(){
  if(error||!data){$('passErr').textContent='A jelszócsere nem sikerült.';return}
  hide('changePass');showAdminDash();
 }
-function showAdminDash(){show('adminDash');$('adminHello').textContent='Belépve: '+adminName;loadUploads()}
+function showAdminDash(){show('adminDash');document.body.classList.add('adminMode');$('adminPage').classList.add('adminShell');if($('adminSideName'))$('adminSideName').textContent=adminName;loadUploads();loadAdminOverview()}
+function adminSection(name,btn){document.querySelectorAll('.adminSection').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.adminNav button').forEach(x=>x.classList.remove('active'));let s=$('admin-'+name);if(s)s.classList.add('active');if(btn)btn.classList.add('active');if(name==='overview')loadAdminOverview();if(name==='uploads')loadUploads()}
+async function loadAdminOverview(){
+ const {data,error}=await db.rpc('admin_portal_overview',{p_session:adminSession});
+ if(error){console.error(error);return}
+ const o=data||{},total=Number(o.total||0),done=Number(o.done||0),missing=Number(o.missing||0),pct=total?Math.round(done/total*100):0;
+ $('kpiTotal').textContent=total;$('kpiDone').textContent=done;$('kpiMissing').textContent=missing;$('kpiToday').textContent=Number(o.today||0);
+ $('progressDone').textContent=done;$('progressTotal').textContent=total;$('progressPct').textContent=pct+'% teljesítettség';$('progressFill').style.width=pct+'%';
+ let m=o.missing_vehicles||[];$('missingVehicles').innerHTML=m.length?'<table class="missingTable"><thead><tr><th>Rendszám</th><th>Jármű</th><th>Státusz</th></tr></thead><tbody>'+m.map(v=>`<tr><td><b>${esc(v.plate)}</b></td><td>${esc(v.vehicle_name||'')}</td><td><span class="pill">Hiányzik</span></td></tr>`).join('')+'</tbody></table>':'<p>✅ Minden aktív járműről érkezett fotó ezen a héten.</p>';
+ $('statusSummary').innerHTML=`<div style="font-size:42px;font-weight:900">${pct}%</div><p><b style="color:#26933b">● ${done} kész</b><br><b style="color:#d40511">● ${missing} hiányzik</b></p>`;
+ renderRecent();
+}
+function renderRecent(){let box=$('recentUploads');if(!box)return;let rows=(uploadRows||[]).filter(x=>Number(x.photo_count)>0).slice(0,5);box.innerHTML=rows.length?rows.map(x=>`<div class="recentRow"><b>${esc(x.plate)}</b><div>${esc(x.uploader_name||'')}<br><small>${new Date(x.uploaded_at).toLocaleString('hu-HU')} • ${x.photo_count} fotó</small></div><button class="smallBtn" onclick="openPhotosFromDash('${x.upload_id}')">Megnyitás</button></div>`).join(''):'<p>Még nincs feltöltés.</p>'}
+function openPhotosFromDash(id){let x=(uploadRows||[]).find(r=>r.upload_id===id);adminSection('uploads',document.querySelector('[data-section=uploads]'));if(x)setTimeout(()=>openPhotos(x),50)}
+
 async function loadUploads(){
  const box=$('uploadList'); if(box) box.innerHTML='<p>Feltöltések betöltése…</p>';
  const {data,error}=await db.rpc('admin_portal_uploads',{p_session:adminSession});
@@ -99,7 +154,7 @@ async function loadUploads(){
    if(box) box.innerHTML='<p class="error">Hiba a feltöltések betöltésekor: '+esc(error.message||'ismeretlen hiba')+'</p>';
    console.error(error); return;
  }
- uploadRows=data||[];renderUploads();
+ uploadRows=data||[];renderUploads();renderRecent();
 }
 function renderUploads(){
  let s=($('uploadSearch')?.value||'').toLocaleLowerCase('hu'),box=$('uploadList');box.innerHTML='';
@@ -112,26 +167,45 @@ function renderUploads(){
  if(!box.children.length) box.innerHTML='<p>Nincs találat a feltöltések között.</p>';
 }
 async function openPhotos(x){
- $('photoTitle').textContent=`📸 ${x.plate} – ${x.uploader_name}`;let g=$('photoGrid');g.innerHTML='<p>Képek betöltése…</p>';show('photoPanel');
+ $('photoTitle').textContent=`📸 ${x.plate} – ${x.uploader_name}`;
+ let g=$('photoGrid'); g.innerHTML='<p>Képek betöltése…</p>'; show('photoPanel');
  const {data,error}=await db.rpc('admin_portal_photo_paths',{p_session:adminSession,p_upload:x.upload_id});
  if(error){g.innerHTML='<p class="error">A képek listája nem tölthető be: '+esc(error.message||'ismeretlen hiba')+'</p>';return}
  g.innerHTML='';
  for(const p of data||[]){
-   let d=document.createElement('div');d.className='qritem photoCard';
+   const d=document.createElement('div'); d.className='qritem photoCard';
    d.innerHTML=`<div style="min-height:180px;display:flex;align-items:center;justify-content:center">Kép betöltése…</div><b>${esc(p.original_name||'Fotó')}</b>`;
    g.appendChild(d);
-   const {data:signed,error:e}=await db.functions.invoke('admin-photo-url',{body:{session_token:adminSession,storage_path:p.storage_path}});
-   if(e||!signed?.signedUrl){
-     d.firstElementChild.innerHTML='<span class="error">Nem sikerült megnyitni a képet.</span>';
-     console.error(e||signed);
-   }else{
+   try{
+     const res=await fetch(SUPA_URL+'/functions/v1/admin-photo-preview',{
+       method:'POST',
+       headers:{'Content-Type':'application/json','apikey':SUPA_KEY},
+       body:JSON.stringify({session_token:adminSession,storage_path:p.storage_path})
+     });
+     if(!res.ok) throw new Error(await res.text());
+     const blob=await res.blob();
+     const blobUrl=URL.createObjectURL(blob);
      d.firstElementChild.outerHTML='<img alt="">';
-     const img=d.querySelector('img'); img.src=signed.signedUrl; img.onclick=()=>window.open(signed.signedUrl,'_blank');
-     const a=document.createElement('a');a.className='btn gray';a.target='_blank';a.rel='noopener';a.href=signed.signedUrl;a.textContent='Megnyitás / letöltés';d.appendChild(a);
+     const img=d.querySelector('img'); img.src=blobUrl; img.onclick=()=>window.open(blobUrl,'_blank');
+     const a=document.createElement('a'); a.className='btn gray'; a.href=blobUrl; a.download=p.original_name||'foto'; a.textContent='Letöltés';
+     d.appendChild(a);
+   }catch(e){
+     d.firstElementChild.innerHTML='<span class="error">Nem sikerült betölteni a képet.</span>';
+     console.error(e);
    }
  }
 }
-function adminLogout(){sessionStorage.removeItem('ff_admin_session');sessionStorage.removeItem('ff_admin_name');location.href=location.pathname+'?admin=1'}
+function adminLogout(){sessionStorage.removeItem('ff_admin_session');sessionStorage.removeItem('ff_admin_name');document.body.classList.remove('adminMode');location.href=location.pathname+'?admin=1'}
 
-(async()=>{let q=new URLSearchParams(location.search);if(q.has('admin')){['start','userCard','vehicleCard','vehicleOk','photoCard'].forEach(hide);show('adminPage');return}let t=q.get('u');if(t){try{await identifyUser(t)}catch(e){alert(e.message)}}})();
+(async()=>{let q=new URLSearchParams(location.search);
+if(q.get('admin')==='1'||q.has('admin')){document.body.classList.add('adminMode');
+  ['start','userCard','vehicleCard','vehicleOk','photoCard'].forEach(id=>{try{hide(id)}catch{}});
+  show('adminPage');
+  adminSession=sessionStorage.getItem('ff_admin_session');
+  adminName=sessionStorage.getItem('ff_admin_name')||'';
+  if(adminSession){hide('adminLogin');hide('changePass');showAdminDash();}
+  return;
+}
+let t=q.get('u');if(t){try{await identifyUser(t)}catch(e){alert(e.message)}}
+})();
 </script></body></html>
