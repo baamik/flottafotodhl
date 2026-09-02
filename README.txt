@@ -1,1 +1,1 @@
-V7.2 Feltöltések redesign: kétpaneles lista + jobb oldali galéria, kereső és szűrők.
+Flottafotó V8: Feltöltések, teljes Heti áttekintés, Flotta kezelés új járművel, QR-központ új munkavállalóval.
