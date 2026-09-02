@@ -39,7 +39,7 @@ body.adminMode .wrap{max-width:none;margin:0;padding:0}
 #adminLogin,#changePass{max-width:520px;margin:70px auto;background:#fff;padding:28px;border-radius:18px;box-shadow:0 8px 30px #0001}
 @media(max-width:950px){.adminLayout{grid-template-columns:1fr}.adminSide{position:relative;height:auto}.adminNav{display:flex;overflow:auto}.adminProfile{display:none}.kpis{grid-template-columns:1fr 1fr}.dashGrid{grid-template-columns:1fr}.adminMain{padding:20px}.adminBrand{padding:18px}.adminTop{align-items:flex-start}}
 @media(max-width:560px){.kpis{grid-template-columns:1fr}.adminMain{padding:14px}.adminTopActions{display:none}.recentRow{grid-template-columns:75px 1fr}.recentRow button{grid-column:1/-1}}
-</style></head><body>
+.uploadWorkspace{display:grid;grid-template-columns:minmax(620px,1.25fr) minmax(420px,.9fr);gap:18px;align-items:start}.uploadFilters{background:#fff;border:1px solid #e6e8ec;border-radius:15px;padding:16px;margin-bottom:16px;display:grid;grid-template-columns:1.5fr .8fr .8fr;gap:12px}.uploadFilters input,.uploadFilters select{width:100%;padding:12px 14px;border:1px solid #dfe2e7;border-radius:10px;background:#fff;font-size:14px}.uploadTableCard{background:#fff;border:1px solid #e6e8ec;border-radius:15px;overflow:hidden}.uploadHead,.uploadItem{display:grid;grid-template-columns:1.05fr 1fr 1.1fr .75fr 54px;gap:10px;align-items:center;padding:13px 16px}.uploadHead{font-size:12px;color:#697180;font-weight:800;background:#fafafa;border-bottom:1px solid #eee}.uploadItem{border-bottom:1px solid #eee;cursor:pointer}.uploadItem:hover{background:#fffaf0}.uploadItem.selected{background:#fff5cf;box-shadow:inset 3px 0 #ffcc00}.vehicleCell small,.uploaderCell small,.dateCell small{display:block;color:#727986}.countBadge{display:inline-grid;place-items:center;padding:5px 8px;border-radius:7px;background:#edf3ff;color:#2459b7;font-weight:800}.arrowCell{text-align:right;font-size:24px}.detailPane{background:#fff;border:1px solid #e6e8ec;border-radius:15px;padding:20px;position:sticky;top:20px;min-height:500px}.detailEmpty{display:grid;place-items:center;text-align:center;min-height:430px;color:#7a818d}.detailTop{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #eee;padding-bottom:16px}.detailTop h2{margin:0}.closeDetail{border:0;background:transparent;font-size:24px;cursor:pointer}.detailMeta{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:17px 0;border-bottom:1px solid #eee}.detailMeta span{display:block;color:#707784;font-size:12px}.detailGallery{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:17px}.detailPhoto{position:relative;aspect-ratio:1;border-radius:10px;overflow:hidden;background:#f2f2f2}.detailPhoto img{width:100%;height:100%;object-fit:cover;cursor:pointer}.detailPhoto a{position:absolute;right:6px;bottom:6px;width:28px;height:28px;border-radius:8px;background:#ffffffe8;display:grid;place-items:center;text-decoration:none;color:#222}.uploadFooter{padding:12px 16px;color:#6f7683;font-size:13px;background:#fafafa}@media(max-width:1200px){.uploadWorkspace{grid-template-columns:1fr}.detailPane{position:relative}.detailGallery{grid-template-columns:repeat(4,1fr)}}@media(max-width:700px){.uploadFilters{grid-template-columns:1fr}.uploadHead{display:none}.uploadItem{grid-template-columns:1fr 1fr}.arrowCell{display:none}.detailMeta{grid-template-columns:1fr}.detailGallery{grid-template-columns:repeat(2,1fr)}}</style></head><body>
 <header><b>FLOTTAFOTÓ</b><a class="admin" href="?admin=1">Admin belépés</a></header><main class="wrap">
 <section id="start" class="card"><div class="step">1. LÉPÉS</div><div class="big">👤 Saját QR-kód</div><p>Olvasd be a személyes QR-kódodat a telefon kamerájával. Ha a QR nyitotta meg ezt az oldalt, automatikusan felismerünk.</p><button class="btn red" onclick="scan('user')">QR beolvasása</button></section>
 <section id="userCard" class="card ok hidden"><div class="step">AZONOSÍTVA</div><div id="userName" class="big"></div><button class="btn gray" onclick="resetAll()">Másik személy</button></section>
@@ -87,11 +87,7 @@ body.adminMode .wrap{max-width:none;margin:0;padding:0}
     <div class="dashCard"><h2>Heti állapot</h2><div id="statusSummary" style="padding:12px 0">Betöltés…</div></div>
    </div>
   </section>
-  <section id="admin-uploads" class="adminSection">
-   <div class="adminTop"><div><h1>Feltöltések</h1><p>Fotófeltöltések keresése és megtekintése.</p></div></div>
-   <div class="uploadPanel"><div class="toolbar"><input id="uploadSearch" placeholder="Keresés rendszámra vagy feltöltőre…" oninput="renderUploads()"><button class="btn yellow" style="width:auto;margin:0" onclick="loadUploads()">↻ Frissítés</button></div><div id="uploadList"></div><div id="photoPanel" class="hidden"><hr><h2 id="photoTitle">Képek</h2><div id="photoGrid" class="qrgrid"></div></div></div>
-  </section>
-  <section id="admin-weekly" class="adminSection"><div class="adminTop"><div><h1>Heti áttekintés</h1><p>Kész és hiányzó járművek heti bontásban.</p></div></div><div class="coming">📅 A következő fejlesztési lépésben ide kerül a teljes heti járműlista.</div></section>
+  <section id="admin-uploads" class="adminSection"><div class="adminTop"><div><h1>Feltöltések</h1><p>Fotófeltöltések keresése, szűrése és megtekintése.</p></div><div class="adminTopActions"><button class="smallBtn" onclick="loadUploads()">↻ Frissítés</button></div></div><div class="uploadFilters"><input id="uploadSearch" placeholder="🔎 Keresés rendszámra vagy feltöltő nevére…" oninput="renderUploads()"><select id="uploadVehicleFilter" onchange="renderUploads()"><option value="">Összes jármű</option></select><select id="uploadUserFilter" onchange="renderUploads()"><option value="">Összes feltöltő</option></select></div><div class="uploadWorkspace"><div class="uploadTableCard"><div class="uploadHead"><span>Jármű</span><span>Feltöltő</span><span>Dátum</span><span>Képek</span><span></span></div><div id="uploadList"></div><div id="uploadFooter" class="uploadFooter"></div></div><aside id="photoPanel" class="detailPane"><div id="detailEmpty" class="detailEmpty"><div><div style="font-size:48px">📸</div><b>Válassz ki egy feltöltést</b><p>A jármű fotói és részletei itt jelennek meg.</p></div></div><div id="detailContent" class="hidden"><div class="detailTop"><div><h2 id="photoTitle">Jármű</h2><span id="detailPhotoCount" class="countBadge"></span></div><button class="closeDetail" onclick="closePhotoDetail()">×</button></div><div id="detailMeta" class="detailMeta"></div><div id="photoGrid" class="detailGallery"></div></div></aside></div></section><section id="admin-weekly" class="adminSection"><div class="adminTop"><div><h1>Heti áttekintés</h1><p>Kész és hiányzó járművek heti bontásban.</p></div></div><div class="coming">📅 A következő fejlesztési lépésben ide kerül a teljes heti járműlista.</div></section>
   <section id="admin-fleet" class="adminSection"><div class="adminTop"><div><h1>Flotta kezelése</h1><p>Állandó és cserejárművek kezelése.</p></div></div><div class="coming">🚚 A flotta kezelőfelület következőként építhető be.</div></section>
   <section id="admin-qr" class="adminSection"><div class="adminTop"><div><h1>QR-kódok</h1><p>Dolgozói és jármű QR-kódok kezelése.</p></div></div><div class="coming">▦ Itt lesz a kereshető és nyomtatható QR-központ.</div></section>
  </main>
@@ -160,47 +156,13 @@ async function loadUploads(){
    if(box) box.innerHTML='<p class="error">Hiba a feltöltések betöltésekor: '+esc(error.message||'ismeretlen hiba')+'</p>';
    console.error(error); return;
  }
- uploadRows=data||[];renderUploads();renderRecent();
+ uploadRows=data||[];populateUploadFilters();renderUploads();renderRecent();
 }
-function renderUploads(){
- let s=($('uploadSearch')?.value||'').toLocaleLowerCase('hu'),box=$('uploadList');box.innerHTML='';
- uploadRows.filter(x=>(x.plate+' '+x.uploader_name).toLocaleLowerCase('hu').includes(s)).forEach(x=>{
-   let d=document.createElement('div');d.className='uploadrow';
-   let dt=new Date(x.uploaded_at).toLocaleString('hu-HU');
-   d.innerHTML=`<b>${esc(x.plate)}</b><span>${esc(x.uploader_name||'')}</span><span>${dt} • ${x.photo_count} kép</span><button class="btn yellow">Megnyitás</button>`;
-   d.querySelector('button').onclick=()=>openPhotos(x);box.appendChild(d);
- });
- if(!box.children.length) box.innerHTML='<p>Nincs találat a feltöltések között.</p>';
-}
-async function openPhotos(x){
- $('photoTitle').textContent=`📸 ${x.plate} – ${x.uploader_name}`;
- let g=$('photoGrid'); g.innerHTML='<p>Képek betöltése…</p>'; show('photoPanel');
- const {data,error}=await db.rpc('admin_portal_photo_paths',{p_session:adminSession,p_upload:x.upload_id});
- if(error){g.innerHTML='<p class="error">A képek listája nem tölthető be: '+esc(error.message||'ismeretlen hiba')+'</p>';return}
- g.innerHTML='';
- for(const p of data||[]){
-   const d=document.createElement('div'); d.className='qritem photoCard';
-   d.innerHTML=`<div style="min-height:180px;display:flex;align-items:center;justify-content:center">Kép betöltése…</div><b>${esc(p.original_name||'Fotó')}</b>`;
-   g.appendChild(d);
-   try{
-     const res=await fetch(SUPA_URL+'/functions/v1/admin-photo-preview',{
-       method:'POST',
-       headers:{'Content-Type':'application/json','apikey':SUPA_KEY},
-       body:JSON.stringify({session_token:adminSession,storage_path:p.storage_path})
-     });
-     if(!res.ok) throw new Error(await res.text());
-     const blob=await res.blob();
-     const blobUrl=URL.createObjectURL(blob);
-     d.firstElementChild.outerHTML='<img alt="">';
-     const img=d.querySelector('img'); img.src=blobUrl; img.onclick=()=>window.open(blobUrl,'_blank');
-     const a=document.createElement('a'); a.className='btn gray'; a.href=blobUrl; a.download=p.original_name||'foto'; a.textContent='Letöltés';
-     d.appendChild(a);
-   }catch(e){
-     d.firstElementChild.innerHTML='<span class="error">Nem sikerült betölteni a képet.</span>';
-     console.error(e);
-   }
- }
-}
+function populateUploadFilters(){const vf=$('uploadVehicleFilter'),uf=$('uploadUserFilter');if(!vf||!uf)return;const plates=[...new Set(uploadRows.map(x=>x.plate).filter(Boolean))].sort(),users=[...new Set(uploadRows.map(x=>x.uploader_name).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'hu'));vf.innerHTML='<option value="">Összes jármű</option>'+plates.map(x=>`<option>${esc(x)}</option>`).join('');uf.innerHTML='<option value="">Összes feltöltő</option>'+users.map(x=>`<option>${esc(x)}</option>`).join('')}
+function renderUploads(){const s=($('uploadSearch')?.value||'').toLocaleLowerCase('hu'),v=$('uploadVehicleFilter')?.value||'',u=$('uploadUserFilter')?.value||'',box=$('uploadList');const rows=uploadRows.filter(x=>(x.plate+' '+(x.uploader_name||'')).toLocaleLowerCase('hu').includes(s)&&(!v||x.plate===v)&&(!u||x.uploader_name===u));box.innerHTML=rows.map(x=>{const dt=new Date(x.uploaded_at);return `<div class="uploadItem" data-upload="${x.upload_id}" onclick="selectUpload('${x.upload_id}')"><div class="vehicleCell"><b>${esc(x.plate)}</b><small>Járműfotó feltöltés</small></div><div class="uploaderCell"><b>${esc(x.uploader_name||'–')}</b><small>Feltöltő</small></div><div class="dateCell"><b>${dt.toLocaleDateString('hu-HU')}</b><small>${dt.toLocaleTimeString('hu-HU',{hour:'2-digit',minute:'2-digit'})}</small></div><div><span class="countBadge">${Number(x.photo_count||0)} fotó</span></div><div class="arrowCell">›</div></div>`}).join('');if(!rows.length)box.innerHTML='<div style="padding:30px;text-align:center;color:#777">Nincs találat.</div>';$('uploadFooter').textContent=rows.length+' feltöltés megjelenítve'}
+async function selectUpload(id){const x=uploadRows.find(r=>r.upload_id===id);if(!x)return;document.querySelectorAll('.uploadItem').forEach(el=>el.classList.toggle('selected',el.dataset.upload===id));await openPhotos(x)}
+function closePhotoDetail(){show('detailEmpty');hide('detailContent');document.querySelectorAll('.uploadItem').forEach(x=>x.classList.remove('selected'))}
+async function openPhotos(x){hide('detailEmpty');show('detailContent');$('photoTitle').textContent=x.plate;$('detailPhotoCount').textContent=Number(x.photo_count||0)+' fotó';const dt=new Date(x.uploaded_at);$('detailMeta').innerHTML=`<div><b>🚚 ${esc(x.plate)}</b><span>Jármű</span></div><div><b>👤 ${esc(x.uploader_name||'–')}</b><span>Feltöltő</span></div><div><b>📅 ${dt.toLocaleDateString('hu-HU')} ${dt.toLocaleTimeString('hu-HU',{hour:'2-digit',minute:'2-digit'})}</b><span>Feltöltés ideje</span></div>`;const g=$('photoGrid');g.innerHTML='<p>Képek betöltése…</p>';const {data,error}=await db.rpc('admin_portal_photo_paths',{p_session:adminSession,p_upload:x.upload_id});if(error){if(String(error.message||'').includes('ADMIN_SESSION_REQUIRED'))return handleAdminSessionExpired();g.innerHTML='<p class="error">A képek nem tölthetők be.</p>';return}g.innerHTML='';if(!(data||[]).length){g.innerHTML='<p>Nincs kép.</p>';return}for(const p of data||[]){const d=document.createElement('div');d.className='detailPhoto';d.innerHTML='<div style="height:100%;display:grid;place-items:center">Betöltés…</div>';g.appendChild(d);try{const res=await fetch(SUPA_URL+'/functions/v1/admin-photo-preview',{method:'POST',headers:{'Content-Type':'application/json','apikey':SUPA_KEY},body:JSON.stringify({session_token:adminSession,storage_path:p.storage_path})});if(!res.ok)throw Error();const blob=await res.blob(),url=URL.createObjectURL(blob);d.innerHTML='<img alt=""><a title="Letöltés">↓</a>';d.querySelector('img').src=url;d.querySelector('img').onclick=()=>window.open(url,'_blank');d.querySelector('a').href=url;d.querySelector('a').download=p.original_name||'foto'}catch(e){d.innerHTML='<div style="height:100%;display:grid;place-items:center;color:#b00">Nem tölthető be</div>'}}}
 function handleAdminSessionExpired(){
  sessionStorage.removeItem('ff_admin_session');sessionStorage.removeItem('ff_admin_name');
  adminSession=null;adminName='';
