@@ -1,12 +1,9 @@
-Flottafotó V8.1 – QR javítás
-
-A hiba oka a két QR JavaScript-könyvtár ütközése volt.
-A rendszer most egységesen a már meglévő qrcodejs könyvtárat használja.
-
-Ellenőrizve az adatbázisban:
-- 65/65 felhasználónak van QR-tokenje
-- 50/50 járműnek van QR-tokenje
-
-Teendő:
-index.html csere -> Commit changes -> Vercel.
-Utána QR-kódok fül -> dolgozó vagy jármű kiválasztása.
+Flottafotó V9 – irányított mobil fotózás
+- Saját QR -> TGK QR -> automatikus járműazonosítás
+- 8 kötelező nézet: első/hátsó, két oldal, négy sarok
+- A képek csak a telefonon gyűlnek fotózás közben
+- Egyetlen feltöltés a végén, mind a 8 képpel
+- Bármelyik kép újrafotózható feltöltés előtt
+- Utolsó feltöltés fül az adott TGK legutóbbi képsorozatához
+- A photo_files rekordok photo_position mezővel készülnek
+Megjegyzés: a járműábra most egységes felülnézeti TGK-sziluett. A típusonkénti Sprinter/Transit/Boxer/Movano grafikák a következő vizuális körben adhatók hozzá.
