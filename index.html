@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="hu"><head>
+<!-- Flottafoto V10.6 - no standalone damages menu -->
 <!-- Flottafoto V10.3 uploads-only-damages --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Flottafotó V5</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -139,8 +140,8 @@ body.adminMode .wrap{max-width:none;margin:0;padding:0}
   position:relative;min-height:0;height:100%;overflow:hidden;background:#151515;border-radius:12px;
   box-shadow:0 7px 24px #0002;touch-action:none;
 }
-#damageWorkspaceOverlay .dwStage{position:absolute;inset:0;transform-origin:0 0;will-change:transform}
-#damageWorkspaceOverlay .dwStage>img{width:100%;height:100%;object-fit:contain;display:block;user-select:none;-webkit-user-drag:none}
+#damageWorkspaceOverlay .dwStage{position:absolute;left:0;top:0;transform-origin:0 0;will-change:transform,width,height}
+#damageWorkspaceOverlay .dwStage>img{width:100%;height:100%;object-fit:contain;display:block;user-select:none;-webkit-user-drag:none;image-rendering:auto}
 #damageWorkspaceOverlay .dwMini{position:absolute;right:14px;bottom:14px;width:145px;border:2px solid #fff;border-radius:9px;overflow:hidden;background:#111;box-shadow:0 4px 18px #0008;z-index:12;pointer-events:none}
 #damageWorkspaceOverlay .dwMini img{width:100%;display:block}.dwMiniView{position:absolute;border:2px solid #ef2d2d;box-sizing:border-box}
 #damageWorkspaceOverlay .dwHelp{padding-top:9px;font-size:12px;color:#626c77;display:flex;justify-content:space-between;gap:10px}
@@ -366,9 +367,14 @@ let damageZoom={scale:1,tx:0,ty:0,min:1,max:8,panning:false,lastX:0,lastY:0,pinc
 let damageEditorContext=[],damageThumbUrls=new Map();
 function closeDamageWorkspace(){const x=document.getElementById('damageWorkspaceOverlay');if(x)x.remove()}
 function applyDamageZoom(){
-  const st=$('damageZoomStage'),pct=$('damageZoomPct');if(!st)return;
-  st.style.transform=`translate(${damageZoom.tx}px,${damageZoom.ty}px) scale(${damageZoom.scale})`;
-  if(pct)pct.textContent=Math.round(damageZoom.scale*100)+'%';updateDamageMiniMap();
+  const st=$('damageZoomStage'),pct=$('damageZoomPct'),w=$('damageZoomWrap');if(!st||!w)return;
+  // Fontos: nem CSS scale-lel nagyítjuk a már kirajzolt képet.
+  // A stage tényleges CSS méretét növeljük, így a böngésző az eredeti képfájlból renderel újra.
+  st.style.width=(w.clientWidth*damageZoom.scale)+'px';
+  st.style.height=(w.clientHeight*damageZoom.scale)+'px';
+  st.style.transform=`translate(${damageZoom.tx}px,${damageZoom.ty}px)`;
+  if(pct)pct.textContent=Math.round(damageZoom.scale*100)+'%';
+  updateDamageMiniMap();
 }
 function clampDamagePan(){
   const w=$('damageZoomWrap');if(!w)return;const s=damageZoom.scale;
@@ -433,7 +439,7 @@ async function openDamageEditor(photoId,src){
           <div><h2 id="damagePhotoLabel">${esc(cur?.photo_position||'Fotó')}</h2></div>
           <div class="dwZoomCtl">
             <button onclick="setDamageZoom(damageZoom.scale-.25)">−</button><span id="damageZoomPct" class="dwZoomPct">100%</span>
-            <button onclick="setDamageZoom(damageZoom.scale+.25)">+</button><button onclick="resetDamageZoom()">Képhez igazítás</button>
+            <button onclick="setDamageZoom(damageZoom.scale+.25)">+</button><button onclick="resetDamageZoom()">Képhez igazítás</button><button onclick="setDamageZoom(8)">800%</button>
           </div>
         </div>
         <div id="damageZoomWrap" class="dwCanvas">
@@ -444,7 +450,7 @@ async function openDamageEditor(photoId,src){
           </div>
           <div class="dwMini"><img id="damageMiniImg" src="${src}"><div id="damageMiniViewport" class="dwMiniView"></div></div>
         </div>
-        <div class="dwHelp"><span>Húzd a képet a mozgatáshoz &nbsp; | &nbsp; Görgővel zoomolsz &nbsp; | &nbsp; <b>Shift + húzás a karikázáshoz</b></span><span>Mobilon: kétujjas nagyítás</span></div>
+        <div class="dwHelp"><span>Húzd a képet a mozgatáshoz &nbsp; | &nbsp; Görgővel zoomolsz &nbsp; | &nbsp; <b>Shift + húzás a karikázáshoz</b> &nbsp; | &nbsp; Eredeti képfájlból újrarenderelve</span><span>Mobilon: kétujjas nagyítás</span></div>
       </main>
       <aside class="dwRight">
         <h2>Sérülés jelölése</h2>
@@ -461,7 +467,7 @@ async function openDamageEditor(photoId,src){
     </div>`;
   document.body.appendChild(o);
   const wrap=$('damageZoomWrap'),box=$('drawBox');resetDamageZoom();renderDamageThumbs(photoId);
-  const lp=e=>{const r=wrap.getBoundingClientRect();return{x:(e.clientX-r.left-damageZoom.tx)/damageZoom.scale,y:(e.clientY-r.top-damageZoom.ty)/damageZoom.scale,w:wrap.clientWidth,h:wrap.clientHeight}};
+  const lp=e=>{const r=wrap.getBoundingClientRect();return{x:(e.clientX-r.left-damageZoom.tx),y:(e.clientY-r.top-damageZoom.ty),w:wrap.clientWidth*damageZoom.scale,h:wrap.clientHeight*damageZoom.scale}};
   wrap.addEventListener('wheel',e=>{e.preventDefault();const r=wrap.getBoundingClientRect();setDamageZoom(damageZoom.scale*(e.deltaY<0?1.12:.89),e.clientX-r.left,e.clientY-r.top)},{passive:false});
   wrap.onpointerdown=e=>{
     if(e.target.classList.contains('savedDamageMark'))return;
@@ -516,7 +522,7 @@ async function loadAdminDamages(photoId){
         </div>
         <div style="margin-top:7px">
           <button class="smallBtn" onclick="focusDamage('${d.id}')">👁 Mutasd</button>
-          ${d.status==='active'?`<button class="smallBtn" onclick="setDamageStatus('${d.id}','repaired')">Javítva</button>`:''}
+          ${d.status==='active'?``:''}
           <button class="smallBtn" style="color:#c5161d;border-color:#e7a5a8" onclick="deleteDamage('${d.id}')">🗑 Törlés</button>
         </div>
       </div>`;

@@ -1,7 +1,6 @@
-V10.4 – Sérülésjelölő finomítás
-- Felső bal oldali 'Flottafotó' helyett az aktuális TGK rendszáma látszik.
-- A sérülésjelölő felső sávjából kikerült: Feltöltések, Flotta, Heti ZIP.
-- Zoom maximum 800%.
-- Sérüléskarika vékonyabb (2 px).
-- Sérülés history megmutatja: típus, megjegyzés, ki jelölte, mikor jelölte.
-- A többi admin modulhoz nem nyúlt.
+V10.6
+- A bal oldali admin menüből a Sérülések menüpont eltávolítva.
+- Külön Sérülések admin oldal nincs.
+- Sérülést továbbra is a Feltöltések képein lehet jelölni és ugyanott megtekinteni/kezelni.
+- A V10.5 nagyfelbontású, max. 800%-os zoomja megmaradt.
+- Más admin menüpontot/funkciót nem módosítottunk.
