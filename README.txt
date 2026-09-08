@@ -1,8 +1,4 @@
-V9.6 – Egyszerű sérüléslista
-- A Sérülések fül most listanézet.
-- Dátum szerint csökkenő sorrend.
-- Látszik: jelölés időpontja, TGK, jelölő admin neve, sérülés típusa.
-- 'Megnyitás' közvetlenül arra a képre nyit, amin a sérülés jelölve van.
-- A képen a korábban mentett karika visszajelenik.
-- Javítva és Törlés funkciók megmaradnak a megnyitott képnél.
-- Új jelöléseknél az admin neve automatikusan mentődik.
+V9.6.1 – Admin belépés javítás
+- A futár kezdőoldalon külön, jól látható Admin belépés gomb.
+- ?admin=1 megnyitáskor session nélkül mindig megjelenik a belépési űrlap.
+- Megmarad minden V9.6 funkció, köztük az egyszerű sérüléslista.
