@@ -1,7 +1,8 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="hu"><head>
 <!-- Flottafoto V10.6 - no standalone damages menu -->
-<!-- Flottafoto V10.3 uploads-only-damages --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<!-- Flottafoto V10.3 uploads-only-damages --><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
 <title>Flottafotó V5</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://unpkg.com/html5-qrcode"></script>
@@ -164,78 +165,78 @@ body.adminMode .wrap{max-width:none;margin:0;padding:0}
 
 </style></head><body>
 <header><b>FLOTTAFOTÓ</b><a class="admin" href="?admin=1">Admin belépés</a></header><main class="wrap">
-<section id="start" class="card"><div style="display:flex;justify-content:flex-end;margin:-4px 0 8px"><button class="btn gray" style="width:auto;margin:0;padding:9px 13px" onclick="openAdminLogin()">🔐 Admin belépés</button></div><div class="step">1. LÉPÉS</div><div class="big">👤 Saját QR-kód</div><p>Olvasd be a személyes QR-kódodat a telefon kamerájával. Ha a QR nyitotta meg ezt az oldalt, automatikusan felismerünk.</p><button class="btn red" onclick="scan('user')">QR beolvasása</button></section>
-<section id="userCard" class="card ok hidden"><div class="step">AZONOSÍTVA</div><div id="userName" class="big"></div><button class="btn gray" onclick="resetAll()">Másik személy</button></section>
-<section id="vehicleCard" class="card hidden"><div class="step">2. LÉPÉS</div><div class="big">🚚 TGK QR-kód</div><p>Most olvasd be a járműben elhelyezett QR-kódot.</p><button class="btn red" onclick="scan('vehicle')">TGK QR beolvasása</button></section>
-<section id="vehicleOk" class="card ok hidden"><div class="step">JÁRMŰ AZONOSÍTVA</div><div id="plate" class="big"></div><div id="vehicleInfo"></div></section>
-<section id="photoCard" class="card hidden">
+<section class="card" id="start"><div style="display:flex;justify-content:flex-end;margin:-4px 0 8px"><button class="btn gray" onclick="openAdminLogin()" style="width:auto;margin:0;padding:9px 13px">🔐 Admin belépés</button></div><div class="step">1. LÉPÉS</div><div class="big">👤 Saját QR-kód</div><p>Olvasd be a személyes QR-kódodat a telefon kamerájával. Ha a QR nyitotta meg ezt az oldalt, automatikusan felismerünk.</p><button class="btn red" onclick="scan('user')">QR beolvasása</button></section>
+<section class="card ok hidden" id="userCard"><div class="step">AZONOSÍTVA</div><div class="big" id="userName"></div><button class="btn gray" onclick="resetAll()">Másik személy</button></section>
+<section class="card hidden" id="vehicleCard"><div class="step">2. LÉPÉS</div><div class="big">🚚 TGK QR-kód</div><p>Most olvasd be a járműben elhelyezett QR-kódot.</p><button class="btn red" onclick="scan('vehicle')">TGK QR beolvasása</button></section>
+<section class="card ok hidden" id="vehicleOk"><div class="step">JÁRMŰ AZONOSÍTVA</div><div class="big" id="plate"></div><div id="vehicleInfo"></div></section>
+<section class="card hidden" id="photoCard">
 <div class="step">3. LÉPÉS</div><div class="big">📸 <span id="mobilePlateTitle">Járműfotók</span></div>
-<div class="mobileTabs"><button id="newPhotoTab" class="active" onclick="mobileTab('new')">Új fotózás</button><button id="lastPhotoTab" onclick="mobileTab('last')">Utolsó feltöltés</button></div>
+<div class="mobileTabs"><button class="active" id="newPhotoTab" onclick="mobileTab('new')">Új fotózás</button><button id="lastPhotoTab" onclick="mobileTab('last')">Utolsó feltöltés</button></div>
 <div id="guidedCapture">
- <div class="captureProgress" id="captureProgress">0 / 8 kép elkészült</div>
- <div class="captureHint">Koppints a megfelelő nézetre, majd készítsd el a képet.</div>
- <div class="vehicleStage">
-  <div class="vanTop" id="vanTop"></div>
-  <button class="shot p-front" data-pos="front" onclick="pickShot('front')">Első rész<br>📷</button>
-  <button class="shot p-fl" data-pos="front_left" onclick="pickShot('front_left')">Bal első sarok<br>📷</button>
-  <button class="shot p-fr" data-pos="front_right" onclick="pickShot('front_right')">Jobb első sarok<br>📷</button>
-  <button class="shot p-left" data-pos="left" onclick="pickShot('left')">Bal oldal<br>📷</button>
-  <button class="shot p-right" data-pos="right" onclick="pickShot('right')">Jobb oldal<br>📷</button>
-  <button class="shot p-rl" data-pos="rear_left" onclick="pickShot('rear_left')">Bal hátsó sarok<br>📷</button>
-  <button class="shot p-rr" data-pos="rear_right" onclick="pickShot('rear_right')">Jobb hátsó sarok<br>📷</button>
-  <button class="shot p-rear" data-pos="rear" onclick="pickShot('rear')">Hátsó rész<br>📷</button>
- </div>
- <input id="guidedCamera" hidden type="file" accept="image/*" capture="environment">
- <div id="reviewWrap" class="hidden"><h3>Ellenőrzés feltöltés előtt</h3><div id="reviewGrid" class="reviewGrid"></div></div>
- <button id="uploadBtn" class="btn red" disabled onclick="uploadAll()">8 FOTÓ FELTÖLTÉSE</button>
- <div id="status" class="status hidden"></div>
+<div class="captureProgress" id="captureProgress">0 / 8 kép elkészült</div>
+<div class="captureHint">Koppints a megfelelő nézetre, majd készítsd el a képet.</div>
+<div class="vehicleStage">
+<div class="vanTop" id="vanTop"></div>
+<button class="shot p-front" data-pos="front" onclick="pickShot('front')">Első rész<br/>📷</button>
+<button class="shot p-fl" data-pos="front_left" onclick="pickShot('front_left')">Bal első sarok<br/>📷</button>
+<button class="shot p-fr" data-pos="front_right" onclick="pickShot('front_right')">Jobb első sarok<br/>📷</button>
+<button class="shot p-left" data-pos="left" onclick="pickShot('left')">Bal oldal<br/>📷</button>
+<button class="shot p-right" data-pos="right" onclick="pickShot('right')">Jobb oldal<br/>📷</button>
+<button class="shot p-rl" data-pos="rear_left" onclick="pickShot('rear_left')">Bal hátsó sarok<br/>📷</button>
+<button class="shot p-rr" data-pos="rear_right" onclick="pickShot('rear_right')">Jobb hátsó sarok<br/>📷</button>
+<button class="shot p-rear" data-pos="rear" onclick="pickShot('rear')">Hátsó rész<br/>📷</button>
 </div>
-<div id="lastUploadPane" class="hidden"><div id="lastUploadContent" class="status">Betöltés…</div></div>
+<input accept="image/*" capture="environment" hidden="" id="guidedCamera" type="file"/>
+<div class="hidden" id="reviewWrap"><h3>Ellenőrzés feltöltés előtt</h3><div class="reviewGrid" id="reviewGrid"></div></div>
+<button class="btn red" disabled="" id="uploadBtn" onclick="uploadAll()">8 FOTÓ FELTÖLTÉSE</button>
+<div class="status hidden" id="status"></div>
+</div>
+<div class="hidden" id="lastUploadPane"><div class="status" id="lastUploadContent">Betöltés…</div></div>
 </section>
-<section id="scanner" class="card hidden"><div class="big">QR beolvasása</div><div id="reader"></div><button class="btn gray" onclick="stopScan()">Mégse</button></section>
-<section id="adminPage" class="card hidden">
+<section class="card hidden" id="scanner"><div class="big">QR beolvasása</div><div id="reader"></div><button class="btn gray" onclick="stopScan()">Mégse</button></section>
+<section class="card hidden" id="adminPage">
 <div id="adminLogin">
-  <div class="big">🔐 Flottafotó Admin</div><p>Belépés felhasználónévvel és jelszóval.</p>
-  <label>Felhasználónév</label><input id="adminUser" autocomplete="username" placeholder="pl. amik.barnabas">
-  <label>Jelszó</label><input id="adminPass" type="password" autocomplete="current-password">
-  <button class="btn red" onclick="adminLogin()">Belépés</button><button class="btn gray" onclick="location.href=location.pathname">Vissza a fotózáshoz</button><p id="adminErr" class="error"></p>
+<div class="big">🔐 Flottafotó Admin</div><p>Belépés felhasználónévvel és jelszóval.</p>
+<label>Felhasználónév</label><input autocomplete="username" id="adminUser" placeholder="pl. amik.barnabas"/>
+<label>Jelszó</label><input autocomplete="current-password" id="adminPass" type="password"/>
+<button class="btn red" onclick="adminLogin()">Belépés</button><button class="btn gray" onclick="location.href=location.pathname">Vissza a fotózáshoz</button><p class="error" id="adminErr"></p>
 </div>
-<div id="changePass" class="hidden">
-  <div class="big">🔑 Első belépés – jelszócsere</div><p>A kezdő jelszót biztonsági okból most meg kell változtatnod.</p>
-  <label>Új jelszó</label><input id="newPass1" type="password"><label>Új jelszó újra</label><input id="newPass2" type="password">
-  <button class="btn red" onclick="changeAdminPassword()">Jelszó mentése</button><p id="passErr" class="error"></p>
+<div class="hidden" id="changePass">
+<div class="big">🔑 Első belépés – jelszócsere</div><p>A kezdő jelszót biztonsági okból most meg kell változtatnod.</p>
+<label>Új jelszó</label><input id="newPass1" type="password"/><label>Új jelszó újra</label><input id="newPass2" type="password"/>
+<button class="btn red" onclick="changeAdminPassword()">Jelszó mentése</button><p class="error" id="passErr"></p>
 </div>
-<div id="adminDash" class="hidden adminLayout">
- <aside class="adminSide">
-  <div class="adminBrand">🚚 Flottafotó Admin</div>
-  <nav class="adminNav">
-   <button class="active" data-section="overview" onclick="adminSection('overview',this)">🏠 &nbsp; Áttekintés</button>
-   <button data-section="uploads" onclick="adminSection('uploads',this)">⬆️ &nbsp; Feltöltések</button>
-   <button data-section="damages" onclick="adminSection('damages',this)">⚠️ &nbsp; Sérülések</button>
-   <button data-section="weekly" onclick="adminSection('weekly',this)">📅 &nbsp; Heti áttekintés</button>
-   <button data-section="fleet" onclick="adminSection('fleet',this)">🚚 &nbsp; Flotta kezelése</button>
-   <button data-section="qr" onclick="adminSection('qr',this)">▦ &nbsp; QR-kódok</button>
-  </nav>
-  <div class="adminProfile"><div class="adminProfileBox">👤 <span id="adminSideName"></span><br><small>Adminisztrátor</small></div><button class="logoutLink" onclick="adminLogout()">↪ Kijelentkezés</button></div>
- </aside>
- <main class="adminMain">
-  <section id="admin-overview" class="adminSection active">
-   <div class="adminTop"><div><h1>Áttekintés</h1><p>Itt láthatod a flotta aktuális állapotát és a legfontosabb információkat.</p></div><div class="adminTopActions"><button class="smallBtn" onclick="loadAdminOverview()">↻ Frissítés</button></div></div>
-   <div class="kpis">
-    <div class="kpi"><div class="kpiIcon">🚚</div><div><small>Összes jármű</small><strong id="kpiTotal">–</strong></div></div>
-    <div class="kpi green"><div class="kpiIcon">✓</div><div><small>Heti kész</small><strong id="kpiDone">–</strong></div></div>
-    <div class="kpi redK"><div class="kpiIcon">!</div><div><small>Hiányzik</small><strong id="kpiMissing">–</strong></div></div>
-    <div class="kpi blue"><div class="kpiIcon">📷</div><div><small>Mai feltöltések</small><strong id="kpiToday">–</strong></div></div>
-   </div>
-   <div class="dashGrid">
-    <div class="dashCard"><h2>Heti teljesítés áttekintés</h2><div class="progressBig"><span id="progressDone">–</span> <span style="font-size:22px;color:#777">/ <span id="progressTotal">–</span></span></div><div id="progressPct" style="color:#666">–% teljesítettség</div><div class="progressTrack"><div id="progressFill" class="progressFill" style="width:0%"></div></div><small>Cél: 100% heti fotófeltöltés</small></div>
-    <div class="dashCard"><h2>Legutóbbi feltöltések</h2><div id="recentUploads">Betöltés…</div><button class="smallBtn" style="margin-top:14px" onclick="adminSection('uploads',document.querySelector('[data-section=uploads]'))">Összes feltöltés →</button></div>
-    <div class="dashCard"><h2>Hiányzó járművek ezen a héten</h2><div id="missingVehicles">Betöltés…</div></div>
-    <div class="dashCard"><h2>Heti állapot</h2><div id="statusSummary" style="padding:12px 0">Betöltés…</div></div>
-   </div>
-  </section>
-  <section id="admin-uploads" class="adminSection"><div class="adminTop"><div><h1>Feltöltések</h1><p>Fotófeltöltések keresése, szűrése és megtekintése.</p></div><div class="adminTopActions"><button class="smallBtn" onclick="loadUploads()">↻ Frissítés</button></div></div><div class="uploadFilters"><input id="uploadSearch" placeholder="🔎 Keresés rendszámra vagy feltöltő nevére…" oninput="renderUploads()"><select id="uploadVehicleFilter" onchange="renderUploads()"><option value="">Összes jármű</option></select><select id="uploadUserFilter" onchange="renderUploads()"><option value="">Összes feltöltő</option></select></div><div class="uploadWorkspace"><div class="uploadTableCard"><div class="uploadHead"><span>Jármű</span><span>Feltöltő</span><span>Dátum</span><span>Képek</span><span></span></div><div id="uploadList"></div><div id="uploadFooter" class="uploadFooter"></div></div><aside id="photoPanel" class="detailPane"><div id="detailEmpty" class="detailEmpty"><div><div style="font-size:48px">📸</div><b>Válassz ki egy feltöltést</b><p>A jármű fotói és részletei itt jelennek meg.</p></div></div><div id="detailContent" class="hidden"><div class="detailTop"><div><h2 id="photoTitle">Jármű</h2><span id="detailPhotoCount" class="countBadge"></span></div><button class="closeDetail" onclick="closePhotoDetail()">×</button></div><div id="detailMeta" class="detailMeta"></div><div id="photoGrid" class="detailGallery"></div></div></aside></div></section><section id="admin-weekly" class="adminSection"><div class="adminTop"><div><h1>Heti áttekintés</h1><p>A teljes flotta heti fotózási állapota.</p></div></div><div class="statRow"><div class="statBox active" onclick="weeklyFilter='all';renderWeekly()"><strong id="wAll">–</strong>Összes</div><div class="statBox" onclick="weeklyFilter='done';renderWeekly()"><strong id="wDone">–</strong>✅ Kész</div><div class="statBox" onclick="weeklyFilter='missing';renderWeekly()"><strong id="wMissing">–</strong>❗ Hiányzik</div><div class="statBox"><strong id="wPct">–</strong>Teljesítettség</div></div><div class="v8bar"><button class="smallBtn" onclick="changeWeek(-7)">‹ Előző hét</button><input id="weekDate" type="date" onchange="loadWeekly()"><button class="smallBtn" onclick="changeWeek(7)">Következő hét ›</button><input id="weekSearch" placeholder="Keresés rendszámra…" oninput="renderWeekly()"></div><div class="dataCard"><div class="dataHead"><span>Rendszám</span><span>Jármű</span><span>Státusz</span><span>Fotók</span><span>Utolsó feltöltés</span><span></span></div><div id="weeklyList"></div></div></section><section id="admin-fleet" class="adminSection"><div class="adminTop"><div><h1>Flotta kezelése</h1><p>Állandó és cserejárművek kezelése.</p></div><button class="btn yellow" style="width:auto" onclick="vehicleModal()">＋ Új jármű hozzáadása</button></div><div class="statRow"><div class="statBox active"><strong id="fActive">–</strong>Aktív jármű</div><div class="statBox"><strong id="fPermanent">–</strong>Állandó flotta</div><div class="statBox"><strong id="fTemp">–</strong>Csere / bérelt</div><div class="statBox"><strong id="fInactive">–</strong>Inaktív</div></div><div class="v8bar"><input id="fleetSearch" placeholder="Keresés rendszámra, márkára…" oninput="renderFleet()"><select id="fleetStatus" onchange="renderFleet()"><option value="active">Aktív</option><option value="inactive">Inaktív</option><option value="all">Összes</option></select></div><div class="dataCard"><div class="dataHead"><span>Rendszám</span><span>Márka / modell</span><span>Hajtás</span><span>Típus</span><span>Státusz</span><span></span></div><div id="fleetList"></div></div></section><section id="admin-qr" class="adminSection"><div class="adminTop"><div><h1>QR-kódok</h1><p>Dolgozói és jármű QR-kódok kezelése.</p></div><button class="btn yellow" style="width:auto" onclick="workerModal()">＋ Új munkavállaló</button></div><div class="qrLayout"><div><div class="tabs8"><button id="qWorkerTab" class="active" onclick="qrMode='worker';renderQR()">👤 Dolgozói QR-kódok</button><button id="qVehicleTab" onclick="qrMode='vehicle';renderQR()">🚚 Jármű QR-kódok</button></div><div class="v8bar"><input id="qrSearch" placeholder="Keresés…" oninput="renderQR()"></div><div class="dataCard"><div id="qrList"></div></div></div><aside class="qrPreview"><div id="qrEmpty"><h2>QR-kód előnézet</h2><p>Válassz ki egy dolgozót vagy járművet.</p></div><div id="qrSelected" class="hidden"><h2 id="qrTitle"></h2><div id="qrCanvas" class="qrCanvas" style="margin:18px auto;display:flex;align-items:center;justify-content:center"></div><p id="qrSub"></p><button class="btn yellow" onclick="downloadQR()">⬇ QR-kód letöltése</button><button class="btn gray" onclick="window.print()">🖨 Nyomtatás</button></div></aside></div></section>
- </main>
+<div class="hidden adminLayout" id="adminDash">
+<aside class="adminSide">
+<div class="adminBrand">🚚 Flottafotó Admin</div>
+<nav class="adminNav">
+<button class="active" data-section="overview" onclick="adminSection('overview',this)">🏠   Áttekintés</button>
+<button data-section="uploads" onclick="adminSection('uploads',this)">⬆️   Feltöltések</button>
+
+<button data-section="weekly" onclick="adminSection('weekly',this)">📅   Heti áttekintés</button>
+<button data-section="fleet" onclick="adminSection('fleet',this)">🚚   Flotta kezelése</button>
+<button data-section="qr" onclick="adminSection('qr',this)">▦   QR-kódok</button>
+</nav>
+<div class="adminProfile"><div class="adminProfileBox">👤 <span id="adminSideName"></span><br/><small>Adminisztrátor</small></div><button class="logoutLink" onclick="adminLogout()">↪ Kijelentkezés</button></div>
+</aside>
+<main class="adminMain">
+<section class="adminSection active" id="admin-overview">
+<div class="adminTop"><div><h1>Áttekintés</h1><p>Itt láthatod a flotta aktuális állapotát és a legfontosabb információkat.</p></div><div class="adminTopActions"><button class="smallBtn" onclick="loadAdminOverview()">↻ Frissítés</button></div></div>
+<div class="kpis">
+<div class="kpi"><div class="kpiIcon">🚚</div><div><small>Összes jármű</small><strong id="kpiTotal">–</strong></div></div>
+<div class="kpi green"><div class="kpiIcon">✓</div><div><small>Heti kész</small><strong id="kpiDone">–</strong></div></div>
+<div class="kpi redK"><div class="kpiIcon">!</div><div><small>Hiányzik</small><strong id="kpiMissing">–</strong></div></div>
+<div class="kpi blue"><div class="kpiIcon">📷</div><div><small>Mai feltöltések</small><strong id="kpiToday">–</strong></div></div>
+</div>
+<div class="dashGrid">
+<div class="dashCard"><h2>Heti teljesítés áttekintés</h2><div class="progressBig"><span id="progressDone">–</span> <span style="font-size:22px;color:#777">/ <span id="progressTotal">–</span></span></div><div id="progressPct" style="color:#666">–% teljesítettség</div><div class="progressTrack"><div class="progressFill" id="progressFill" style="width:0%"></div></div><small>Cél: 100% heti fotófeltöltés</small></div>
+<div class="dashCard"><h2>Legutóbbi feltöltések</h2><div id="recentUploads">Betöltés…</div><button class="smallBtn" onclick="adminSection('uploads',document.querySelector('[data-section=uploads]'))" style="margin-top:14px">Összes feltöltés →</button></div>
+<div class="dashCard"><h2>Hiányzó járművek ezen a héten</h2><div id="missingVehicles">Betöltés…</div></div>
+<div class="dashCard"><h2>Heti állapot</h2><div id="statusSummary" style="padding:12px 0">Betöltés…</div></div>
+</div>
+</section>
+<section class="adminSection" id="admin-uploads"><div class="adminTop"><div><h1>Feltöltések</h1><p>Fotófeltöltések keresése, szűrése és megtekintése.</p></div><div class="adminTopActions"><button class="smallBtn" onclick="loadUploads()">↻ Frissítés</button></div></div><div class="uploadFilters"><input id="uploadSearch" oninput="renderUploads()" placeholder="🔎 Keresés rendszámra vagy feltöltő nevére…"/><select id="uploadVehicleFilter" onchange="renderUploads()"><option value="">Összes jármű</option></select><select id="uploadUserFilter" onchange="renderUploads()"><option value="">Összes feltöltő</option></select></div><div class="uploadWorkspace"><div class="uploadTableCard"><div class="uploadHead"><span>Jármű</span><span>Feltöltő</span><span>Dátum</span><span>Képek</span><span></span></div><div id="uploadList"></div><div class="uploadFooter" id="uploadFooter"></div></div><aside class="detailPane" id="photoPanel"><div class="detailEmpty" id="detailEmpty"><div><div style="font-size:48px">📸</div><b>Válassz ki egy feltöltést</b><p>A jármű fotói és részletei itt jelennek meg.</p></div></div><div class="hidden" id="detailContent"><div class="detailTop"><div><h2 id="photoTitle">Jármű</h2><span class="countBadge" id="detailPhotoCount"></span></div><button class="closeDetail" onclick="closePhotoDetail()">×</button></div><div class="detailMeta" id="detailMeta"></div><div class="detailGallery" id="photoGrid"></div></div></aside></div></section><section class="adminSection" id="admin-weekly"><div class="adminTop"><div><h1>Heti áttekintés</h1><p>A teljes flotta heti fotózási állapota.</p></div></div><div class="statRow"><div class="statBox active" onclick="weeklyFilter='all';renderWeekly()"><strong id="wAll">–</strong>Összes</div><div class="statBox" onclick="weeklyFilter='done';renderWeekly()"><strong id="wDone">–</strong>✅ Kész</div><div class="statBox" onclick="weeklyFilter='missing';renderWeekly()"><strong id="wMissing">–</strong>❗ Hiányzik</div><div class="statBox"><strong id="wPct">–</strong>Teljesítettség</div></div><div class="v8bar"><button class="smallBtn" onclick="changeWeek(-7)">‹ Előző hét</button><input id="weekDate" onchange="loadWeekly()" type="date"/><button class="smallBtn" onclick="changeWeek(7)">Következő hét ›</button><input id="weekSearch" oninput="renderWeekly()" placeholder="Keresés rendszámra…"/></div><div class="dataCard"><div class="dataHead"><span>Rendszám</span><span>Jármű</span><span>Státusz</span><span>Fotók</span><span>Utolsó feltöltés</span><span></span></div><div id="weeklyList"></div></div></section><section class="adminSection" id="admin-fleet"><div class="adminTop"><div><h1>Flotta kezelése</h1><p>Állandó és cserejárművek kezelése.</p></div><button class="btn yellow" onclick="vehicleModal()" style="width:auto">＋ Új jármű hozzáadása</button></div><div class="statRow"><div class="statBox active"><strong id="fActive">–</strong>Aktív jármű</div><div class="statBox"><strong id="fPermanent">–</strong>Állandó flotta</div><div class="statBox"><strong id="fTemp">–</strong>Csere / bérelt</div><div class="statBox"><strong id="fInactive">–</strong>Inaktív</div></div><div class="v8bar"><input id="fleetSearch" oninput="renderFleet()" placeholder="Keresés rendszámra, márkára…"/><select id="fleetStatus" onchange="renderFleet()"><option value="active">Aktív</option><option value="inactive">Inaktív</option><option value="all">Összes</option></select></div><div class="dataCard"><div class="dataHead"><span>Rendszám</span><span>Márka / modell</span><span>Hajtás</span><span>Típus</span><span>Státusz</span><span></span></div><div id="fleetList"></div></div></section><section class="adminSection" id="admin-qr"><div class="adminTop"><div><h1>QR-kódok</h1><p>Dolgozói és jármű QR-kódok kezelése.</p></div><button class="btn yellow" onclick="workerModal()" style="width:auto">＋ Új munkavállaló</button></div><div class="qrLayout"><div><div class="tabs8"><button class="active" id="qWorkerTab" onclick="qrMode='worker';renderQR()">👤 Dolgozói QR-kódok</button><button id="qVehicleTab" onclick="qrMode='vehicle';renderQR()">🚚 Jármű QR-kódok</button></div><div class="v8bar"><input id="qrSearch" oninput="renderQR()" placeholder="Keresés…"/></div><div class="dataCard"><div id="qrList"></div></div></div><aside class="qrPreview"><div id="qrEmpty"><h2>QR-kód előnézet</h2><p>Válassz ki egy dolgozót vagy járművet.</p></div><div class="hidden" id="qrSelected"><h2 id="qrTitle"></h2><div class="qrCanvas" id="qrCanvas" style="margin:18px auto;display:flex;align-items:center;justify-content:center"></div><p id="qrSub"></p><button class="btn yellow" onclick="downloadQR()">⬇ QR-kód letöltése</button><button class="btn gray" onclick="window.print()">🖨 Nyomtatás</button></div></aside></div></section>
+</main>
 </div>
 </section>
 </main><script>
