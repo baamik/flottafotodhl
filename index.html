@@ -96,6 +96,70 @@ body.adminMode .wrap{max-width:none;margin:0;padding:0}
 @media(max-width:1050px){#v8Modal.damageWorkspaceModal .modalBox{width:98vw;height:96vh}.damageWorkspace{grid-template-columns:150px minmax(0,1fr) 280px}.damageWorkspaceLeft{padding:12px 8px}.damageWorkspaceRight{padding:15px}}
 @media(max-width:760px){.damageWorkspace{grid-template-columns:1fr}.damageWorkspaceLeft{display:none}.damageWorkspaceRight{display:none}.damageWorkspaceCenter{padding:10px}.damageWorkspaceTop{align-items:flex-start;flex-direction:column}.damageZoomWrap.pro{min-height:72vh}.damageMiniMap{width:110px}}
 
+
+/* V10.2 APPROVED DAMAGE WORKSPACE — isolated, full-screen */
+#damageWorkspaceOverlay{
+  position:fixed !important; inset:0 !important; z-index:2147483000 !important;
+  background:#eef2f6 !important; display:flex !important; flex-direction:column !important;
+  width:100vw !important; height:100vh !important; overflow:hidden !important;
+}
+#damageWorkspaceOverlay *{box-sizing:border-box}
+#damageWorkspaceOverlay .dwTopbar{
+  height:68px; flex:0 0 68px; background:#12202f; color:#fff; display:flex; align-items:center;
+  padding:0 20px; gap:34px; box-shadow:0 1px 0 #ffffff18;
+}
+#damageWorkspaceOverlay .dwBrand{font-size:24px;font-weight:900;display:flex;align-items:center;gap:10px}
+#damageWorkspaceOverlay .dwBrandIcon{width:31px;height:31px;border-radius:8px;background:#1681ff;display:grid;place-items:center;font-size:17px}
+#damageWorkspaceOverlay .dwNav{display:flex;align-items:center;gap:28px;height:100%;font-weight:700;color:#cbd5df}
+#damageWorkspaceOverlay .dwNav span{height:100%;display:flex;align-items:center;padding-top:2px}
+#damageWorkspaceOverlay .dwNav .active{color:#fff;border-bottom:3px solid #1681ff}
+#damageWorkspaceOverlay .dwUser{margin-left:auto;text-align:right;font-size:13px;line-height:1.25}
+#damageWorkspaceOverlay .dwBody{
+  flex:1; min-height:0; display:grid !important; grid-template-columns:220px minmax(500px,1fr) 340px !important;
+}
+#damageWorkspaceOverlay .dwLeft{
+  background:#12202f;color:#fff;padding:16px 14px;overflow:auto;border-top:1px solid #ffffff10;
+}
+#damageWorkspaceOverlay .dwBack{border:0;background:none;color:#e8edf3;font-weight:800;padding:8px 2px 16px;cursor:pointer}
+#damageWorkspaceOverlay .dwVehicle{border-top:1px solid #ffffff14;border-bottom:1px solid #ffffff14;padding:13px 4px;margin-bottom:14px}
+#damageWorkspaceOverlay .dwVehicle b{font-size:19px;display:block}.dwVehicle small{color:#aab7c3}
+#damageWorkspaceOverlay .dwThumbs{display:grid;gap:10px}
+#damageWorkspaceOverlay .dwThumb{height:112px;border:2px solid transparent;border-radius:9px;overflow:hidden;background:#263747;position:relative;cursor:pointer}
+#damageWorkspaceOverlay .dwThumb.active{border-color:#2c83ff;box-shadow:0 0 0 2px #2c83ff44}
+#damageWorkspaceOverlay .dwThumb img{width:100%;height:100%;object-fit:cover;display:block}
+#damageWorkspaceOverlay .dwThumb span{position:absolute;left:6px;bottom:6px;background:#000a;color:#fff;border-radius:5px;padding:3px 6px;font-size:10px}
+#damageWorkspaceOverlay .dwCenter{min-width:0;min-height:0;padding:16px 18px 12px;display:grid;grid-template-rows:auto minmax(0,1fr) auto;background:#f4f6f8}
+#damageWorkspaceOverlay .dwCenterTop{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:12px}
+#damageWorkspaceOverlay .dwCenterTop h2{margin:0;font-size:20px}
+#damageWorkspaceOverlay .dwZoomCtl{display:flex;align-items:center;gap:7px}
+#damageWorkspaceOverlay .dwZoomCtl button{height:38px;min-width:38px;border:1px solid #d5dbe2;background:#fff;border-radius:9px;font-weight:900;cursor:pointer}
+#damageWorkspaceOverlay .dwZoomPct{min-width:58px;text-align:center;font-weight:900}
+#damageWorkspaceOverlay .dwCanvas{
+  position:relative;min-height:0;height:100%;overflow:hidden;background:#151515;border-radius:12px;
+  box-shadow:0 7px 24px #0002;touch-action:none;
+}
+#damageWorkspaceOverlay .dwStage{position:absolute;inset:0;transform-origin:0 0;will-change:transform}
+#damageWorkspaceOverlay .dwStage>img{width:100%;height:100%;object-fit:contain;display:block;user-select:none;-webkit-user-drag:none}
+#damageWorkspaceOverlay .dwMini{position:absolute;right:14px;bottom:14px;width:145px;border:2px solid #fff;border-radius:9px;overflow:hidden;background:#111;box-shadow:0 4px 18px #0008;z-index:12;pointer-events:none}
+#damageWorkspaceOverlay .dwMini img{width:100%;display:block}.dwMiniView{position:absolute;border:2px solid #ef2d2d;box-sizing:border-box}
+#damageWorkspaceOverlay .dwHelp{padding-top:9px;font-size:12px;color:#626c77;display:flex;justify-content:space-between;gap:10px}
+#damageWorkspaceOverlay .dwRight{background:#fff;border-left:1px solid #e0e5ea;padding:22px;overflow:auto}
+#damageWorkspaceOverlay .dwRight h2{margin:0 0 22px;font-size:22px}
+#damageWorkspaceOverlay .dwRight label{display:block;font-weight:900;margin:14px 0 7px}
+#damageWorkspaceOverlay .dwRight select,#damageWorkspaceOverlay .dwRight input{width:100%;padding:12px;border:1px solid #d5dbe2;border-radius:9px;background:#fff}
+#damageWorkspaceOverlay .dwSave{width:100%;margin-top:16px;padding:13px;border:0;border-radius:9px;background:#df171d;color:#fff;font-weight:900;font-size:15px;cursor:pointer}
+#damageWorkspaceOverlay .dwSave:disabled{opacity:.45;cursor:not-allowed}
+#damageWorkspaceOverlay .dwCancel{width:100%;margin-top:9px;padding:12px;border:0;border-radius:9px;background:#edf0f3;font-weight:800;cursor:pointer}
+#damageWorkspaceOverlay .dwTip{margin-top:18px;background:#f1f6fc;border-radius:10px;padding:12px;font-size:12px;color:#586575;line-height:1.45}
+#damageWorkspaceOverlay .dwHistoryTitle{margin-top:22px;padding-top:18px;border-top:1px solid #e7ebef;font-weight:900}
+#damageWorkspaceOverlay .savedDamageMark{position:absolute;border:4px solid #ef2d2d;border-radius:50%;box-sizing:border-box;z-index:5;cursor:pointer}
+#damageWorkspaceOverlay .drawBox{position:absolute;border:4px solid #ef2d2d;border-radius:50%;pointer-events:none;z-index:6}
+#damageWorkspaceOverlay .hidden{display:none!important}
+@media(max-width:1050px){
+  #damageWorkspaceOverlay .dwBody{grid-template-columns:180px minmax(420px,1fr) 300px !important}
+  #damageWorkspaceOverlay .dwNav{gap:14px}
+}
+
 </style></head><body>
 <header><b>FLOTTAFOTÓ</b><a class="admin" href="?admin=1">Admin belépés</a></header><main class="wrap">
 <section id="start" class="card"><div style="display:flex;justify-content:flex-end;margin:-4px 0 8px"><button class="btn gray" style="width:auto;margin:0;padding:9px 13px" onclick="openAdminLogin()">🔐 Admin belépés</button></div><div class="step">1. LÉPÉS</div><div class="big">👤 Saját QR-kód</div><p>Olvasd be a személyes QR-kódodat a telefon kamerájával. Ha a QR nyitotta meg ezt az oldalt, automatikusan felismerünk.</p><button class="btn red" onclick="scan('user')">QR beolvasása</button></section>
@@ -314,133 +378,120 @@ async function openDamageUpload(uploadId){let x=(uploadRows||[]).find(r=>r.uploa
 let activeDamagePhoto=null,damageStart=null,damageDraft=null,mobileDamages=[];
 let damageZoom={scale:1,tx:0,ty:0,min:1,max:4,panning:false,lastX:0,lastY:0,pinchDist:0};
 let damageEditorContext=[],damageThumbUrls=new Map();
+function closeDamageWorkspace(){const x=document.getElementById('damageWorkspaceOverlay');if(x)x.remove()}
 function applyDamageZoom(){
-  const stage=$('damageZoomStage'),pct=$('damageZoomPct'),wrap=$('damageZoomWrap');
-  if(!stage)return;
-  stage.style.transform=`translate(${damageZoom.tx}px,${damageZoom.ty}px) scale(${damageZoom.scale})`;
-  if(pct)pct.textContent=Math.round(damageZoom.scale*100)+'%';
-  if(wrap)wrap.classList.toggle('canPan',damageZoom.scale>1);
-  updateDamageMiniMap();
-}
-function updateDamageMiniMap(){
-  const wrap=$('damageZoomWrap'),vp=$('damageMiniViewport');if(!wrap||!vp)return;
-  const s=damageZoom.scale;
-  const w=100/s,h=100/s;
-  const left=Math.max(0,Math.min(100-w,(-damageZoom.tx/(wrap.clientWidth*s))*100));
-  const top=Math.max(0,Math.min(100-h,(-damageZoom.ty/(wrap.clientHeight*s))*100));
-  vp.style.left=left+'%';vp.style.top=top+'%';vp.style.width=w+'%';vp.style.height=h+'%';
+  const st=$('damageZoomStage'),pct=$('damageZoomPct');if(!st)return;
+  st.style.transform=`translate(${damageZoom.tx}px,${damageZoom.ty}px) scale(${damageZoom.scale})`;
+  if(pct)pct.textContent=Math.round(damageZoom.scale*100)+'%';updateDamageMiniMap();
 }
 function clampDamagePan(){
-  const wrap=$('damageZoomWrap'); if(!wrap)return;
-  const w=wrap.clientWidth,h=wrap.clientHeight,s=damageZoom.scale;
-  const minX=Math.min(0,w-w*s),minY=Math.min(0,h-h*s);
-  damageZoom.tx=Math.max(minX,Math.min(0,damageZoom.tx));
-  damageZoom.ty=Math.max(minY,Math.min(0,damageZoom.ty));
+  const w=$('damageZoomWrap');if(!w)return;const s=damageZoom.scale;
+  damageZoom.tx=Math.max(Math.min(0,w.clientWidth-w.clientWidth*s),Math.min(0,damageZoom.tx));
+  damageZoom.ty=Math.max(Math.min(0,w.clientHeight-w.clientHeight*s),Math.min(0,damageZoom.ty));
 }
 function setDamageZoom(next,cx,cy){
-  const wrap=$('damageZoomWrap'); if(!wrap)return;
-  const old=damageZoom.scale;
-  next=Math.max(damageZoom.min,Math.min(damageZoom.max,next));
-  if(next===old)return;
-  cx=cx??wrap.clientWidth/2; cy=cy??wrap.clientHeight/2;
-  const imgX=(cx-damageZoom.tx)/old,imgY=(cy-damageZoom.ty)/old;
-  damageZoom.scale=next;damageZoom.tx=cx-imgX*next;damageZoom.ty=cy-imgY*next;
-  clampDamagePan();applyDamageZoom();
+  const w=$('damageZoomWrap');if(!w)return;const old=damageZoom.scale;
+  next=Math.max(1,Math.min(4,next));cx=cx??w.clientWidth/2;cy=cy??w.clientHeight/2;
+  const ix=(cx-damageZoom.tx)/old,iy=(cy-damageZoom.ty)/old;
+  damageZoom.scale=next;damageZoom.tx=cx-ix*next;damageZoom.ty=cy-iy*next;clampDamagePan();applyDamageZoom();
 }
 function resetDamageZoom(){damageZoom={scale:1,tx:0,ty:0,min:1,max:4,panning:false,lastX:0,lastY:0,pinchDist:0};applyDamageZoom()}
+function updateDamageMiniMap(){
+  const w=$('damageZoomWrap'),v=$('damageMiniViewport');if(!w||!v)return;const s=damageZoom.scale,ww=100/s,hh=100/s;
+  const l=Math.max(0,Math.min(100-ww,(-damageZoom.tx/(w.clientWidth*s))*100)),t=Math.max(0,Math.min(100-hh,(-damageZoom.ty/(w.clientHeight*s))*100));
+  v.style.left=l+'%';v.style.top=t+'%';v.style.width=ww+'%';v.style.height=hh+'%';
+}
 async function fetchAdminPhotoBlobUrl(path){
   const r=await fetch(SUPA_URL+'/functions/v1/admin-photo-preview',{method:'POST',headers:{'Content-Type':'application/json','apikey':SUPA_KEY},body:JSON.stringify({session_token:adminSession,storage_path:path})});
-  if(!r.ok)throw new Error('A kép nem tölthető be.');
-  return URL.createObjectURL(await r.blob());
+  if(!r.ok)throw new Error('A kép nem tölthető be.');return URL.createObjectURL(await r.blob());
 }
 async function loadDamageContext(photoId){
   const {data,error}=await db.rpc('admin_damage_context',{p_session:adminSession,p_photo_file_id:photoId});
-  if(error)throw error;
-  return data||[];
+  if(error)throw error;return data||[];
 }
 async function renderDamageThumbs(currentId){
-  const box=$('damageThumbs');if(!box)return;
-  box.innerHTML='';
+  const box=$('damageThumbs');if(!box)return;box.innerHTML='';
   for(const row of damageEditorContext){
-    const d=document.createElement('div');d.className='damageThumb'+(row.photo_file_id===currentId?' active':'');
+    const d=document.createElement('div');d.className='dwThumb'+(row.photo_file_id===currentId?' active':'');
     d.innerHTML=`<div style="height:100%;display:grid;place-items:center;color:#cbd5df;font-size:11px">Betöltés…</div><span>${esc(row.photo_position||'Fotó')}</span>`;
-    d.onclick=()=>switchDamageEditorPhoto(row.photo_file_id);
-    box.appendChild(d);
-    try{
-      let url=damageThumbUrls.get(row.storage_path);
-      if(!url){url=await fetchAdminPhotoBlobUrl(row.storage_path);damageThumbUrls.set(row.storage_path,url)}
-      d.innerHTML=`<img src="${url}" alt=""><span>${esc(row.photo_position||'Fotó')}</span>`;
-    }catch(e){d.firstChild.textContent='Nem tölthető be'}
+    d.onclick=()=>switchDamageEditorPhoto(row.photo_file_id);box.appendChild(d);
+    try{let u=damageThumbUrls.get(row.storage_path);if(!u){u=await fetchAdminPhotoBlobUrl(row.storage_path);damageThumbUrls.set(row.storage_path,u)}d.innerHTML=`<img src="${u}"><span>${esc(row.photo_position||'Fotó')}</span>`}catch{}
   }
 }
 async function switchDamageEditorPhoto(photoId){
-  const row=damageEditorContext.find(r=>r.photo_file_id===photoId);if(!row)return;
-  let url=damageThumbUrls.get(row.storage_path);
-  if(!url){url=await fetchAdminPhotoBlobUrl(row.storage_path);damageThumbUrls.set(row.storage_path,url)}
-  activeDamagePhoto={id:row.photo_file_id,src:url};
-  $('damageEditorImg').src=url;$('damageMiniImg').src=url;
-  document.querySelectorAll('.damageThumb').forEach((x,i)=>x.classList.toggle('active',damageEditorContext[i]?.photo_file_id===photoId));
-  $('damagePhotoLabel').textContent=row.photo_position||'Fotó';
-  damageDraft=null;$('saveDamageBtn').disabled=true;hide('drawBox');resetDamageZoom();await loadAdminDamages(photoId);
+  const row=damageEditorContext.find(x=>x.photo_file_id===photoId);if(!row)return;
+  let u=damageThumbUrls.get(row.storage_path);if(!u){u=await fetchAdminPhotoBlobUrl(row.storage_path);damageThumbUrls.set(row.storage_path,u)}
+  activeDamagePhoto={id:photoId,src:u};$('damageEditorImg').src=u;$('damageMiniImg').src=u;
+  document.querySelectorAll('#damageWorkspaceOverlay .dwThumb').forEach((x,i)=>x.classList.toggle('active',damageEditorContext[i]?.photo_file_id===photoId));
+  $('damagePhotoLabel').textContent=row.photo_position||'Fotó';damageDraft=null;$('saveDamageBtn').disabled=true;hide('drawBox');resetDamageZoom();await loadAdminDamages(photoId);
 }
 async function openDamageEditor(photoId,src){
-  activeDamagePhoto={id:photoId,src};damageDraft=null;damageThumbUrls=new Map();
-  try{damageEditorContext=await loadDamageContext(photoId)}catch(e){damageEditorContext=[]}
-  const current=damageEditorContext.find(x=>x.photo_file_id===photoId);
-  const plate=current?.plate||'Jármű';
-  modal(`<div class="damageWorkspace">
-    <aside class="damageWorkspaceLeft">
-      <button class="damageWorkspaceBack" onclick="closeModal()">← Vissza a galériához</button>
-      <div class="damageVehicleMeta"><b>${esc(plate)}</b><small>Feltöltés képei</small></div>
-      <div id="damageThumbs" class="damageThumbs"></div>
-    </aside>
-    <main class="damageWorkspaceCenter">
-      <div class="damageWorkspaceTop">
-        <div><h2 id="damagePhotoLabel">${esc(current?.photo_position||'Sérülés jelölése')}</h2><span class="damageModeBadge">◎ Precíz jelölés</span></div>
-        <div class="damageZoomToolbar">
-          <button onclick="setDamageZoom(damageZoom.scale-.25)">−</button><span id="damageZoomPct" class="zoomPct">100%</span><button onclick="setDamageZoom(damageZoom.scale+.25)">+</button><button onclick="resetDamageZoom()">Képhez igazítás</button>
+  closeDamageWorkspace();activeDamagePhoto={id:photoId,src};damageDraft=null;damageThumbUrls=new Map();
+  try{damageEditorContext=await loadDamageContext(photoId)}catch{damageEditorContext=[]}
+  const cur=damageEditorContext.find(x=>x.photo_file_id===photoId),plate=cur?.plate||'Jármű';
+  const o=document.createElement('div');o.id='damageWorkspaceOverlay';
+  o.innerHTML=`
+    <div class="dwTopbar">
+      <div class="dwBrand"><span class="dwBrandIcon">▣</span>Flottafotó</div>
+      <div class="dwNav"><span class="active">Feltöltések</span><span>Sérülések</span><span>Flotta</span><span>Heti ZIP</span></div>
+      <div class="dwUser"><b>${esc(adminName||'Admin')}</b><br><span style="color:#aebbc7">Admin</span></div>
+    </div>
+    <div class="dwBody">
+      <aside class="dwLeft">
+        <button class="dwBack" onclick="closeDamageWorkspace()">← Vissza a galériához</button>
+        <div class="dwVehicle"><b>${esc(plate)}</b><small>Feltöltés képei</small></div>
+        <div id="damageThumbs" class="dwThumbs"></div>
+      </aside>
+      <main class="dwCenter">
+        <div class="dwCenterTop">
+          <div><h2 id="damagePhotoLabel">${esc(cur?.photo_position||'Fotó')}</h2></div>
+          <div class="dwZoomCtl">
+            <button onclick="setDamageZoom(damageZoom.scale-.25)">−</button><span id="damageZoomPct" class="dwZoomPct">100%</span>
+            <button onclick="setDamageZoom(damageZoom.scale+.25)">+</button><button onclick="resetDamageZoom()">Képhez igazítás</button>
+          </div>
         </div>
-      </div>
-      <div id="damageZoomWrap" class="damageZoomWrap pro">
-        <div id="damageZoomStage" class="damageZoomStage">
-          <img src="${src}" id="damageEditorImg">
-          <div id="savedDamageLayer"></div><div id="drawBox" class="drawBox hidden"></div>
+        <div id="damageZoomWrap" class="dwCanvas">
+          <div id="damageZoomStage" class="dwStage">
+            <img id="damageEditorImg" src="${src}">
+            <div id="savedDamageLayer"></div>
+            <div id="drawBox" class="drawBox hidden"></div>
+          </div>
+          <div class="dwMini"><img id="damageMiniImg" src="${src}"><div id="damageMiniViewport" class="dwMiniView"></div></div>
         </div>
-        <div class="damageMiniMap"><img id="damageMiniImg" src="${src}"><div id="damageMiniViewport" class="damageMiniViewport"></div></div>
-      </div>
-      <div class="damageWorkspaceFoot"><span>🖱 Görgő: zoom · húzás: mozgatás · <b>Shift + húzás: karikázás</b></span><span>Mobilon: kétujjas nagyítás</span></div>
-    </main>
-    <aside class="damageWorkspaceRight">
-      <h3>Sérülés jelölése</h3>
-      <label>Sérülés típusa</label>
-      <select id="damageType"><option>Karcolás</option><option>Horpadás</option><option>Repedés</option><option>Törés</option><option>Egyéb sérülés</option></select>
-      <label>Megjegyzés (opcionális)</label>
-      <input id="damageNote" placeholder="Pl. bal oldali ajtón, kb. 10 cm">
-      <button id="saveDamageBtn" class="btn red" disabled onclick="saveDamage()">💾 Sérülés mentése</button>
-      <button class="btn gray" onclick="closeModal()">✕ Mégse</button>
-      <div class="damageHistoryTitle">Korábbi jelölések ezen a képen</div>
-      <div id="existingDamages"></div>
-    </aside>
-  </div>`,'damageWorkspaceModal');
-  const wrap=$('damageZoomWrap'),box=$('drawBox');
-  resetDamageZoom();renderDamageThumbs(photoId);
-  const localPoint=e=>{const r=wrap.getBoundingClientRect();return{x:(e.clientX-r.left-damageZoom.tx)/damageZoom.scale,y:(e.clientY-r.top-damageZoom.ty)/damageZoom.scale,w:wrap.clientWidth,h:wrap.clientHeight}};
+        <div class="dwHelp"><span>Húzd a képet a mozgatáshoz &nbsp; | &nbsp; Görgővel zoomolsz &nbsp; | &nbsp; <b>Shift + húzás a karikázáshoz</b></span><span>Mobilon: kétujjas nagyítás</span></div>
+      </main>
+      <aside class="dwRight">
+        <h2>Sérülés jelölése</h2>
+        <label>Sérülés típusa</label>
+        <select id="damageType"><option>Karcolás</option><option>Horpadás</option><option>Repedés</option><option>Törés</option><option>Egyéb sérülés</option></select>
+        <label>Megjegyzés (opcionális)</label>
+        <input id="damageNote" placeholder="Pl. bal oldali ajtón, kb. 10 cm-es karcolás">
+        <button id="saveDamageBtn" class="dwSave" disabled onclick="saveDamage()">💾 Sérülés mentése</button>
+        <button class="dwCancel" onclick="closeDamageWorkspace()">✕ Mégse</button>
+        <div class="dwTip">ⓘ Nagyíts rá a képre a pontos jelöléshez. A karika az eredeti kép koordinátáihoz igazítva kerül mentésre.</div>
+        <div class="dwHistoryTitle">Korábbi jelölések ezen a képen</div>
+        <div id="existingDamages"></div>
+      </aside>
+    </div>`;
+  document.body.appendChild(o);
+  const wrap=$('damageZoomWrap'),box=$('drawBox');resetDamageZoom();renderDamageThumbs(photoId);
+  const lp=e=>{const r=wrap.getBoundingClientRect();return{x:(e.clientX-r.left-damageZoom.tx)/damageZoom.scale,y:(e.clientY-r.top-damageZoom.ty)/damageZoom.scale,w:wrap.clientWidth,h:wrap.clientHeight}};
   wrap.addEventListener('wheel',e=>{e.preventDefault();const r=wrap.getBoundingClientRect();setDamageZoom(damageZoom.scale*(e.deltaY<0?1.12:.89),e.clientX-r.left,e.clientY-r.top)},{passive:false});
   wrap.onpointerdown=e=>{
     if(e.target.classList.contains('savedDamageMark'))return;
-    if(damageZoom.scale>1&&!e.shiftKey){damageZoom.panning=true;damageZoom.lastX=e.clientX;damageZoom.lastY=e.clientY;wrap.classList.add('isPanning');try{wrap.setPointerCapture(e.pointerId)}catch{};return}
-    e.preventDefault();damageStart=localPoint(e);show('drawBox');try{wrap.setPointerCapture(e.pointerId)}catch{}
+    if(damageZoom.scale>1&&!e.shiftKey){damageZoom.panning=true;damageZoom.lastX=e.clientX;damageZoom.lastY=e.clientY;try{wrap.setPointerCapture(e.pointerId)}catch{};return}
+    e.preventDefault();damageStart=lp(e);show('drawBox');try{wrap.setPointerCapture(e.pointerId)}catch{}
   };
   wrap.onpointermove=e=>{
     if(damageZoom.panning){damageZoom.tx+=e.clientX-damageZoom.lastX;damageZoom.ty+=e.clientY-damageZoom.lastY;damageZoom.lastX=e.clientX;damageZoom.lastY=e.clientY;clampDamagePan();applyDamageZoom();return}
-    if(!damageStart)return;const p=localPoint(e),x=Math.max(0,Math.min(p.x,damageStart.x)),y=Math.max(0,Math.min(p.y,damageStart.y)),w=Math.min(p.w,Math.max(p.x,damageStart.x))-x,hh=Math.min(p.h,Math.max(p.y,damageStart.y))-y;
-    box.style.cssText=`left:${x}px;top:${y}px;width:${w}px;height:${hh}px`;damageDraft={x:x/p.w,y:y/p.h,width:w/p.w,height:hh/p.h};$('saveDamageBtn').disabled=w<8||hh<8
+    if(!damageStart)return;const p=lp(e),x=Math.max(0,Math.min(p.x,damageStart.x)),y=Math.max(0,Math.min(p.y,damageStart.y)),ww=Math.min(p.w,Math.max(p.x,damageStart.x))-x,hh=Math.min(p.h,Math.max(p.y,damageStart.y))-y;
+    box.style.cssText=`left:${x}px;top:${y}px;width:${ww}px;height:${hh}px`;damageDraft={x:x/p.w,y:y/p.h,width:ww/p.w,height:hh/p.h};$('saveDamageBtn').disabled=ww<8||hh<8;
   };
-  wrap.onpointerup=()=>{damageStart=null;damageZoom.panning=false;wrap.classList.remove('isPanning')};wrap.onpointercancel=wrap.onpointerup;
+  wrap.onpointerup=()=>{damageStart=null;damageZoom.panning=false};wrap.onpointercancel=wrap.onpointerup;
   const touches=new Map();
   wrap.addEventListener('pointerdown',e=>{if(e.pointerType==='touch'){touches.set(e.pointerId,{x:e.clientX,y:e.clientY});if(touches.size===2){const a=[...touches.values()];damageZoom.pinchDist=Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y)}}});
   wrap.addEventListener('pointermove',e=>{if(e.pointerType==='touch'&&touches.has(e.pointerId)){touches.set(e.pointerId,{x:e.clientX,y:e.clientY});if(touches.size===2){const a=[...touches.values()],d=Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y);if(damageZoom.pinchDist){const r=wrap.getBoundingClientRect(),cx=(a[0].x+a[1].x)/2-r.left,cy=(a[0].y+a[1].y)/2-r.top;setDamageZoom(damageZoom.scale*d/damageZoom.pinchDist,cx,cy)}damageZoom.pinchDist=d}}});
-  const clearTouch=e=>{touches.delete(e.pointerId);if(touches.size<2)damageZoom.pinchDist=0};wrap.addEventListener('pointerup',clearTouch);wrap.addEventListener('pointercancel',clearTouch);
+  const ct=e=>{touches.delete(e.pointerId);if(touches.size<2)damageZoom.pinchDist=0};wrap.addEventListener('pointerup',ct);wrap.addEventListener('pointercancel',ct);
   await loadAdminDamages(photoId);
 }
 async function saveDamage(){if(!damageDraft)return;let {error}=await db.rpc('admin_save_damage',{p_session:adminSession,p_photo_file_id:activeDamagePhoto.id,p_shape_type:'ellipse',p_x:damageDraft.x,p_y:damageDraft.y,p_width:damageDraft.width,p_height:damageDraft.height,p_damage_type:$('damageType').value,p_note:$('damageNote').value,p_status:'active'});if(error)return alert(error.message);damageDraft=null;$('saveDamageBtn').disabled=true;hide('drawBox');await loadAdminDamages(activeDamagePhoto.id);if($('admin-damages')?.classList.contains('active'))loadDamageList()}

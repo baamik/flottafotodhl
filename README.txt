@@ -1,11 +1,12 @@
-V10 – Sérülésjelölő munkafelület
-Ez már a jóváhagyott látványtervhez igazodik:
-- bal oldalt az adott feltöltés képei
-- középen nagy, zoomolható/mobilon pinch-elhető kép
-- lebegő minimap a tájékozódáshoz
-- jobb oldalt külön sérüléstípus, megjegyzés és mentés panel
-- korábbi jelölések ugyanazon a képen
-- egérgörgős + / - zoom, képhez igazítás
-- nagyítva húzható kép, Shift+húzás a kijelölés
-- képek között a bal oldali thumbnail-ekkel lehet váltani
-Csak a sérülésjelölő modul lett átdolgozva.
+V10.2 – Jóváhagyott sérülésjelölő UI
+Ez a verzió nem a régi popupot formázza át, hanem külön, teljes képernyős, izolált munkafelületet nyit.
+- felső sötét Flottafotó navigáció
+- bal oldali feltöltés-thumbnail lista
+- középen nagy zoomolható fotó
+- jobb alsó minimap
+- jobb oldali sérülés panel
+- korábbi jelölések
+- görgős +/- zoom, képhez igazítás
+- nagyított kép mozgatása
+- Shift+húzás kijelölés
+A többi modul változatlan.
