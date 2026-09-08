@@ -1,1 +1,1 @@
-V9.1: admin sérülésjelölés + mobil megjelenítés. Az admin galériában a képre kattintva nyílik a jelölő, ahol ellipszis húzható és megjegyzés menthető. Aktív sérülések a futár Utolsó feltöltés nézetében overlayként jelennek meg.
+V9.3: külön Sérülések admin menüpont. Feltöltés kiválasztása után minden képen látható Sérülés jelölése gomb. A jelölő az admin_save_damage/admin_photo_damages funkciókat használja. Tartalmazza a V9.2 heti ZIP exportot és a mobil utolsó feltöltés sérülés-overlay funkciót is.
