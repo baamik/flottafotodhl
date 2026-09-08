@@ -1,8 +1,11 @@
-V9.9 – Zoom a sérülésjelölőben
-Csak a Feltöltések > kép > Sérülés jelölése részt módosítja.
-- PC: egérgörgő zoom, +/- gomb, Képhez igazítás
-- Nagyított kép húzható
-- Shift + húzás: sérülés kijelölése nagyított állapotban
-- Mobil: kétujjas pinch zoom
-- A jelölés koordinátái az eredeti képhez normalizálva mentődnek
-- A többi admin/futár funkcióhoz nem nyúl
+V10 – Sérülésjelölő munkafelület
+Ez már a jóváhagyott látványtervhez igazodik:
+- bal oldalt az adott feltöltés képei
+- középen nagy, zoomolható/mobilon pinch-elhető kép
+- lebegő minimap a tájékozódáshoz
+- jobb oldalt külön sérüléstípus, megjegyzés és mentés panel
+- korábbi jelölések ugyanazon a képen
+- egérgörgős + / - zoom, képhez igazítás
+- nagyítva húzható kép, Shift+húzás a kijelölés
+- képek között a bal oldali thumbnail-ekkel lehet váltani
+Csak a sérülésjelölő modul lett átdolgozva.
