@@ -1,1 +1,8 @@
-V9.3: külön Sérülések admin menüpont. Feltöltés kiválasztása után minden képen látható Sérülés jelölése gomb. A jelölő az admin_save_damage/admin_photo_damages funkciókat használja. Tartalmazza a V9.2 heti ZIP exportot és a mobil utolsó feltöltés sérülés-overlay funkciót is.
+V9.6 – Egyszerű sérüléslista
+- A Sérülések fül most listanézet.
+- Dátum szerint csökkenő sorrend.
+- Látszik: jelölés időpontja, TGK, jelölő admin neve, sérülés típusa.
+- 'Megnyitás' közvetlenül arra a képre nyit, amin a sérülés jelölve van.
+- A képen a korábban mentett karika visszajelenik.
+- Javítva és Törlés funkciók megmaradnak a megnyitott képnél.
+- Új jelöléseknél az admin neve automatikusan mentődik.
