@@ -62,6 +62,17 @@ body.adminMode .wrap{max-width:none;margin:0;padding:0}
 .damageSimpleMeta{font-size:12px;color:#666}
 .damageQuick{white-space:nowrap}
 @media(max-width:900px){.damageSimpleRow{grid-template-columns:1fr}.damageSimpleHead{display:none}}
+
+.damageZoomWrap{position:relative;overflow:hidden;background:#111;border-radius:14px;min-height:420px;touch-action:none}
+.damageZoomStage{position:absolute;inset:0;transform-origin:0 0;will-change:transform}
+.damageZoomStage>img{width:100%;height:100%;object-fit:contain;display:block;user-select:none;-webkit-user-drag:none}
+.damageZoomToolbar{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin:10px 0}
+.damageZoomToolbar button{border:1px solid #ddd;background:#fff;border-radius:9px;padding:8px 11px;font-weight:800;cursor:pointer}
+.damageZoomToolbar .zoomPct{min-width:58px;text-align:center;font-weight:900}
+.damageZoomHint{font-size:12px;color:#666;margin:5px 0 10px}
+.damageZoomWrap.isPanning{cursor:grabbing}
+.damageZoomWrap.canPan{cursor:grab}
+
 </style></head><body>
 <header><b>FLOTTAFOTÓ</b><a class="admin" href="?admin=1">Admin belépés</a></header><main class="wrap">
 <section id="start" class="card"><div style="display:flex;justify-content:flex-end;margin:-4px 0 8px"><button class="btn gray" style="width:auto;margin:0;padding:9px 13px" onclick="openAdminLogin()">🔐 Admin belépés</button></div><div class="step">1. LÉPÉS</div><div class="big">👤 Saját QR-kód</div><p>Olvasd be a személyes QR-kódodat a telefon kamerájával. Ha a QR nyitotta meg ezt az oldalt, automatikusan felismerünk.</p><button class="btn red" onclick="scan('user')">QR beolvasása</button></section>
@@ -278,8 +289,99 @@ async function openDamageUpload(uploadId){let x=(uploadRows||[]).find(r=>r.uploa
  for(let i=0;i<paths.length;i++){let p=paths[i],m=metas.find(z=>z.storage_path===p.storage_path)||metas[i]||{};let photoId=m.photo_file_id||m.photo_id||m.id||p.photo_file_id||p.photo_id||p.id||null;let d=document.createElement('div');d.className='detailPhoto damagePhotoWrap';d.innerHTML='<div style="height:100%;display:grid;place-items:center">Betöltés…</div>';g.appendChild(d);try{let res=await fetch(SUPA_URL+'/functions/v1/admin-photo-preview',{method:'POST',headers:{'Content-Type':'application/json','apikey':SUPA_KEY},body:JSON.stringify({session_token:adminSession,storage_path:p.storage_path})});if(!res.ok)throw Error();let blob=await res.blob(),url=URL.createObjectURL(blob);d.innerHTML='<img alt="">';d.querySelector('img').src=url;if(photoId){let b=document.createElement('button');b.className='damageAction';b.textContent='⚠ Sérülés jelölése';b.onclick=e=>{e.stopPropagation();openDamageEditor(photoId,url)};d.appendChild(b);try{let r=await db.rpc('admin_photo_damages',{p_session:adminSession,p_photo_file_id:photoId});let n=(r.data||[]).filter(q=>q.status==='active').length;if(n){let badge=document.createElement('span');badge.className='damageBadge';badge.textContent='⚠ '+n+' aktív';badge.style.cursor='pointer';badge.title='Kattints a sérülés megnyitásához';badge.onclick=e=>{e.stopPropagation();openDamageEditor(photoId,url)};d.appendChild(badge)}}catch{}}else{let b=document.createElement('button');b.className='damageAction';b.textContent='⚠ Jelölés nem elérhető';b.disabled=true;d.appendChild(b)}}catch(e){d.innerHTML='<div style="height:100%;display:grid;place-items:center;color:#b00">Nem tölthető be</div>'}}
 }
 let activeDamagePhoto=null,damageStart=null,damageDraft=null,mobileDamages=[];
-async function openDamageEditor(photoId,src){activeDamagePhoto={id:photoId,src};damageDraft=null;modal(`<h2>⚠ Sérülés jelölése / visszanézése</h2><p>A korábban mentett sérülések piros körrel látszanak. Új sérüléshez húzz egy új kört a képen.</p><div id="damageEditor" class="damageEditor"><img src="${src}" id="damageEditorImg"><div id="savedDamageLayer"></div><div id="drawBox" class="drawBox hidden"></div></div><div class="damageTools"><select id="damageType"><option>Karcolás</option><option>Horpadás</option><option>Repedés</option><option>Törés</option><option>Egyéb sérülés</option></select><input id="damageNote" placeholder="Megjegyzés (opcionális)"></div><button id="saveDamageBtn" class="btn red" disabled onclick="saveDamage()">Jelölés mentése</button><div id="existingDamages"></div>`);let ed=$('damageEditor'),box=$('drawBox');const pt=e=>{let r=ed.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top,w:r.width,h:r.height}};ed.onpointerdown=e=>{if(e.target.classList.contains('savedDamageMark'))return;e.preventDefault();ed.setPointerCapture(e.pointerId);damageStart=pt(e);show('drawBox')};ed.onpointermove=e=>{if(!damageStart)return;let p=pt(e),x=Math.max(0,Math.min(p.x,damageStart.x)),y=Math.max(0,Math.min(p.y,damageStart.y)),w=Math.abs(p.x-damageStart.x),hh=Math.abs(p.y-damageStart.y);box.style.cssText=`left:${x}px;top:${y}px;width:${w}px;height:${hh}px`;damageDraft={x:x/p.w,y:y/p.h,width:w/p.w,height:hh/p.h};$('saveDamageBtn').disabled=w<12||hh<12};ed.onpointerup=()=>damageStart=null;await loadAdminDamages(photoId)}
-async function loadAdminDamages(photoId){let {data,error}=await db.rpc('admin_photo_damages',{p_session:adminSession,p_photo_file_id:photoId});if(error)return;let rows=data||[];let layer=$('savedDamageLayer');if(layer){layer.innerHTML=rows.map(d=>`<span id="damage-mark-${d.id}" class="savedDamageMark ${d.status}" title="${esc((d.damage_type||'Sérülés')+(d.note?' – '+d.note:''))}" onclick="focusDamage('${d.id}')" style="left:${Number(d.x)*100}%;top:${Number(d.y)*100}%;width:${Number(d.width)*100}%;height:${Number(d.height)*100}%"></span>`).join('')}let list=$('existingDamages');if(list){list.innerHTML=rows.length?rows.map(d=>`<div id="damage-row-${d.id}" class="damageListItem ${d.status==='active'?'activeRow':''}"><b>${esc(d.damage_type)}</b> – ${esc(d.note||'Nincs megjegyzés')} <span class="damageBadge">${d.status==='active'?'Aktív':d.status==='repaired'?'Javítva':'Téves'}</span><button class="smallBtn" onclick="focusDamage('${d.id}')">👁 Mutasd</button>${d.status==='active'?`<button class="smallBtn" onclick="setDamageStatus('${d.id}','repaired')">Javítva</button>`:''}<button class="smallBtn" style="color:#c5161d;border-color:#e7a5a8" onclick="deleteDamage('${d.id}')">🗑 Törlés</button></div>`).join(''):'<p style="color:#777">Ehhez a képhez még nincs elmentett sérülés.</p>'}}function focusDamage(id){document.querySelectorAll('.savedDamageMark').forEach(x=>x.style.boxShadow='');let m=document.getElementById('damage-mark-'+id);if(m){m.style.boxShadow='0 0 0 5px rgba(255,204,0,.95),0 0 20px rgba(0,0,0,.35)';m.scrollIntoView({behavior:'smooth',block:'center'});setTimeout(()=>m.style.boxShadow='',2200)}let r=document.getElementById('damage-row-'+id);if(r){r.style.outline='3px solid #ffcc00';setTimeout(()=>r.style.outline='',2200)}}
+let damageZoom={scale:1,tx:0,ty:0,min:1,max:4,panning:false,lastX:0,lastY:0,pinchDist:0};
+function applyDamageZoom(){
+  const stage=$('damageZoomStage'),pct=$('damageZoomPct'),wrap=$('damageZoomWrap');
+  if(!stage)return;
+  stage.style.transform=`translate(${damageZoom.tx}px,${damageZoom.ty}px) scale(${damageZoom.scale})`;
+  if(pct)pct.textContent=Math.round(damageZoom.scale*100)+'%';
+  if(wrap)wrap.classList.toggle('canPan',damageZoom.scale>1);
+}
+function clampDamagePan(){
+  const wrap=$('damageZoomWrap'); if(!wrap)return;
+  const w=wrap.clientWidth,h=wrap.clientHeight,s=damageZoom.scale;
+  const minX=Math.min(0,w-w*s),minY=Math.min(0,h-h*s);
+  damageZoom.tx=Math.max(minX,Math.min(0,damageZoom.tx));
+  damageZoom.ty=Math.max(minY,Math.min(0,damageZoom.ty));
+}
+function setDamageZoom(next,cx,cy){
+  const wrap=$('damageZoomWrap'); if(!wrap)return;
+  const old=damageZoom.scale;
+  next=Math.max(damageZoom.min,Math.min(damageZoom.max,next));
+  if(next===old)return;
+  cx=cx??wrap.clientWidth/2; cy=cy??wrap.clientHeight/2;
+  const imgX=(cx-damageZoom.tx)/old,imgY=(cy-damageZoom.ty)/old;
+  damageZoom.scale=next;
+  damageZoom.tx=cx-imgX*next; damageZoom.ty=cy-imgY*next;
+  clampDamagePan(); applyDamageZoom();
+}
+function resetDamageZoom(){damageZoom={scale:1,tx:0,ty:0,min:1,max:4,panning:false,lastX:0,lastY:0,pinchDist:0};applyDamageZoom()}
+async function openDamageEditor(photoId,src){
+  activeDamagePhoto={id:photoId,src}; damageDraft=null;
+  modal(`<h2>⚠ Sérülés jelölése</h2>
+    <div class="damageZoomToolbar">
+      <button onclick="setDamageZoom(damageZoom.scale-.25)">−</button>
+      <span id="damageZoomPct" class="zoomPct">100%</span>
+      <button onclick="setDamageZoom(damageZoom.scale+.25)">+</button>
+      <button onclick="resetDamageZoom()">Képhez igazítás</button>
+    </div>
+    <div class="damageZoomHint">Egérgörgő: zoom · nagyított képnél húzás: mozgatás · Shift + húzás: sérülés kijelölése · mobilon kétujjas nagyítás</div>
+    <div id="damageZoomWrap" class="damageZoomWrap">
+      <div id="damageZoomStage" class="damageZoomStage">
+        <img src="${src}" id="damageEditorImg">
+        <div id="savedDamageLayer"></div>
+        <div id="drawBox" class="drawBox hidden"></div>
+      </div>
+    </div>
+    <div class="damageTools"><select id="damageType"><option>Karcolás</option><option>Horpadás</option><option>Repedés</option><option>Törés</option><option>Egyéb sérülés</option></select><input id="damageNote" placeholder="Megjegyzés (opcionális)"></div>
+    <button id="saveDamageBtn" class="btn red" disabled onclick="saveDamage()">Jelölés mentése</button>
+    <div id="existingDamages"></div>`);
+  const wrap=$('damageZoomWrap'),stage=$('damageZoomStage'),box=$('drawBox');
+  resetDamageZoom();
+  const localPoint=e=>{
+    const r=wrap.getBoundingClientRect();
+    return {x:(e.clientX-r.left-damageZoom.tx)/damageZoom.scale,
+            y:(e.clientY-r.top-damageZoom.ty)/damageZoom.scale,
+            w:wrap.clientWidth,h:wrap.clientHeight};
+  };
+  wrap.addEventListener('wheel',e=>{
+    e.preventDefault();
+    const r=wrap.getBoundingClientRect();
+    setDamageZoom(damageZoom.scale*(e.deltaY<0?1.12:.89),e.clientX-r.left,e.clientY-r.top);
+  },{passive:false});
+  wrap.onpointerdown=e=>{
+    if(e.target.classList.contains('savedDamageMark'))return;
+    if(e.pointerType==='touch' && e.isPrimary===false)return;
+    if(damageZoom.scale>1 && !e.shiftKey){
+      damageZoom.panning=true; damageZoom.lastX=e.clientX; damageZoom.lastY=e.clientY;
+      wrap.classList.add('isPanning'); try{wrap.setPointerCapture(e.pointerId)}catch{}
+      return;
+    }
+    e.preventDefault(); damageStart=localPoint(e); show('drawBox');
+    try{wrap.setPointerCapture(e.pointerId)}catch{}
+  };
+  wrap.onpointermove=e=>{
+    if(damageZoom.panning){
+      damageZoom.tx+=e.clientX-damageZoom.lastX; damageZoom.ty+=e.clientY-damageZoom.lastY;
+      damageZoom.lastX=e.clientX; damageZoom.lastY=e.clientY; clampDamagePan(); applyDamageZoom(); return;
+    }
+    if(!damageStart)return;
+    const p=localPoint(e),x=Math.max(0,Math.min(p.x,damageStart.x)),y=Math.max(0,Math.min(p.y,damageStart.y));
+    const w=Math.min(p.w,Math.max(p.x,damageStart.x))-x,hh=Math.min(p.h,Math.max(p.y,damageStart.y))-y;
+    box.style.cssText=`left:${x}px;top:${y}px;width:${w}px;height:${hh}px`;
+    damageDraft={x:x/p.w,y:y/p.h,width:w/p.w,height:hh/p.h};
+    $('saveDamageBtn').disabled=w<8||hh<8;
+  };
+  wrap.onpointerup=()=>{damageStart=null;damageZoom.panning=false;wrap.classList.remove('isPanning')};
+  wrap.onpointercancel=wrap.onpointerup;
+  // Touch pinch zoom
+  const touches=new Map();
+  wrap.addEventListener('pointerdown',e=>{if(e.pointerType==='touch'){touches.set(e.pointerId,{x:e.clientX,y:e.clientY});if(touches.size===2){const a=[...touches.values()];damageZoom.pinchDist=Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y)}}});
+  wrap.addEventListener('pointermove',e=>{if(e.pointerType==='touch'&&touches.has(e.pointerId)){touches.set(e.pointerId,{x:e.clientX,y:e.clientY});if(touches.size===2){const a=[...touches.values()],d=Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y);if(damageZoom.pinchDist){const r=wrap.getBoundingClientRect(),cx=(a[0].x+a[1].x)/2-r.left,cy=(a[0].y+a[1].y)/2-r.top;setDamageZoom(damageZoom.scale*d/damageZoom.pinchDist,cx,cy)}damageZoom.pinchDist=d}}});
+  const clearTouch=e=>{touches.delete(e.pointerId);if(touches.size<2)damageZoom.pinchDist=0};
+  wrap.addEventListener('pointerup',clearTouch);wrap.addEventListener('pointercancel',clearTouch);
+  await loadAdminDamages(photoId);
+}
 async function saveDamage(){if(!damageDraft)return;let {error}=await db.rpc('admin_save_damage',{p_session:adminSession,p_photo_file_id:activeDamagePhoto.id,p_shape_type:'ellipse',p_x:damageDraft.x,p_y:damageDraft.y,p_width:damageDraft.width,p_height:damageDraft.height,p_damage_type:$('damageType').value,p_note:$('damageNote').value,p_status:'active'});if(error)return alert(error.message);damageDraft=null;$('saveDamageBtn').disabled=true;hide('drawBox');await loadAdminDamages(activeDamagePhoto.id);if($('admin-damages')?.classList.contains('active'))loadDamageList()}
 async function deleteDamage(id){if(!confirm('Biztosan törlöd ezt a sérülésjelölést?\n\nA karika és a hozzá tartozó megjegyzés véglegesen eltűnik.'))return;let {data,error}=await db.rpc('admin_delete_damage',{p_session:adminSession,p_damage_id:id});if(error)return alert(error.message);if(!data)return alert('A sérülés nem található vagy már törölve lett.');await loadAdminDamages(activeDamagePhoto.id);if($('admin-damages')?.classList.contains('active'))loadDamageList()}async function setDamageStatus(id,status){let {error}=await db.rpc('admin_update_damage_status',{p_session:adminSession,p_damage_id:id,p_status:status});if(error)return alert(error.message);await loadAdminDamages(activeDamagePhoto.id);if($('admin-damages')?.classList.contains('active'))loadDamageList()}
 async function fetchMobileDamages(){if(!userToken||!vehicleToken)return [];let {data}=await db.rpc('mobile_vehicle_damages',{p_user_token:userToken,p_vehicle_token:vehicleToken});mobileDamages=data||[];return mobileDamages}
