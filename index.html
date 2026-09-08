@@ -138,11 +138,12 @@ body.adminMode .wrap{max-width:none;margin:0;padding:0}
   <div class="adminTop">
     <div>
       <h1>Sérülések</h1>
-      <p>Dátum szerinti lista. A Megnyitás közvetlenül arra a fotóra ugrik, amelyen a sérülést jelölték.</p>
+      <p>Korábban rögzített sérülések előzményei, dátum szerint.</p>
     </div>
-    <div class="adminTopActions"><button class="smallBtn" onclick="loadDamageList()">↻ Frissítés</button></div>
   </div>
-  <div id="damageSimpleList" class="damageSimpleList"><div class="card">Betöltés…</div></div>
+  <div id="damageSimpleList" class="damageSimpleList">
+    <div class="card">Betöltés…</div>
+  </div>
 </section><section id="admin-weekly" class="adminSection"><div class="adminTop"><div><h1>Heti áttekintés</h1><p>A teljes flotta heti fotózási állapota.</p></div></div><div class="statRow"><div class="statBox active" onclick="weeklyFilter='all';renderWeekly()"><strong id="wAll">–</strong>Összes</div><div class="statBox" onclick="weeklyFilter='done';renderWeekly()"><strong id="wDone">–</strong>✅ Kész</div><div class="statBox" onclick="weeklyFilter='missing';renderWeekly()"><strong id="wMissing">–</strong>❗ Hiányzik</div><div class="statBox"><strong id="wPct">–</strong>Teljesítettség</div></div><div class="v8bar"><button class="smallBtn" onclick="changeWeek(-7)">‹ Előző hét</button><input id="weekDate" type="date" onchange="loadWeekly()"><button class="smallBtn" onclick="changeWeek(7)">Következő hét ›</button><input id="weekSearch" placeholder="Keresés rendszámra…" oninput="renderWeekly()"></div><div class="dataCard"><div class="dataHead"><span>Rendszám</span><span>Jármű</span><span>Státusz</span><span>Fotók</span><span>Utolsó feltöltés</span><span></span></div><div id="weeklyList"></div></div></section><section id="admin-fleet" class="adminSection"><div class="adminTop"><div><h1>Flotta kezelése</h1><p>Állandó és cserejárművek kezelése.</p></div><button class="btn yellow" style="width:auto" onclick="vehicleModal()">＋ Új jármű hozzáadása</button></div><div class="statRow"><div class="statBox active"><strong id="fActive">–</strong>Aktív jármű</div><div class="statBox"><strong id="fPermanent">–</strong>Állandó flotta</div><div class="statBox"><strong id="fTemp">–</strong>Csere / bérelt</div><div class="statBox"><strong id="fInactive">–</strong>Inaktív</div></div><div class="v8bar"><input id="fleetSearch" placeholder="Keresés rendszámra, márkára…" oninput="renderFleet()"><select id="fleetStatus" onchange="renderFleet()"><option value="active">Aktív</option><option value="inactive">Inaktív</option><option value="all">Összes</option></select></div><div class="dataCard"><div class="dataHead"><span>Rendszám</span><span>Márka / modell</span><span>Hajtás</span><span>Típus</span><span>Státusz</span><span></span></div><div id="fleetList"></div></div></section><section id="admin-qr" class="adminSection"><div class="adminTop"><div><h1>QR-kódok</h1><p>Dolgozói és jármű QR-kódok kezelése.</p></div><button class="btn yellow" style="width:auto" onclick="workerModal()">＋ Új munkavállaló</button></div><div class="qrLayout"><div><div class="tabs8"><button id="qWorkerTab" class="active" onclick="qrMode='worker';renderQR()">👤 Dolgozói QR-kódok</button><button id="qVehicleTab" onclick="qrMode='vehicle';renderQR()">🚚 Jármű QR-kódok</button></div><div class="v8bar"><input id="qrSearch" placeholder="Keresés…" oninput="renderQR()"></div><div class="dataCard"><div id="qrList"></div></div></div><aside class="qrPreview"><div id="qrEmpty"><h2>QR-kód előnézet</h2><p>Válassz ki egy dolgozót vagy járművet.</p></div><div id="qrSelected" class="hidden"><h2 id="qrTitle"></h2><div id="qrCanvas" class="qrCanvas" style="margin:18px auto;display:flex;align-items:center;justify-content:center"></div><p id="qrSub"></p><button class="btn yellow" onclick="downloadQR()">⬇ QR-kód letöltése</button><button class="btn gray" onclick="window.print()">🖨 Nyomtatás</button></div></aside></div></section>
  </main>
 </div>
@@ -188,7 +189,7 @@ async function changeAdminPassword(){
  hide('changePass');showAdminDash();
 }
 function showAdminDash(){show('adminDash');document.body.classList.add('adminMode');$('adminPage').classList.add('adminShell');if($('adminSideName'))$('adminSideName').textContent=adminName;loadUploads();loadAdminOverview()}
-function adminSection(name,btn){document.querySelectorAll('.adminSection').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.adminNav button').forEach(x=>x.classList.remove('active'));let s=$('admin-'+name);if(s)s.classList.add('active');if(btn)btn.classList.add('active');if(name==='overview')loadAdminOverview();if(name==='uploads')loadUploads();if(name==='damages')loadDamageList();if(name==='weekly')loadWeekly();if(name==='fleet')loadFleet();if(name==='qr')loadQRData()}
+function adminSection(name,btn){document.querySelectorAll('.adminSection').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.adminNav button').forEach(x=>x.classList.remove('active'));let s=$('admin-'+name);if(s)s.classList.add('active');if(btn)btn.classList.add('active');if(name==='overview')loadAdminOverview();if(name==='uploads')loadUploads();if(name==='damages'){loadDamageList();}if(name==='weekly')loadWeekly();if(name==='fleet')loadFleet();if(name==='qr')loadQRData()}
 async function loadAdminOverview(){
  if(!adminSession){return handleAdminSessionExpired()}
  const {data,error}=await db.rpc('admin_portal_overview',{p_session:adminSession});
@@ -308,7 +309,7 @@ async function loadDamageList(){
     box.innerHTML=`<div class="card error">Hiba: ${esc(error.message||'A lista nem tölthető be.')}</div>`;
     return;
   }
-  const rows=data||[];
+  const rows=(data||[]).filter(r=>r.status!=='false_mark');
   if(!rows.length){
     box.innerHTML='<div class="card">Még nincs rögzített sérülés.</div>';
     return;
@@ -317,16 +318,30 @@ async function loadDamageList(){
     <div>Jelölés ideje</div><div>TGK</div><div>Jelölte</div><div>Sérülés</div><div></div>
   </div>`+rows.map(r=>{
     const dt=new Date(r.created_at);
+    const statusText=r.status==='repaired'?'Javítva':'';
     return `<div class="damageSimpleRow">
       <div><b>${dt.toLocaleDateString('hu-HU')}</b><div class="damageSimpleMeta">${dt.toLocaleTimeString('hu-HU',{hour:'2-digit',minute:'2-digit'})}</div></div>
-      <div><b>${esc(r.plate||'–')}</b><div class="damageSimpleMeta">${esc(r.photo_position||'Fotó')}</div></div>
+      <div><b>${esc(r.plate||'–')}</b></div>
       <div>${esc(r.marker_name||'Ismeretlen admin')}</div>
-      <div><span class="damageSimpleType">${esc(r.damage_type||'Sérülés')}</span>${r.status!=='active'?`<div class="damageSimpleMeta">${r.status==='repaired'?'Javítva':'Téves'}</div>`:''}</div>
+      <div><span class="damageSimpleType">${esc(r.damage_type||'Sérülés')}</span>${statusText?`<div class="damageSimpleMeta">${statusText}</div>`:''}</div>
       <div class="damageQuick"><button class="smallBtn" onclick='openDamageListItem(${JSON.stringify(JSON.stringify({photo:r.photo_file_id,path:r.storage_path,damage:r.id}))})'>👁 Megnyitás</button></div>
     </div>`;
   }).join('');
 }
 let damageOpenRequestId=0;
+
+async function openDamageHistoryViewer(photoId,src,damageId){
+  activeDamagePhoto={id:photoId,src};
+  modal(`<h2>⚠ Sérülés előzmény</h2>
+    <p>Ez a nézet csak megtekintésre szolgál. Új sérülést a Feltöltések menüpontban lehet jelölni.</p>
+    <div id="damageEditor" class="damageEditor">
+      <img src="${src}" id="damageEditorImg">
+      <div id="savedDamageLayer"></div>
+    </div>
+    <div id="existingDamages"></div>`);
+  await loadAdminDamages(photoId);
+  setTimeout(()=>focusDamage(damageId),80);
+}
 async function openDamageListItem(payloadJson){
   const payload=JSON.parse(payloadJson);
   const requestId=++damageOpenRequestId;
@@ -341,8 +356,7 @@ async function openDamageListItem(payloadJson){
     const blob=await res.blob();
     if(requestId!==damageOpenRequestId)return;
     const url=URL.createObjectURL(blob);
-    await openDamageEditor(payload.photo,url);
-    setTimeout(()=>focusDamage(payload.damage),80);
+    await openDamageHistoryViewer(payload.photo,url,payload.damage);
   }catch(e){
     if(requestId===damageOpenRequestId)alert(e.message||'A kép nem tölthető be.');
   }

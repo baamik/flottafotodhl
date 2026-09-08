@@ -1,6 +1,7 @@
-V9.7 – Sérülések képkeveredés javítása
-- A Sérülések fül már nem használja a Feltöltések képgalériáját.
-- Kizárólag dátum szerinti sérüléslista jelenik meg.
-- A Megnyitás mindig az adott sérüléshez tartozó photo_file_id + storage_path alapján nyitja meg a konkrét képet.
-- Kérésazonosító védi a felületet attól, hogy egy korábbi, lassabban betöltődő kép felülírja az aktuálisat.
-- Sérülés mentése/törlése/javítottra állítása után csak a sérüléslista frissül; korábbi jármű galériája nem töltődik vissza.
+V9.8 – Sérülések fül csak előzménylista
+- A Sérülések menüpont kizárólag felsorolás jellegű sérüléselőzmény.
+- Nem jelenik meg feltöltés-galéria vagy új sérülésjelölő felület.
+- Új sérülést kizárólag a Feltöltések menüpontban lehet kijelölni egy képen.
+- A Sérülések listában látszik: jelölés ideje, TGK, jelölő admin, sérülés típusa.
+- Megnyitás közvetlenül a sérült képre ugrik és csak a már mentett jelölést mutatja.
+- Javított státusz látszik; téves jelölések nem jelennek meg a listában.
