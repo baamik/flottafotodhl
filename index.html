@@ -1,5 +1,6 @@
 <!doctype html>
-<html lang="hu"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<html lang="hu"><head>
+<!-- Flottafoto V10.3 uploads-only-damages --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Flottafotó V5</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://unpkg.com/html5-qrcode"></script>
@@ -232,17 +233,7 @@ body.adminMode .wrap{max-width:none;margin:0;padding:0}
     <div class="dashCard"><h2>Heti állapot</h2><div id="statusSummary" style="padding:12px 0">Betöltés…</div></div>
    </div>
   </section>
-  <section id="admin-uploads" class="adminSection"><div class="adminTop"><div><h1>Feltöltések</h1><p>Fotófeltöltések keresése, szűrése és megtekintése.</p></div><div class="adminTopActions"><button class="smallBtn" onclick="loadUploads()">↻ Frissítés</button></div></div><div class="uploadFilters"><input id="uploadSearch" placeholder="🔎 Keresés rendszámra vagy feltöltő nevére…" oninput="renderUploads()"><select id="uploadVehicleFilter" onchange="renderUploads()"><option value="">Összes jármű</option></select><select id="uploadUserFilter" onchange="renderUploads()"><option value="">Összes feltöltő</option></select></div><div class="uploadWorkspace"><div class="uploadTableCard"><div class="uploadHead"><span>Jármű</span><span>Feltöltő</span><span>Dátum</span><span>Képek</span><span></span></div><div id="uploadList"></div><div id="uploadFooter" class="uploadFooter"></div></div><aside id="photoPanel" class="detailPane"><div id="detailEmpty" class="detailEmpty"><div><div style="font-size:48px">📸</div><b>Válassz ki egy feltöltést</b><p>A jármű fotói és részletei itt jelennek meg.</p></div></div><div id="detailContent" class="hidden"><div class="detailTop"><div><h2 id="photoTitle">Jármű</h2><span id="detailPhotoCount" class="countBadge"></span></div><button class="closeDetail" onclick="closePhotoDetail()">×</button></div><div id="detailMeta" class="detailMeta"></div><div id="photoGrid" class="detailGallery"></div></div></aside></div></section><section id="admin-damages" class="adminSection">
-  <div class="adminTop">
-    <div>
-      <h1>Sérülések</h1>
-      <p>Korábban rögzített sérülések előzményei, dátum szerint.</p>
-    </div>
-  </div>
-  <div id="damageSimpleList" class="damageSimpleList">
-    <div class="card">Betöltés…</div>
-  </div>
-</section><section id="admin-weekly" class="adminSection"><div class="adminTop"><div><h1>Heti áttekintés</h1><p>A teljes flotta heti fotózási állapota.</p></div></div><div class="statRow"><div class="statBox active" onclick="weeklyFilter='all';renderWeekly()"><strong id="wAll">–</strong>Összes</div><div class="statBox" onclick="weeklyFilter='done';renderWeekly()"><strong id="wDone">–</strong>✅ Kész</div><div class="statBox" onclick="weeklyFilter='missing';renderWeekly()"><strong id="wMissing">–</strong>❗ Hiányzik</div><div class="statBox"><strong id="wPct">–</strong>Teljesítettség</div></div><div class="v8bar"><button class="smallBtn" onclick="changeWeek(-7)">‹ Előző hét</button><input id="weekDate" type="date" onchange="loadWeekly()"><button class="smallBtn" onclick="changeWeek(7)">Következő hét ›</button><input id="weekSearch" placeholder="Keresés rendszámra…" oninput="renderWeekly()"></div><div class="dataCard"><div class="dataHead"><span>Rendszám</span><span>Jármű</span><span>Státusz</span><span>Fotók</span><span>Utolsó feltöltés</span><span></span></div><div id="weeklyList"></div></div></section><section id="admin-fleet" class="adminSection"><div class="adminTop"><div><h1>Flotta kezelése</h1><p>Állandó és cserejárművek kezelése.</p></div><button class="btn yellow" style="width:auto" onclick="vehicleModal()">＋ Új jármű hozzáadása</button></div><div class="statRow"><div class="statBox active"><strong id="fActive">–</strong>Aktív jármű</div><div class="statBox"><strong id="fPermanent">–</strong>Állandó flotta</div><div class="statBox"><strong id="fTemp">–</strong>Csere / bérelt</div><div class="statBox"><strong id="fInactive">–</strong>Inaktív</div></div><div class="v8bar"><input id="fleetSearch" placeholder="Keresés rendszámra, márkára…" oninput="renderFleet()"><select id="fleetStatus" onchange="renderFleet()"><option value="active">Aktív</option><option value="inactive">Inaktív</option><option value="all">Összes</option></select></div><div class="dataCard"><div class="dataHead"><span>Rendszám</span><span>Márka / modell</span><span>Hajtás</span><span>Típus</span><span>Státusz</span><span></span></div><div id="fleetList"></div></div></section><section id="admin-qr" class="adminSection"><div class="adminTop"><div><h1>QR-kódok</h1><p>Dolgozói és jármű QR-kódok kezelése.</p></div><button class="btn yellow" style="width:auto" onclick="workerModal()">＋ Új munkavállaló</button></div><div class="qrLayout"><div><div class="tabs8"><button id="qWorkerTab" class="active" onclick="qrMode='worker';renderQR()">👤 Dolgozói QR-kódok</button><button id="qVehicleTab" onclick="qrMode='vehicle';renderQR()">🚚 Jármű QR-kódok</button></div><div class="v8bar"><input id="qrSearch" placeholder="Keresés…" oninput="renderQR()"></div><div class="dataCard"><div id="qrList"></div></div></div><aside class="qrPreview"><div id="qrEmpty"><h2>QR-kód előnézet</h2><p>Válassz ki egy dolgozót vagy járművet.</p></div><div id="qrSelected" class="hidden"><h2 id="qrTitle"></h2><div id="qrCanvas" class="qrCanvas" style="margin:18px auto;display:flex;align-items:center;justify-content:center"></div><p id="qrSub"></p><button class="btn yellow" onclick="downloadQR()">⬇ QR-kód letöltése</button><button class="btn gray" onclick="window.print()">🖨 Nyomtatás</button></div></aside></div></section>
+  <section id="admin-uploads" class="adminSection"><div class="adminTop"><div><h1>Feltöltések</h1><p>Fotófeltöltések keresése, szűrése és megtekintése.</p></div><div class="adminTopActions"><button class="smallBtn" onclick="loadUploads()">↻ Frissítés</button></div></div><div class="uploadFilters"><input id="uploadSearch" placeholder="🔎 Keresés rendszámra vagy feltöltő nevére…" oninput="renderUploads()"><select id="uploadVehicleFilter" onchange="renderUploads()"><option value="">Összes jármű</option></select><select id="uploadUserFilter" onchange="renderUploads()"><option value="">Összes feltöltő</option></select></div><div class="uploadWorkspace"><div class="uploadTableCard"><div class="uploadHead"><span>Jármű</span><span>Feltöltő</span><span>Dátum</span><span>Képek</span><span></span></div><div id="uploadList"></div><div id="uploadFooter" class="uploadFooter"></div></div><aside id="photoPanel" class="detailPane"><div id="detailEmpty" class="detailEmpty"><div><div style="font-size:48px">📸</div><b>Válassz ki egy feltöltést</b><p>A jármű fotói és részletei itt jelennek meg.</p></div></div><div id="detailContent" class="hidden"><div class="detailTop"><div><h2 id="photoTitle">Jármű</h2><span id="detailPhotoCount" class="countBadge"></span></div><button class="closeDetail" onclick="closePhotoDetail()">×</button></div><div id="detailMeta" class="detailMeta"></div><div id="photoGrid" class="detailGallery"></div></div></aside></div></section><section id="admin-weekly" class="adminSection"><div class="adminTop"><div><h1>Heti áttekintés</h1><p>A teljes flotta heti fotózási állapota.</p></div></div><div class="statRow"><div class="statBox active" onclick="weeklyFilter='all';renderWeekly()"><strong id="wAll">–</strong>Összes</div><div class="statBox" onclick="weeklyFilter='done';renderWeekly()"><strong id="wDone">–</strong>✅ Kész</div><div class="statBox" onclick="weeklyFilter='missing';renderWeekly()"><strong id="wMissing">–</strong>❗ Hiányzik</div><div class="statBox"><strong id="wPct">–</strong>Teljesítettség</div></div><div class="v8bar"><button class="smallBtn" onclick="changeWeek(-7)">‹ Előző hét</button><input id="weekDate" type="date" onchange="loadWeekly()"><button class="smallBtn" onclick="changeWeek(7)">Következő hét ›</button><input id="weekSearch" placeholder="Keresés rendszámra…" oninput="renderWeekly()"></div><div class="dataCard"><div class="dataHead"><span>Rendszám</span><span>Jármű</span><span>Státusz</span><span>Fotók</span><span>Utolsó feltöltés</span><span></span></div><div id="weeklyList"></div></div></section><section id="admin-fleet" class="adminSection"><div class="adminTop"><div><h1>Flotta kezelése</h1><p>Állandó és cserejárművek kezelése.</p></div><button class="btn yellow" style="width:auto" onclick="vehicleModal()">＋ Új jármű hozzáadása</button></div><div class="statRow"><div class="statBox active"><strong id="fActive">–</strong>Aktív jármű</div><div class="statBox"><strong id="fPermanent">–</strong>Állandó flotta</div><div class="statBox"><strong id="fTemp">–</strong>Csere / bérelt</div><div class="statBox"><strong id="fInactive">–</strong>Inaktív</div></div><div class="v8bar"><input id="fleetSearch" placeholder="Keresés rendszámra, márkára…" oninput="renderFleet()"><select id="fleetStatus" onchange="renderFleet()"><option value="active">Aktív</option><option value="inactive">Inaktív</option><option value="all">Összes</option></select></div><div class="dataCard"><div class="dataHead"><span>Rendszám</span><span>Márka / modell</span><span>Hajtás</span><span>Típus</span><span>Státusz</span><span></span></div><div id="fleetList"></div></div></section><section id="admin-qr" class="adminSection"><div class="adminTop"><div><h1>QR-kódok</h1><p>Dolgozói és jármű QR-kódok kezelése.</p></div><button class="btn yellow" style="width:auto" onclick="workerModal()">＋ Új munkavállaló</button></div><div class="qrLayout"><div><div class="tabs8"><button id="qWorkerTab" class="active" onclick="qrMode='worker';renderQR()">👤 Dolgozói QR-kódok</button><button id="qVehicleTab" onclick="qrMode='vehicle';renderQR()">🚚 Jármű QR-kódok</button></div><div class="v8bar"><input id="qrSearch" placeholder="Keresés…" oninput="renderQR()"></div><div class="dataCard"><div id="qrList"></div></div></div><aside class="qrPreview"><div id="qrEmpty"><h2>QR-kód előnézet</h2><p>Válassz ki egy dolgozót vagy járművet.</p></div><div id="qrSelected" class="hidden"><h2 id="qrTitle"></h2><div id="qrCanvas" class="qrCanvas" style="margin:18px auto;display:flex;align-items:center;justify-content:center"></div><p id="qrSub"></p><button class="btn yellow" onclick="downloadQR()">⬇ QR-kód letöltése</button><button class="btn gray" onclick="window.print()">🖨 Nyomtatás</button></div></aside></div></section>
  </main>
 </div>
 </section>
@@ -287,7 +278,7 @@ async function changeAdminPassword(){
  hide('changePass');showAdminDash();
 }
 function showAdminDash(){show('adminDash');document.body.classList.add('adminMode');$('adminPage').classList.add('adminShell');if($('adminSideName'))$('adminSideName').textContent=adminName;loadUploads();loadAdminOverview()}
-function adminSection(name,btn){document.querySelectorAll('.adminSection').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.adminNav button').forEach(x=>x.classList.remove('active'));let s=$('admin-'+name);if(s)s.classList.add('active');if(btn)btn.classList.add('active');if(name==='overview')loadAdminOverview();if(name==='uploads')loadUploads();if(name==='damages'){loadDamageList();}if(name==='weekly')loadWeekly();if(name==='fleet')loadFleet();if(name==='qr')loadQRData()}
+function adminSection(name,btn){document.querySelectorAll('.adminSection').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.adminNav button').forEach(x=>x.classList.remove('active'));let s=$('admin-'+name);if(s)s.classList.add('active');if(btn)btn.classList.add('active');if(name==='overview')loadAdminOverview();if(name==='uploads')loadUploads();if(name==='weekly')loadWeekly();if(name==='fleet')loadFleet();if(name==='qr')loadQRData()}
 async function loadAdminOverview(){
  if(!adminSession){return handleAdminSessionExpired()}
  const {data,error}=await db.rpc('admin_portal_overview',{p_session:adminSession});
@@ -369,12 +360,7 @@ function closeModal(){document.getElementById('v8Modal')?.remove()}
 
 
 function renderDamageUploads(){let box=$('damageUploadList');if(!box)return;let s=($('damageSearch')?.value||'').toLocaleLowerCase('hu');let rows=(uploadRows||[]).filter(x=>Number(x.photo_count||0)>0&&(x.plate+' '+(x.uploader_name||'')).toLocaleLowerCase('hu').includes(s));box.innerHTML=rows.map(x=>{let dt=new Date(x.uploaded_at);return `<div class="uploadItem" onclick="openDamageUpload('${x.upload_id}')"><div class="vehicleCell"><b>${esc(x.plate)}</b><small>Jármű</small></div><div class="uploaderCell"><b>${esc(x.uploader_name||'–')}</b><small>Feltöltő</small></div><div class="dateCell"><b>${dt.toLocaleDateString('hu-HU')}</b><small>${dt.toLocaleTimeString('hu-HU',{hour:'2-digit',minute:'2-digit'})}</small></div><div><span class="countBadge">${Number(x.photo_count||0)} fotó</span></div><div class="arrowCell">›</div></div>`}).join('')||'<div style="padding:30px;text-align:center;color:#777">Nincs találat.</div>'}
-async function openDamageUpload(uploadId){let x=(uploadRows||[]).find(r=>r.upload_id===uploadId);if(!x)return;hide('damageDetailEmpty');show('damageDetailContent');$('damagePhotoTitle').textContent=x.plate;$('damagePhotoCount').textContent=Number(x.photo_count||0)+' fotó';let g=$('damagePhotoGrid');g.innerHTML='<p>Képek betöltése…</p>';
- let [pathsRes,metaRes]=await Promise.all([db.rpc('admin_portal_photo_paths',{p_session:adminSession,p_upload:uploadId}),db.rpc('admin_portal_photos',{p_session:adminSession,p_upload:uploadId})]);
- if(pathsRes.error){g.innerHTML='<p class="error">A képek nem tölthetők be.</p>';return}
- let metas=Array.isArray(metaRes.data)?metaRes.data:[];let paths=pathsRes.data||[];g.innerHTML='';
- for(let i=0;i<paths.length;i++){let p=paths[i],m=metas.find(z=>z.storage_path===p.storage_path)||metas[i]||{};let photoId=m.photo_file_id||m.photo_id||m.id||p.photo_file_id||p.photo_id||p.id||null;let d=document.createElement('div');d.className='detailPhoto damagePhotoWrap';d.innerHTML='<div style="height:100%;display:grid;place-items:center">Betöltés…</div>';g.appendChild(d);try{let res=await fetch(SUPA_URL+'/functions/v1/admin-photo-preview',{method:'POST',headers:{'Content-Type':'application/json','apikey':SUPA_KEY},body:JSON.stringify({session_token:adminSession,storage_path:p.storage_path})});if(!res.ok)throw Error();let blob=await res.blob(),url=URL.createObjectURL(blob);d.innerHTML='<img alt="">';d.querySelector('img').src=url;if(photoId){let b=document.createElement('button');b.className='damageAction';b.textContent='⚠ Sérülés jelölése';b.onclick=e=>{e.stopPropagation();openDamageEditor(photoId,url)};d.appendChild(b);try{let r=await db.rpc('admin_photo_damages',{p_session:adminSession,p_photo_file_id:photoId});let n=(r.data||[]).filter(q=>q.status==='active').length;if(n){let badge=document.createElement('span');badge.className='damageBadge';badge.textContent='⚠ '+n+' aktív';badge.style.cursor='pointer';badge.title='Kattints a sérülés megnyitásához';badge.onclick=e=>{e.stopPropagation();openDamageEditor(photoId,url)};d.appendChild(badge)}}catch{}}else{let b=document.createElement('button');b.className='damageAction';b.textContent='⚠ Jelölés nem elérhető';b.disabled=true;d.appendChild(b)}}catch(e){d.innerHTML='<div style="height:100%;display:grid;place-items:center;color:#b00">Nem tölthető be</div>'}}
-}
+
 let activeDamagePhoto=null,damageStart=null,damageDraft=null,mobileDamages=[];
 let damageZoom={scale:1,tx:0,ty:0,min:1,max:4,panning:false,lastX:0,lastY:0,pinchDist:0};
 let damageEditorContext=[],damageThumbUrls=new Map();
@@ -433,7 +419,7 @@ async function openDamageEditor(photoId,src){
   o.innerHTML=`
     <div class="dwTopbar">
       <div class="dwBrand"><span class="dwBrandIcon">▣</span>Flottafotó</div>
-      <div class="dwNav"><span class="active">Feltöltések</span><span>Sérülések</span><span>Flotta</span><span>Heti ZIP</span></div>
+      <div class="dwNav"><span class="active">Feltöltések</span><span>Flotta</span><span>Heti ZIP</span></div>
       <div class="dwUser"><b>${esc(adminName||'Admin')}</b><br><span style="color:#aebbc7">Admin</span></div>
     </div>
     <div class="dwBody">
@@ -494,6 +480,56 @@ async function openDamageEditor(photoId,src){
   const ct=e=>{touches.delete(e.pointerId);if(touches.size<2)damageZoom.pinchDist=0};wrap.addEventListener('pointerup',ct);wrap.addEventListener('pointercancel',ct);
   await loadAdminDamages(photoId);
 }
+
+async function loadAdminDamages(photoId){
+  const {data,error}=await db.rpc('admin_photo_damages',{
+    p_session:adminSession,
+    p_photo_file_id:photoId
+  });
+  if(error) throw error;
+  const rows=data||[];
+
+  const layer=$('savedDamageLayer');
+  if(layer){
+    layer.innerHTML=rows.map(d=>`
+      <span id="damage-mark-${d.id}"
+            class="savedDamageMark ${d.status||''}"
+            title="${esc((d.damage_type||'Sérülés')+(d.note?' – '+d.note:''))}"
+            onclick="focusDamage('${d.id}')"
+            style="left:${Number(d.x)*100}%;top:${Number(d.y)*100}%;width:${Number(d.width)*100}%;height:${Number(d.height)*100}%"></span>
+    `).join('');
+  }
+
+  const list=$('existingDamages');
+  if(list){
+    list.innerHTML=rows.length ? rows.map(d=>`
+      <div id="damage-row-${d.id}" class="damageListItem ${d.status==='active'?'activeRow':''}">
+        <b>${esc(d.damage_type||'Sérülés')}</b>
+        ${d.note?` – ${esc(d.note)}`:''}
+        <span class="damageBadge">${d.status==='active'?'Aktív':d.status==='repaired'?'Javítva':'Téves'}</span>
+        <button class="smallBtn" onclick="focusDamage('${d.id}')">👁 Mutasd</button>
+        ${d.status==='active'?`<button class="smallBtn" onclick="setDamageStatus('${d.id}','repaired')">Javítva</button>`:''}
+        <button class="smallBtn" style="color:#c5161d;border-color:#e7a5a8" onclick="deleteDamage('${d.id}')">🗑 Törlés</button>
+      </div>
+    `).join('') : '<p style="color:#777">Ehhez a képhez még nincs elmentett sérülés.</p>';
+  }
+  return rows;
+}
+
+function focusDamage(id){
+  document.querySelectorAll('.savedDamageMark').forEach(x=>x.style.boxShadow='');
+  const m=document.getElementById('damage-mark-'+id);
+  if(m){
+    m.style.boxShadow='0 0 0 5px rgba(255,204,0,.95),0 0 20px rgba(0,0,0,.35)';
+    m.scrollIntoView({behavior:'smooth',block:'center'});
+    setTimeout(()=>m.style.boxShadow='',2200);
+  }
+  const r=document.getElementById('damage-row-'+id);
+  if(r){
+    r.style.outline='3px solid #ffcc00';
+    setTimeout(()=>r.style.outline='',2200);
+  }
+}
 async function saveDamage(){if(!damageDraft)return;let {error}=await db.rpc('admin_save_damage',{p_session:adminSession,p_photo_file_id:activeDamagePhoto.id,p_shape_type:'ellipse',p_x:damageDraft.x,p_y:damageDraft.y,p_width:damageDraft.width,p_height:damageDraft.height,p_damage_type:$('damageType').value,p_note:$('damageNote').value,p_status:'active'});if(error)return alert(error.message);damageDraft=null;$('saveDamageBtn').disabled=true;hide('drawBox');await loadAdminDamages(activeDamagePhoto.id);if($('admin-damages')?.classList.contains('active'))loadDamageList()}
 async function deleteDamage(id){if(!confirm('Biztosan törlöd ezt a sérülésjelölést?\n\nA karika és a hozzá tartozó megjegyzés véglegesen eltűnik.'))return;let {data,error}=await db.rpc('admin_delete_damage',{p_session:adminSession,p_damage_id:id});if(error)return alert(error.message);if(!data)return alert('A sérülés nem található vagy már törölve lett.');await loadAdminDamages(activeDamagePhoto.id);if($('admin-damages')?.classList.contains('active'))loadDamageList()}async function setDamageStatus(id,status){let {error}=await db.rpc('admin_update_damage_status',{p_session:adminSession,p_damage_id:id,p_status:status});if(error)return alert(error.message);await loadAdminDamages(activeDamagePhoto.id);if($('admin-damages')?.classList.contains('active'))loadDamageList()}
 async function fetchMobileDamages(){if(!userToken||!vehicleToken)return [];let {data}=await db.rpc('mobile_vehicle_damages',{p_user_token:userToken,p_vehicle_token:vehicleToken});mobileDamages=data||[];return mobileDamages}
@@ -511,70 +547,11 @@ new MutationObserver(installWeeklyExportButton).observe(document.body,{subtree:t
 
 
 let damageListRequestId=0;
-async function loadDamageList(){
-  const box=$('damageSimpleList');
-  if(!box||!adminSession)return;
-  const requestId=++damageListRequestId;
-  box.innerHTML='<div class="card">Sérülések betöltése…</div>';
-  const {data,error}=await db.rpc('admin_damage_list',{p_session:adminSession});
-  if(requestId!==damageListRequestId)return;
-  if(error){
-    if(String(error.message||'').includes('ADMIN_SESSION_REQUIRED'))return handleAdminSessionExpired();
-    box.innerHTML=`<div class="card error">Hiba: ${esc(error.message||'A lista nem tölthető be.')}</div>`;
-    return;
-  }
-  const rows=(data||[]).filter(r=>r.status!=='false_mark');
-  if(!rows.length){
-    box.innerHTML='<div class="card">Még nincs rögzített sérülés.</div>';
-    return;
-  }
-  box.innerHTML=`<div class="damageSimpleRow damageSimpleHead">
-    <div>Jelölés ideje</div><div>TGK</div><div>Jelölte</div><div>Sérülés</div><div></div>
-  </div>`+rows.map(r=>{
-    const dt=new Date(r.created_at);
-    const statusText=r.status==='repaired'?'Javítva':'';
-    return `<div class="damageSimpleRow">
-      <div><b>${dt.toLocaleDateString('hu-HU')}</b><div class="damageSimpleMeta">${dt.toLocaleTimeString('hu-HU',{hour:'2-digit',minute:'2-digit'})}</div></div>
-      <div><b>${esc(r.plate||'–')}</b></div>
-      <div>${esc(r.marker_name||'Ismeretlen admin')}</div>
-      <div><span class="damageSimpleType">${esc(r.damage_type||'Sérülés')}</span>${statusText?`<div class="damageSimpleMeta">${statusText}</div>`:''}</div>
-      <div class="damageQuick"><button class="smallBtn" onclick='openDamageListItem(${JSON.stringify(JSON.stringify({photo:r.photo_file_id,path:r.storage_path,damage:r.id}))})'>👁 Megnyitás</button></div>
-    </div>`;
-  }).join('');
-}
+
 let damageOpenRequestId=0;
 
-async function openDamageHistoryViewer(photoId,src,damageId){
-  activeDamagePhoto={id:photoId,src};
-  modal(`<h2>⚠ Sérülés előzmény</h2>
-    <p>Ez a nézet csak megtekintésre szolgál. Új sérülést a Feltöltések menüpontban lehet jelölni.</p>
-    <div id="damageEditor" class="damageEditor">
-      <img src="${src}" id="damageEditorImg">
-      <div id="savedDamageLayer"></div>
-    </div>
-    <div id="existingDamages"></div>`);
-  await loadAdminDamages(photoId);
-  setTimeout(()=>focusDamage(damageId),80);
-}
-async function openDamageListItem(payloadJson){
-  const payload=JSON.parse(payloadJson);
-  const requestId=++damageOpenRequestId;
-  try{
-    const res=await fetch(SUPA_URL+'/functions/v1/admin-photo-preview',{
-      method:'POST',
-      headers:{'Content-Type':'application/json','apikey':SUPA_KEY},
-      body:JSON.stringify({session_token:adminSession,storage_path:payload.path})
-    });
-    if(requestId!==damageOpenRequestId)return;
-    if(!res.ok)throw new Error('A kép nem tölthető be.');
-    const blob=await res.blob();
-    if(requestId!==damageOpenRequestId)return;
-    const url=URL.createObjectURL(blob);
-    await openDamageHistoryViewer(payload.photo,url,payload.damage);
-  }catch(e){
-    if(requestId===damageOpenRequestId)alert(e.message||'A kép nem tölthető be.');
-  }
-}
+
+
 (async()=>{let q=new URLSearchParams(location.search);
 if(q.get('admin')==='1'||q.has('admin')){document.body.classList.add('adminMode');
   ['start','userCard','vehicleCard','vehicleOk','photoCard'].forEach(id=>{try{hide(id)}catch{}});

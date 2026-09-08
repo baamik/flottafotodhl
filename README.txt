@@ -1,12 +1,8 @@
-V10.2 – Jóváhagyott sérülésjelölő UI
-Ez a verzió nem a régi popupot formázza át, hanem külön, teljes képernyős, izolált munkafelületet nyit.
-- felső sötét Flottafotó navigáció
-- bal oldali feltöltés-thumbnail lista
-- középen nagy zoomolható fotó
-- jobb alsó minimap
-- jobb oldali sérülés panel
-- korábbi jelölések
-- görgős +/- zoom, képhez igazítás
-- nagyított kép mozgatása
-- Shift+húzás kijelölés
-A többi modul változatlan.
+V10.3 – Sérülések külön fül nélkül
+
+- A külön "Sérülések" admin menüpont eltávolítva.
+- Sérülést kizárólag a Feltöltések menüpontban lehet jelölni.
+- A már mentett sérülések ugyanazon a feltöltött képen továbbra is látszanak.
+- Ugyanott megmarad: Mutasd, Javítva, Törlés.
+- A jóváhagyott teljes képernyős zoomos sérülésjelölő megmarad.
+- Beépített loadAdminDamages függvény, így a korábbi "loadAdminDamages is not defined" hiba nem fordulhat elő ebből a verzióból.
