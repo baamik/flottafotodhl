@@ -1,15 +1,15 @@
-Flottafotó V11.0.2 – UI polish
+Flottafotó V11.0.3 – Runtime Fix
 
-Javítások:
-- QR kódok nem lógnak ki a kártyából; nagyobb, stabil kártyarács.
-- Jármű QR kártyán a generikus Flottafotó logó helyett márka alapján rajzolt DHL-es furgon jelenik meg:
-  Mercedes / Ford / VW / Peugeot / Opel.
-- Admin login teljesen átállítva a V11 navy-kék-fehér arculatra.
-- Felhasználónév vagy jelszó mezőben Enter = belépés.
-- Feltöltések jobb oldali galériájában a képre kattintva teljes képernyős néző nyílik.
-- A fotón egérgörgővel zoomolhatsz, max. 800%-ig; húzással mozgatható.
-- ESC bezárja a fotónézőt.
-- Backendhez és adatbázishoz ebben a patchben nem nyúltunk.
+Javítva:
+- QR kártyák eltűnésének oka: a V11.0.2 járműrajzoló függvénye rossz scope-ba került.
+  Most globálisan elérhető, ezért a QR-kártyák renderelése újra működik.
+- QR méretezés tovább erősítve, a kód nem lóghat ki a kártyából.
+- Feltöltési fotók zoomjának oka: a kattintási esemény egy még nem létező `mm` változóra hivatkozott.
+  A metaadat most előbb töltődik be, csak utána kötjük rá a fotó megnyitását.
+- Fullscreen képnéző funkciók globálisan elérhetők.
+- Egérgörgős zoom max. 800%, húzással mozgatás, ESC bezárás.
+- Enteres admin belépés megmaradt.
+- Backend/adatbázis nem változott.
 
 Ellenőrzés:
 - JavaScript syntax check: OK
