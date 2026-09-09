@@ -1,16 +1,11 @@
-Flottafotó V11.0 MASTER
+Flottafotó V11.0.1 – layout hotfix
 
-Főbb változások:
-- teljes új navy / blue / white / yellow admin arculat
-- új Áttekintés dashboard
-- Feltöltések: kompakt sérülés badge-ek, nincs képet kitakaró gomb
-- visszatérő, teljes Sérülések menedzsment modul
-- Aktív / Javítás alatt / Javítva státuszok és státuszelőzmények
-- Heti áttekintés új UI, múltbeli hetek ZIP letöltése
-- Flotta és QR teljes arculatváltása, funkcióik megőrzésével
-- meglévő mobil QR -> jármű QR -> 8 fotó folyamat érintetlen
-- meglévő full-screen 800%-os sérülésjelölő megmarad
+Hiba oka:
+A régi adminDash elem adminLayout grid maradt, és ezen BELÜL kapott helyet az új V11 adminLayout.
+Ez két egymásba ágyazott gridet hozott létre, ezért a teljes V11 felület a régi bal oldali ~250px-es oszlopba szorult.
 
-Backend migration alkalmazva: v11_damage_manager_and_week_history
-
-Feltöltés: a ZIP-ben lévő index.html fájlt töltsd fel a repo gyökerébe a korábbi index.html helyére.
+Javítás:
+- a külső, régi adminLayout osztály eltávolítva az adminDash wrapperről;
+- az új V11 layout most közvetlenül a teljes viewport szélességét használja;
+- funkciókhoz/backendhez nem nyúltunk;
+- JavaScript syntax check: OK.

@@ -1,4 +1,4 @@
-<!-- Flottafotó V11.0 MASTER BUILD --><!DOCTYPE html>
+<!-- Flottafotó V11.0.1 LAYOUT HOTFIX --><!DOCTYPE html>
 
 <html lang="hu"><head>
 <!-- Flottafoto V10.6 - no standalone damages menu -->
@@ -217,7 +217,7 @@ body.adminMode{background:linear-gradient(135deg,#f5f9fd,#edf4fb);color:var(--in
 <label>Új jelszó</label><input id="newPass1" type="password"/><label>Új jelszó újra</label><input id="newPass2" type="password"/>
 <button class="btn red" onclick="changeAdminPassword()">Jelszó mentése</button><p class="error" id="passErr"></p>
 </div>
-<div class="hidden adminLayout" id="adminDash">
+<div class="hidden" id="adminDash">
 <div class="adminLayout v11Admin">
 <aside class="adminSide">
 <div class="adminBrand"><div aria-hidden="true" class="v11LogoMark"><svg viewbox="0 0 76 48"><path d="M7 33h7l5-15h31l8 8h10v7h-4"></path><path d="M23 18l4-8h24l7 8"></path><circle cx="23" cy="35" r="6"></circle><circle cx="57" cy="35" r="6"></circle><path class="accent" d="M53 7h13v14"></path></svg></div><div><strong>Flottafotó</strong><span>ADMIN</span></div></div>
@@ -229,7 +229,7 @@ body.adminMode{background:linear-gradient(135deg,#f5f9fd,#edf4fb);color:var(--in
 <button data-section="fleet" onclick="adminSection('fleet',this)"><span class="navIcon">▰</span>Flotta kezelése</button>
 <button data-section="qr" onclick="adminSection('qr',this)"><span class="navIcon">▦</span>QR-kódok</button>
 </nav>
-<div class="adminProfile"><div class="adminProfileBox"><span class="profileAvatar">●</span><div><b id="adminSideName"></b><small>Adminisztrátor</small></div></div><button class="logoutLink" onclick="adminLogout()">↪ Kijelentkezés</button><div class="v11Version">Flottafotó v11.0<br/><small>Járművek. Átláthatóan. Egyszerűen.</small></div></div>
+<div class="adminProfile"><div class="adminProfileBox"><span class="profileAvatar">●</span><div><b id="adminSideName"></b><small>Adminisztrátor</small></div></div><button class="logoutLink" onclick="adminLogout()">↪ Kijelentkezés</button><div class="v11Version">Flottafotó v11.0.1<br/><small>Járművek. Átláthatóan. Egyszerűen.</small></div></div>
 </aside>
 <main class="adminMain">
 <section class="adminSection active" id="admin-overview">
