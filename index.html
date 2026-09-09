@@ -1,4 +1,4 @@
-<!-- Flottafotó V11.0.1 LAYOUT HOTFIX --><!DOCTYPE html>
+<!-- Flottafotó V11.0.2 UI POLISH --><!DOCTYPE html>
 
 <html lang="hu"><head>
 <!-- Flottafoto V10.6 - no standalone damages menu -->
@@ -163,6 +163,103 @@ body.adminMode .wrap{max-width:none;margin:0;padding:0}
   #damageWorkspaceOverlay .dwNav{gap:14px}
 }
 
+
+/* ===== V11.0.2 POLISH ===== */
+
+/* Login – same visual system as V11 admin */
+#adminPage{max-width:none!important;margin:0!important;padding:0!important;background:transparent!important;box-shadow:none!important}
+body.adminMode #adminPage{min-height:100vh}
+#adminLogin,#changePass{
+  max-width:none;margin:0;min-height:100vh;padding:38px;
+  border-radius:0;box-shadow:none;
+  display:grid;place-items:center;
+  background:
+    radial-gradient(circle at 80% 15%,rgba(22,119,234,.13),transparent 28%),
+    linear-gradient(135deg,#f5f9fd,#eaf2fa);
+}
+#adminLogin.hidden,#changePass.hidden{display:none!important}
+.v11LoginCard{
+  width:min(960px,calc(100vw - 48px));min-height:560px;
+  display:grid;grid-template-columns:1.08fr .92fr;
+  background:#fff;border:1px solid #dfe7f0;border-radius:24px;
+  overflow:hidden;box-shadow:0 24px 70px rgba(16,40,63,.15)
+}
+.v11LoginBrand{
+  position:relative;padding:54px 52px;color:#fff;
+  background:
+    radial-gradient(circle at 78% 18%,rgba(22,119,234,.35),transparent 32%),
+    linear-gradient(155deg,#0b2034,#10283f 72%);
+  display:flex;flex-direction:column;justify-content:space-between;overflow:hidden
+}
+.v11LoginBrand:after{
+  content:"";position:absolute;width:320px;height:320px;border-radius:50%;
+  border:1px solid rgba(255,255,255,.07);right:-120px;bottom:-130px
+}
+.v11LoginMark{width:116px;height:72px;margin-bottom:22px}
+.v11LoginMark svg{width:100%;height:100%;fill:none;stroke:#f4f8fc;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round}
+.v11LoginMark .accent{stroke:#f5b51b;stroke-width:4}
+.v11LoginBrand h1{font-size:40px;line-height:1;margin:0;letter-spacing:-1.2px}
+.v11LoginBrand h1 span{display:block;color:#f5b51b;font-size:18px;letter-spacing:.5px;margin-top:10px}
+.v11LoginBrand p{max-width:390px;color:#c5d4e3;font-size:15px;line-height:1.6}
+.v11LoginMini{font-size:11px;color:#7790a8;letter-spacing:.2px}
+.v11LoginForm{padding:62px 56px;display:flex;flex-direction:column;justify-content:center}
+.v11LoginForm h2{margin:0 0 8px;font-size:30px;letter-spacing:-.6px;color:#12243a}
+.v11LoginForm>p{margin:0 0 30px;color:#66788d}
+.v11LoginForm label{font-size:12px;font-weight:900;color:#415a73;margin:13px 0 7px}
+.v11LoginForm input{
+  width:100%;border:1px solid #d7e2ed;background:#f9fbfd;border-radius:11px;
+  padding:14px 15px;font-size:15px;outline:none;transition:.15s
+}
+.v11LoginForm input:focus{border-color:#1677ea;box-shadow:0 0 0 4px rgba(22,119,234,.10);background:#fff}
+.v11LoginSubmit{
+  margin-top:22px;border:0;background:linear-gradient(135deg,#167cf0,#0e64d2);
+  color:#fff;border-radius:11px;padding:14px 18px;font-weight:900;font-size:15px;
+  cursor:pointer;box-shadow:0 8px 22px rgba(22,119,234,.25)
+}
+.v11LoginBack{
+  margin-top:10px;border:1px solid #d8e2ed;background:#fff;color:#2b4865;
+  border-radius:11px;padding:13px 18px;font-weight:800;cursor:pointer
+}
+.v11LoginHint{margin-top:18px!important;font-size:12px;color:#8293a5!important}
+#adminErr,#passErr{margin-top:14px}
+@media(max-width:780px){
+  #adminLogin,#changePass{padding:18px}
+  .v11LoginCard{grid-template-columns:1fr;width:100%;min-height:auto}
+  .v11LoginBrand{padding:30px;min-height:240px}
+  .v11LoginForm{padding:34px 28px}
+}
+
+/* QR cards – never allow the code to escape the card */
+.qrCards{grid-template-columns:repeat(auto-fill,minmax(248px,1fr));gap:16px}
+.qrCardV11{min-width:0;overflow:hidden;padding:15px}
+.qrCardBody{grid-template-columns:minmax(0,1fr) 104px;gap:10px;overflow:hidden}
+.qrCardVehicle{min-width:0;height:108px;overflow:hidden}
+.qrInline{width:104px;height:104px;max-width:104px;overflow:hidden}
+.qrInline canvas,.qrInline img{display:block!important;width:104px!important;height:104px!important;max-width:100%!important;max-height:100%!important}
+.qrVehicleArt{width:100%;height:100%;display:grid;place-items:center;padding:5px}
+.qrVehicleArt svg{width:100%;height:100%;max-width:135px}
+.qrVehicleArt .vanBody{fill:#f6c900;stroke:#21445f;stroke-width:2.1}
+.qrVehicleArt .glass{fill:#dcecf6;stroke:#21445f;stroke-width:1.6}
+.qrVehicleArt .trim{fill:#243a4c}
+.qrVehicleArt .wheel{fill:#20384c}
+.qrVehicleArt .hub{fill:#dfe8ef}
+.qrVehicleArt .dhl{fill:#d40511;font-weight:900;font-size:10px;font-family:Arial,sans-serif}
+.qrVehicleArt .make{fill:#19344d;font-weight:900;font-size:7.5px;font-family:Arial,sans-serif}
+
+/* Upload photo viewer with wheel zoom */
+#v11PhotoViewer{position:fixed;inset:0;z-index:300000;background:rgba(4,14,24,.94);display:none;flex-direction:column}
+#v11PhotoViewer.open{display:flex}
+.v11ViewerTop{height:62px;padding:0 18px;display:flex;align-items:center;gap:12px;color:#fff;background:#0b2034;border-bottom:1px solid #ffffff18}
+.v11ViewerTop b{font-size:15px}
+.v11ViewerTop span{color:#a9bfd2;font-size:12px}
+.v11ViewerTools{margin-left:auto;display:flex;gap:7px;align-items:center}
+.v11ViewerTools button{border:1px solid #ffffff22;background:#ffffff10;color:#fff;border-radius:8px;padding:8px 11px;font-weight:900;cursor:pointer}
+#v11ViewerPct{min-width:55px;text-align:center;font-weight:900}
+.v11ViewerViewport{position:relative;flex:1;overflow:hidden;cursor:grab;touch-action:none}
+.v11ViewerViewport.dragging{cursor:grabbing}
+#v11ViewerImg{position:absolute;left:50%;top:50%;max-width:none;max-height:none;transform-origin:center center;user-select:none;-webkit-user-drag:none}
+.v11ViewerHint{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);background:#0b2034cc;color:#dce9f5;border:1px solid #ffffff18;border-radius:99px;padding:8px 13px;font-size:11px;pointer-events:none}
+
 </style><style>
 /* ===== V11 DESIGN SYSTEM ===== */
 :root{--navy:#10283f;--navy2:#0b2034;--blue:#1677ea;--blue2:#0d66d5;--ink:#12243a;--muted:#66788d;--bg:#f3f7fb;--card:#fff;--line:#dfe7f0;--yellow:#f5b51b;--green:#19a974;--red:#f04452;--amber:#e9a11b;--softBlue:#eaf3ff;--radius:16px;--shadow:0 10px 28px rgba(33,63,94,.07)}
@@ -207,10 +304,28 @@ body.adminMode{background:linear-gradient(135deg,#f5f9fd,#edf4fb);color:var(--in
 <section class="card hidden" id="scanner"><div class="big">QR beolvasása</div><div id="reader"></div><button class="btn gray" onclick="stopScan()">Mégse</button></section>
 <section class="card hidden" id="adminPage">
 <div id="adminLogin">
-<div class="big">🔐 Flottafotó Admin</div><p>Belépés felhasználónévvel és jelszóval.</p>
-<label>Felhasználónév</label><input autocomplete="username" id="adminUser" placeholder="pl. amik.barnabas"/>
-<label>Jelszó</label><input autocomplete="current-password" id="adminPass" type="password"/>
-<button class="btn red" onclick="adminLogin()">Belépés</button><button class="btn gray" onclick="location.href=location.pathname">Vissza a fotózáshoz</button><p class="error" id="adminErr"></p>
+<div class="v11LoginCard">
+  <section class="v11LoginBrand">
+    <div>
+      <div class="v11LoginMark" aria-hidden="true"><svg viewBox="0 0 76 48"><path d="M7 33h7l5-15h31l8 8h10v7h-4"></path><path d="M23 18l4-8h24l7 8"></path><circle cx="23" cy="35" r="6"></circle><circle cx="57" cy="35" r="6"></circle><path class="accent" d="M53 7h13v14"></path></svg></div>
+      <h1>Flottafotó<span>ADMIN</span></h1>
+      <p>A flotta állapota, fotói és sérülései egyetlen átlátható felületen.</p>
+    </div>
+    <div class="v11LoginMini">V11 · Járművek. Átláthatóan. Egyszerűen.</div>
+  </section>
+  <section class="v11LoginForm">
+    <h2>Üdv újra!</h2>
+    <p>Jelentkezz be az admin felülethez.</p>
+    <label>Felhasználónév</label>
+    <input autocomplete="username" id="adminUser" placeholder="pl. amik.barnabas"/>
+    <label>Jelszó</label>
+    <input autocomplete="current-password" id="adminPass" type="password" placeholder="••••••••"/>
+    <button class="v11LoginSubmit" id="v11LoginBtn" onclick="adminLogin()">Belépés</button>
+    <button class="v11LoginBack" onclick="location.href=location.pathname">Vissza a fotózáshoz</button>
+    <p class="v11LoginHint">Tipp: a jelszó beírása után nyomj Entert.</p>
+    <p class="error" id="adminErr"></p>
+  </section>
+</div>
 </div>
 <div class="hidden" id="changePass">
 <div class="big">🔑 Első belépés – jelszócsere</div><p>A kezdő jelszót biztonsági okból most meg kell változtatnod.</p>
@@ -229,7 +344,7 @@ body.adminMode{background:linear-gradient(135deg,#f5f9fd,#edf4fb);color:var(--in
 <button data-section="fleet" onclick="adminSection('fleet',this)"><span class="navIcon">▰</span>Flotta kezelése</button>
 <button data-section="qr" onclick="adminSection('qr',this)"><span class="navIcon">▦</span>QR-kódok</button>
 </nav>
-<div class="adminProfile"><div class="adminProfileBox"><span class="profileAvatar">●</span><div><b id="adminSideName"></b><small>Adminisztrátor</small></div></div><button class="logoutLink" onclick="adminLogout()">↪ Kijelentkezés</button><div class="v11Version">Flottafotó v11.0.1<br/><small>Járművek. Átláthatóan. Egyszerűen.</small></div></div>
+<div class="adminProfile"><div class="adminProfileBox"><span class="profileAvatar">●</span><div><b id="adminSideName"></b><small>Adminisztrátor</small></div></div><button class="logoutLink" onclick="adminLogout()">↪ Kijelentkezés</button><div class="v11Version">Flottafotó v11.0.2<br/><small>Járművek. Átláthatóan. Egyszerűen.</small></div></div>
 </aside>
 <main class="adminMain">
 <section class="adminSection active" id="admin-overview">
@@ -279,7 +394,26 @@ body.adminMode{background:linear-gradient(135deg,#f5f9fd,#edf4fb);color:var(--in
 </main></div>
 </div>
 </section>
-</main><script>
+</main>
+<div id="v11PhotoViewer" aria-hidden="true">
+  <div class="v11ViewerTop">
+    <b id="v11ViewerTitle">Fotó</b>
+    <span>Görgővel zoom · húzással mozgatás</span>
+    <div class="v11ViewerTools">
+      <button onclick="v11ViewerZoom(-.25)">−</button>
+      <span id="v11ViewerPct">100%</span>
+      <button onclick="v11ViewerZoom(.25)">＋</button>
+      <button onclick="v11ViewerReset()">Képhez igazítás</button>
+      <button onclick="closeV11PhotoViewer()">✕</button>
+    </div>
+  </div>
+  <div class="v11ViewerViewport" id="v11ViewerViewport">
+    <img id="v11ViewerImg" alt="Járműfotó"/>
+    <div class="v11ViewerHint">Görgő: zoom · húzás: mozgatás · ESC: bezárás</div>
+  </div>
+</div>
+
+<script>
 const SUPA_URL='https://rkxlzdkdwcsrryinflvd.supabase.co', SUPA_KEY='sb_publishable_noWXGqx4C5rn14qAo9LpEw_isMt-R_c';
 const db=supabase.createClient(SUPA_URL,SUPA_KEY); let userToken=null,vehicleToken=null,user=null,vehicle=null,scanner=null,currentPosition=null;
 const POSITIONS=[['front','Első rész'],['front_left','Bal első sarok'],['left','Bal oldal'],['rear_left','Bal hátsó sarok'],['rear','Hátsó rész'],['rear_right','Jobb hátsó sarok'],['right','Jobb oldal'],['front_right','Jobb első sarok']];
@@ -353,7 +487,7 @@ function populateUploadFilters(){const vf=$('uploadVehicleFilter'),uf=$('uploadU
 function renderUploads(){const s=($('uploadSearch')?.value||'').toLocaleLowerCase('hu'),v=$('uploadVehicleFilter')?.value||'',u=$('uploadUserFilter')?.value||'',box=$('uploadList');const rows=uploadRows.filter(x=>(x.plate+' '+(x.uploader_name||'')).toLocaleLowerCase('hu').includes(s)&&(!v||x.plate===v)&&(!u||x.uploader_name===u));box.innerHTML=rows.map(x=>{const dt=new Date(x.uploaded_at);return `<div class="uploadItem" data-upload="${x.upload_id}" onclick="selectUpload('${x.upload_id}')"><div class="vehicleCell"><b>${esc(x.plate)}</b><small>Járműfotó feltöltés</small></div><div class="uploaderCell"><b>${esc(x.uploader_name||'–')}</b><small>Feltöltő</small></div><div class="dateCell"><b>${dt.toLocaleDateString('hu-HU')}</b><small>${dt.toLocaleTimeString('hu-HU',{hour:'2-digit',minute:'2-digit'})}</small></div><div><span class="countBadge">${Number(x.photo_count||0)} fotó</span></div><div class="arrowCell">›</div></div>`}).join('');if(!rows.length)box.innerHTML='<div style="padding:30px;text-align:center;color:#777">Nincs találat.</div>';$('uploadFooter').textContent=rows.length+' feltöltés megjelenítve'}
 async function selectUpload(id){const x=uploadRows.find(r=>r.upload_id===id);if(!x)return;document.querySelectorAll('.uploadItem').forEach(el=>el.classList.toggle('selected',el.dataset.upload===id));await openPhotos(x)}
 function closePhotoDetail(){show('detailEmpty');hide('detailContent');document.querySelectorAll('.uploadItem').forEach(x=>x.classList.remove('selected'))}
-async function openPhotos(x){hide('detailEmpty');show('detailContent');$('photoTitle').textContent=x.plate;$('detailPhotoCount').textContent=Number(x.photo_count||0)+' fotó';const dt=new Date(x.uploaded_at);$('detailMeta').innerHTML=`<div><b>🚚 ${esc(x.plate)}</b><span>Jármű</span></div><div><b>👤 ${esc(x.uploader_name||'–')}</b><span>Feltöltő</span></div><div><b>📅 ${dt.toLocaleDateString('hu-HU')} ${dt.toLocaleTimeString('hu-HU',{hour:'2-digit',minute:'2-digit'})}</b><span>Feltöltés ideje</span></div>`;const g=$('photoGrid');g.innerHTML='<p>Képek betöltése…</p>';const {data,error}=await db.rpc('admin_portal_photo_paths',{p_session:adminSession,p_upload:x.upload_id});if(error){if(String(error.message||'').includes('ADMIN_SESSION_REQUIRED'))return handleAdminSessionExpired();g.innerHTML='<p class="error">A képek nem tölthetők be.</p>';return}g.innerHTML='';if(!(data||[]).length){g.innerHTML='<p>Nincs kép.</p>';return}for(const p of data||[]){const d=document.createElement('div');d.className='detailPhoto';d.innerHTML='<div style="height:100%;display:grid;place-items:center">Betöltés…</div>';g.appendChild(d);try{const res=await fetch(SUPA_URL+'/functions/v1/admin-photo-preview',{method:'POST',headers:{'Content-Type':'application/json','apikey':SUPA_KEY},body:JSON.stringify({session_token:adminSession,storage_path:p.storage_path})});if(!res.ok)throw Error();const blob=await res.blob(),url=URL.createObjectURL(blob);d.innerHTML='<img alt=""><a title="Letöltés">↓</a>';d.querySelector('img').src=url;d.querySelector('img').onclick=()=>window.open(url,'_blank');d.querySelector('a').href=url;d.querySelector('a').download=p.original_name||'foto';let meta=await db.rpc('admin_portal_photos',{p_session:adminSession,p_upload:x.upload_id});let mm=(meta.data||[]).find(z=>z.storage_path===p.storage_path)||(meta.data||[])[(data||[]).indexOf(p)]||{};let pid=mm.photo_file_id||mm.photo_id||mm.id||p.photo_file_id||p.photo_id||p.id;if(pid){let b=document.createElement('button');b.className='damageAction';b.textContent='⚠ Sérülés jelölése';b.onclick=e=>{e.stopPropagation();openDamageEditor(pid,url)};d.appendChild(b)}}catch(e){d.innerHTML='<div style="height:100%;display:grid;place-items:center;color:#b00">Nem tölthető be</div>'}}}
+async function openPhotos(x){hide('detailEmpty');show('detailContent');$('photoTitle').textContent=x.plate;$('detailPhotoCount').textContent=Number(x.photo_count||0)+' fotó';const dt=new Date(x.uploaded_at);$('detailMeta').innerHTML=`<div><b>🚚 ${esc(x.plate)}</b><span>Jármű</span></div><div><b>👤 ${esc(x.uploader_name||'–')}</b><span>Feltöltő</span></div><div><b>📅 ${dt.toLocaleDateString('hu-HU')} ${dt.toLocaleTimeString('hu-HU',{hour:'2-digit',minute:'2-digit'})}</b><span>Feltöltés ideje</span></div>`;const g=$('photoGrid');g.innerHTML='<p>Képek betöltése…</p>';const {data,error}=await db.rpc('admin_portal_photo_paths',{p_session:adminSession,p_upload:x.upload_id});if(error){if(String(error.message||'').includes('ADMIN_SESSION_REQUIRED'))return handleAdminSessionExpired();g.innerHTML='<p class="error">A képek nem tölthetők be.</p>';return}g.innerHTML='';if(!(data||[]).length){g.innerHTML='<p>Nincs kép.</p>';return}for(const p of data||[]){const d=document.createElement('div');d.className='detailPhoto';d.innerHTML='<div style="height:100%;display:grid;place-items:center">Betöltés…</div>';g.appendChild(d);try{const res=await fetch(SUPA_URL+'/functions/v1/admin-photo-preview',{method:'POST',headers:{'Content-Type':'application/json','apikey':SUPA_KEY},body:JSON.stringify({session_token:adminSession,storage_path:p.storage_path})});if(!res.ok)throw Error();const blob=await res.blob(),url=URL.createObjectURL(blob);d.innerHTML='<img alt=""><a title="Letöltés">↓</a>';d.querySelector('img').src=url;d.querySelector('img').onclick=()=>openV11PhotoViewer(url,`${x.plate} · ${mm.photo_position||p.photo_position||'Fotó'}`);d.querySelector('a').href=url;d.querySelector('a').download=p.original_name||'foto';let meta=await db.rpc('admin_portal_photos',{p_session:adminSession,p_upload:x.upload_id});let mm=(meta.data||[]).find(z=>z.storage_path===p.storage_path)||(meta.data||[])[(data||[]).indexOf(p)]||{};let pid=mm.photo_file_id||mm.photo_id||mm.id||p.photo_file_id||p.photo_id||p.id;if(pid){let b=document.createElement('button');b.className='damageAction';b.textContent='⚠ Sérülés jelölése';b.onclick=e=>{e.stopPropagation();openDamageEditor(pid,url)};d.appendChild(b)}}catch(e){d.innerHTML='<div style="height:100%;display:grid;place-items:center;color:#b00">Nem tölthető be</div>'}}}
 function handleAdminSessionExpired(){
  sessionStorage.removeItem('ff_admin_session');sessionStorage.removeItem('ff_admin_name');
  adminSession=null;adminName='';
@@ -630,7 +764,83 @@ function mondayOf(d){let x=new Date(d+'T12:00:00'),day=(x.getDay()+6)%7;x.setDat
 function weekRangeText(d){let a=mondayOf(d),b=new Date(a);b.setDate(a.getDate()+6);return `${a.toLocaleDateString('hu-HU')} – ${b.toLocaleDateString('hu-HU')}`}
 function isoWeek(d){let x=mondayOf(d);let t=new Date(Date.UTC(x.getFullYear(),x.getMonth(),x.getDate()));t.setUTCDate(t.getUTCDate()+3);let y=new Date(Date.UTC(t.getUTCFullYear(),0,4));return 1+Math.round(((t-y)/86400000-3+(y.getUTCDay()+6)%7)/7)}
 function setV11Dates(){let now=new Date(),txt='▦ '+now.toLocaleDateString('hu-HU',{year:'numeric',month:'long',day:'numeric'})+'<br>'+now.toLocaleDateString('hu-HU',{weekday:'long'})+', '+now.toLocaleTimeString('hu-HU',{hour:'2-digit',minute:'2-digit'});if($('overviewDateChip'))$('overviewDateChip').innerHTML=txt;if($('weeklyDateChip'))$('weeklyDateChip').innerHTML=txt;if($('overviewAdminName'))$('overviewAdminName').textContent=(adminName||'Admin').split(' ')[0];let today=now.toISOString().slice(0,10);if($('overviewWeekRange'))$('overviewWeekRange').textContent='Aktuális hét: '+weekRangeText(today)}
-function adminSection(name,btn){document.querySelectorAll('.adminSection').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.adminNav button').forEach(x=>x.classList.remove('active'));let s=$('admin-'+name);if(s)s.classList.add('active');if(btn)btn.classList.add('active');setV11Dates();if(name==='overview')loadAdminOverview();if(name==='uploads')loadUploads();if(name==='damages')loadDamages();if(name==='weekly')loadWeekly();if(name==='fleet')loadFleet();if(name==='qr')loadQRData()}
+function adminSection(name,btn){document.querySelectorAll('.adminSection').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.adminNav button').forEach(x=>x.classList.remove('active'));let s=$('admin-'+name);if(s)s.classList.add('active');if(btn)btn.classList.add('active');
+function v11VehicleArt(make,model){
+  const m=(make||'').toLowerCase(), mdl=(model||'').toLowerCase();
+  let brand='VAN', nose='round', roof='mid';
+  if(m.includes('mercedes')||m.includes('mb')){brand='MERCEDES';nose='round';roof='high'}
+  else if(m.includes('ford')){brand='FORD';nose='ford';roof='mid'}
+  else if(m.includes('volkswagen')||m==='vw'||m.includes('vw ')){brand='VW';nose='flat';roof='high'}
+  else if(m.includes('peugeot')){brand='PEUGEOT';nose='peugeot';roof='mid'}
+  else if(m.includes('opel')){brand='OPEL';nose='flat';roof='high'}
+  const top=roof==='high'?18:23;
+  const front=nose==='ford'?'83,38 91,47 91,61':nose==='peugeot'?'81,39 92,47 92,61':nose==='flat'?'84,37 92,45 92,61':'82,39 91,47 91,61';
+  const windshield=nose==='ford'?'67,28 81,39 62,39':nose==='flat'?'66,27 83,37 61,37':'66,29 81,40 61,40';
+  return `<div class="qrVehicleArt" title="${esc((make||'')+' '+(model||''))}">
+  <svg viewBox="0 0 110 78" aria-hidden="true">
+    <path class="vanBody" d="M12 57 L18 ${top+13} Q19 ${top} 31 ${top} H63 Q69 ${top} 73 ${top+7} L82 39 L${front} H98 V60 H91 A10 10 0 0 0 72 60 H39 A10 10 0 0 0 20 60 H12 Z"/>
+    <polygon class="glass" points="${windshield}"/>
+    <rect class="glass" x="34" y="${top+7}" width="24" height="14" rx="2"/>
+    <rect class="trim" x="13" y="56" width="82" height="5" rx="2"/>
+    <circle class="wheel" cx="29" cy="62" r="9"/><circle class="hub" cx="29" cy="62" r="4"/>
+    <circle class="wheel" cx="81" cy="62" r="9"/><circle class="hub" cx="81" cy="62" r="4"/>
+    <text class="dhl" x="43" y="52">DHL</text>
+    <text class="make" x="49" y="73" text-anchor="middle">${brand}</text>
+  </svg></div>`;
+}
+
+let v11Viewer={scale:1,x:0,y:0,naturalW:0,naturalH:0,drag:false,sx:0,sy:0,ox:0,oy:0};
+function openV11PhotoViewer(url,title='Fotó'){
+  const box=$('v11PhotoViewer'),img=$('v11ViewerImg');
+  $('v11ViewerTitle').textContent=title||'Fotó';
+  img.onload=()=>{v11Viewer.naturalW=img.naturalWidth;v11Viewer.naturalH=img.naturalHeight;v11ViewerReset()};
+  img.src=url;box.classList.add('open');box.setAttribute('aria-hidden','false');
+}
+function closeV11PhotoViewer(){let b=$('v11PhotoViewer');b.classList.remove('open');b.setAttribute('aria-hidden','true')}
+function v11ViewerApply(){
+  const img=$('v11ViewerImg');
+  img.style.transform=`translate(calc(-50% + ${v11Viewer.x}px),calc(-50% + ${v11Viewer.y}px)) scale(${v11Viewer.scale})`;
+  $('v11ViewerPct').textContent=Math.round(v11Viewer.scale*100)+'%';
+}
+function v11ViewerReset(){
+  const vp=$('v11ViewerViewport');
+  if(!v11Viewer.naturalW||!v11Viewer.naturalH||!vp)return;
+  const fit=Math.min((vp.clientWidth-40)/v11Viewer.naturalW,(vp.clientHeight-40)/v11Viewer.naturalH,1);
+  const img=$('v11ViewerImg');
+  img.style.width=v11Viewer.naturalW+'px';img.style.height=v11Viewer.naturalH+'px';
+  v11Viewer.scale=fit;v11Viewer.x=0;v11Viewer.y=0;v11ViewerApply();
+}
+function v11ViewerZoom(delta,cx,cy){
+  const old=v11Viewer.scale,next=Math.max(.05,Math.min(8,old+delta));
+  if(next===old)return;
+  const vp=$('v11ViewerViewport'),r=vp.getBoundingClientRect();
+  const px=(cx??(r.left+r.width/2))-(r.left+r.width/2),py=(cy??(r.top+r.height/2))-(r.top+r.height/2);
+  const ratio=next/old;
+  v11Viewer.x=px-(px-v11Viewer.x)*ratio;
+  v11Viewer.y=py-(py-v11Viewer.y)*ratio;
+  v11Viewer.scale=next;v11ViewerApply();
+}
+(function installV11Viewer(){
+  const vp=$('v11ViewerViewport'); if(!vp)return;
+  vp.addEventListener('wheel',e=>{e.preventDefault();v11ViewerZoom(e.deltaY<0?Math.max(.08,v11Viewer.scale*.16):-Math.max(.08,v11Viewer.scale*.16),e.clientX,e.clientY)},{passive:false});
+  vp.addEventListener('pointerdown',e=>{v11Viewer.drag=true;v11Viewer.sx=e.clientX;v11Viewer.sy=e.clientY;v11Viewer.ox=v11Viewer.x;v11Viewer.oy=v11Viewer.y;vp.classList.add('dragging');vp.setPointerCapture(e.pointerId)});
+  vp.addEventListener('pointermove',e=>{if(!v11Viewer.drag)return;v11Viewer.x=v11Viewer.ox+e.clientX-v11Viewer.sx;v11Viewer.y=v11Viewer.oy+e.clientY-v11Viewer.sy;v11ViewerApply()});
+  const stop=e=>{v11Viewer.drag=false;vp.classList.remove('dragging');try{vp.releasePointerCapture(e.pointerId)}catch{}};
+  vp.addEventListener('pointerup',stop);vp.addEventListener('pointercancel',stop);
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('v11PhotoViewer')?.classList.contains('open'))closeV11PhotoViewer()});
+})();
+
+
+(function(){
+  ['adminUser','adminPass'].forEach(id=>{
+    const el=$(id);
+    if(el)el.addEventListener('keydown',e=>{
+      if(e.key==='Enter'){e.preventDefault();adminLogin()}
+    });
+  });
+})();
+
+setV11Dates();if(name==='overview')loadAdminOverview();if(name==='uploads')loadUploads();if(name==='damages')loadDamages();if(name==='weekly')loadWeekly();if(name==='fleet')loadFleet();if(name==='qr')loadQRData()}
 const oldShowAdminDash=showAdminDash;showAdminDash=function(){show('adminDash');document.body.classList.add('adminMode');$('adminPage').classList.add('adminShell');if($('adminSideName'))$('adminSideName').textContent=adminName;setV11Dates();loadV11Base().then(()=>loadAdminOverview())}
 async function loadV11Base(){await Promise.all([loadUploadsV11Silent(),loadDamages(true)]).catch(console.error)}
 async function loadAdminOverview(){if(!adminSession)return handleAdminSessionExpired();setV11Dates();let [{data:o,error},dr]=await Promise.all([db.rpc('admin_portal_overview',{p_session:adminSession}),loadDamages(true)]);if(error){if(String(error.message||'').includes('ADMIN_SESSION_REQUIRED'))return handleAdminSessionExpired();console.error(error);return}o=o||{};let total=+o.total||0,done=+o.done||0,missing=+o.missing||0,pct=total?Math.round(done/total*100):0;$('kpiTotal').textContent=total;$('kpiDone').textContent=done;$('kpiMissing').textContent=missing;$('kpiToday').textContent=+o.today||0;$('progressDone').textContent=done;$('progressTotal').textContent=total;$('progressPct').textContent=pct+'% teljesítettség';$('progressFill').style.width=pct+'%';renderRecent();renderRecentDamages()}
@@ -666,7 +876,7 @@ async function downloadWeeklyZip(weekDate,button){if(!adminSession)return alert(
 function installWeeklyExportButton(){}
 async function loadFleet(){let [{data,error},ur]=await Promise.all([db.rpc('admin_fleet_list',{p_session:adminSession}),loadUploadsV11Silent().catch(()=>[])]) ;if(error){if(String(error.message).includes('ADMIN_SESSION_REQUIRED'))return handleAdminSessionExpired();alert(error.message);return}fleetRows=data||[];renderFleet()}
 function renderFleet(){let a=fleetRows.filter(x=>x.active).length;$('fTotal').textContent=fleetRows.length;$('fActive').textContent=a;$('fInactive').textContent=fleetRows.length-a;$('fPermanent').textContent=fleetRows.filter(x=>x.active&&x.vehicle_type!=='replacement'&&x.vehicle_type!=='rental').length;$('fTemp').textContent=fleetRows.filter(x=>x.active&&(x.vehicle_type==='replacement'||x.vehicle_type==='rental')).length;let s=($('fleetSearch').value||'').toLowerCase(),st=$('fleetStatus').value,r=fleetRows.filter(x=>(st==='all'||(st==='active'&&x.active)||(st==='inactive'&&!x.active))&&((x.plate+' '+(x.make||'')+' '+(x.model||'')).toLowerCase().includes(s)));$('fleetList').innerHTML=r.map(x=>{let lu=(uploadRows||[]).find(u=>u.plate===x.plate);return `<div class="fleetRowV11"><b>${esc(x.plate)}</b><span>${esc((x.make||'')+' '+(x.model||''))}</span><span>${esc(x.powertrain||'–')}</span><span>${(x.vehicle_type==='replacement'||x.vehicle_type==='rental')?'Csere / bérelt':'Állandó'}</span><span><i class="statusBadge ${x.active?'repaired':'active'}">${x.active?'Aktív':'Inaktív'}</i></span><span>${lu?v11DateTime(lu.uploaded_at):'–'}</span><span class="fleetActions"><button class="iconBtn" onclick="vehicleModal('${x.id}')">✎</button><button class="iconBtn" onclick="adminSection('qr',document.querySelector('[data-section=qr]'));setTimeout(()=>showQR('${x.id}'),120)">▦</button></span></div>`}).join('')}
-function renderQR(){if(!$('qrList'))return;$('qWorkerTab').classList.toggle('active',qrMode==='worker');$('qVehicleTab').classList.toggle('active',qrMode==='vehicle');let s=($('qrSearch').value||'').toLowerCase(),r=(qrMode==='worker'?peopleRows:fleetRows).filter(x=>(qrMode==='worker'?x.display_name:(x.plate+' '+(x.make||'')+' '+(x.model||''))).toLowerCase().includes(s));$('qrList').innerHTML='';r.forEach(x=>{let c=document.createElement('div');c.className='qrCardV11';let name=qrMode==='worker'?x.display_name:x.plate,sub=qrMode==='worker'?(x.role==='admin'?'Adminisztrátor':'Munkavállaló'):((x.make||'')+' '+(x.model||''));c.innerHTML=`<h3>${esc(name)}</h3><p>${esc(sub)}</p><div class="qrCardBody"><div class="qrCardVehicle">${qrMode==='vehicle'?document.querySelector('.adminBrand .v11LogoMark')?.outerHTML:'<div style="font-size:44px">●</div>'}</div><div class="qrInline"></div></div><div class="qrCardActions"><button>⬇ Letöltés</button><button>▣ Nyomtatás</button></div>`;let payload=qrMode==='worker'?(location.origin+location.pathname+'?u='+x.qr_token):x.qr_token,box=c.querySelector('.qrInline');try{new QRCode(box,{text:payload,width:112,height:112,correctLevel:QRCode.CorrectLevel.M})}catch{}let buttons=c.querySelectorAll('.qrCardActions button');buttons[0].onclick=()=>downloadInlineQR(box,name);buttons[1].onclick=()=>printInlineQR(box,name);$('qrList').appendChild(c)})}
+function renderQR(){if(!$('qrList'))return;$('qWorkerTab').classList.toggle('active',qrMode==='worker');$('qVehicleTab').classList.toggle('active',qrMode==='vehicle');let s=($('qrSearch').value||'').toLowerCase(),r=(qrMode==='worker'?peopleRows:fleetRows).filter(x=>(qrMode==='worker'?x.display_name:(x.plate+' '+(x.make||'')+' '+(x.model||''))).toLowerCase().includes(s));$('qrList').innerHTML='';r.forEach(x=>{let c=document.createElement('div');c.className='qrCardV11';let name=qrMode==='worker'?x.display_name:x.plate,sub=qrMode==='worker'?(x.role==='admin'?'Adminisztrátor':'Munkavállaló'):((x.make||'')+' '+(x.model||''));c.innerHTML=`<h3>${esc(name)}</h3><p>${esc(sub)}</p><div class="qrCardBody"><div class="qrCardVehicle">${qrMode==='vehicle'?v11VehicleArt(x.make,x.model):'<div style="font-size:44px;color:#315b7c">●</div>'}</div><div class="qrInline"></div></div><div class="qrCardActions"><button>⬇ Letöltés</button><button>▣ Nyomtatás</button></div>`;let payload=qrMode==='worker'?(location.origin+location.pathname+'?u='+x.qr_token):x.qr_token,box=c.querySelector('.qrInline');try{new QRCode(box,{text:payload,width:112,height:112,correctLevel:QRCode.CorrectLevel.M})}catch{}let buttons=c.querySelectorAll('.qrCardActions button');buttons[0].onclick=()=>downloadInlineQR(box,name);buttons[1].onclick=()=>printInlineQR(box,name);$('qrList').appendChild(c)})}
 function downloadInlineQR(box,name){let canvas=box.querySelector('canvas'),img=box.querySelector('img'),href=canvas?canvas.toDataURL('image/png'):img?.src;if(!href)return;let a=document.createElement('a');a.download=name+'-QR.png';a.href=href;a.click()}
 function printInlineQR(box,name){let canvas=box.querySelector('canvas'),img=box.querySelector('img'),href=canvas?canvas.toDataURL('image/png'):img?.src;if(!href)return;let w=window.open('','_blank');w.document.write(`<html><body style="font-family:Arial;text-align:center;padding:40px"><h2>${esc(name)}</h2><img src="${href}" style="width:320px"><script>setTimeout(()=>print(),300)<\/script></body></html>`);w.document.close()}
 setV11Dates();

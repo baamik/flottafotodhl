@@ -1,11 +1,15 @@
-Flottafotó V11.0.1 – layout hotfix
+Flottafotó V11.0.2 – UI polish
 
-Hiba oka:
-A régi adminDash elem adminLayout grid maradt, és ezen BELÜL kapott helyet az új V11 adminLayout.
-Ez két egymásba ágyazott gridet hozott létre, ezért a teljes V11 felület a régi bal oldali ~250px-es oszlopba szorult.
+Javítások:
+- QR kódok nem lógnak ki a kártyából; nagyobb, stabil kártyarács.
+- Jármű QR kártyán a generikus Flottafotó logó helyett márka alapján rajzolt DHL-es furgon jelenik meg:
+  Mercedes / Ford / VW / Peugeot / Opel.
+- Admin login teljesen átállítva a V11 navy-kék-fehér arculatra.
+- Felhasználónév vagy jelszó mezőben Enter = belépés.
+- Feltöltések jobb oldali galériájában a képre kattintva teljes képernyős néző nyílik.
+- A fotón egérgörgővel zoomolhatsz, max. 800%-ig; húzással mozgatható.
+- ESC bezárja a fotónézőt.
+- Backendhez és adatbázishoz ebben a patchben nem nyúltunk.
 
-Javítás:
-- a külső, régi adminLayout osztály eltávolítva az adminDash wrapperről;
-- az új V11 layout most közvetlenül a teljes viewport szélességét használja;
-- funkciókhoz/backendhez nem nyúltunk;
-- JavaScript syntax check: OK.
+Ellenőrzés:
+- JavaScript syntax check: OK
