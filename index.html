@@ -1,4 +1,4 @@
-<!-- Flottafotó V11.0.3 RUNTIME FIX --><!DOCTYPE html>
+<!-- Flottafotó V11.0.4 WEEKLY EXPORT FIX --><!DOCTYPE html>
 
 <html lang="hu"><head>
 <!-- Flottafoto V10.6 - no standalone damages menu -->
@@ -354,7 +354,7 @@ body.adminMode{background:linear-gradient(135deg,#f5f9fd,#edf4fb);color:var(--in
 <button data-section="fleet" onclick="adminSection('fleet',this)"><span class="navIcon">▰</span>Flotta kezelése</button>
 <button data-section="qr" onclick="adminSection('qr',this)"><span class="navIcon">▦</span>QR-kódok</button>
 </nav>
-<div class="adminProfile"><div class="adminProfileBox"><span class="profileAvatar">●</span><div><b id="adminSideName"></b><small>Adminisztrátor</small></div></div><button class="logoutLink" onclick="adminLogout()">↪ Kijelentkezés</button><div class="v11Version">Flottafotó v11.0.3<br/><small>Járművek. Átláthatóan. Egyszerűen.</small></div></div>
+<div class="adminProfile"><div class="adminProfileBox"><span class="profileAvatar">●</span><div><b id="adminSideName"></b><small>Adminisztrátor</small></div></div><button class="logoutLink" onclick="adminLogout()">↪ Kijelentkezés</button><div class="v11Version">Flottafotó v11.0.4<br/><small>Járművek. Átláthatóan. Egyszerűen.</small></div></div>
 </aside>
 <main class="adminMain">
 <section class="adminSection active" id="admin-overview">
@@ -738,12 +738,41 @@ async function deleteDamage(id){if(!confirm('Biztosan törlöd ezt a sérülésj
 async function fetchMobileDamages(){if(!userToken||!vehicleToken)return [];let {data}=await db.rpc('mobile_vehicle_damages',{p_user_token:userToken,p_vehicle_token:vehicleToken});mobileDamages=data||[];return mobileDamages}
 function damageOverlayHtml(id,url){let ds=mobileDamages.filter(d=>d.photo_file_id===id&&d.status==='active');return `<div class="damageOverlayWrap"><img src="${url}">${ds.map(d=>`<span class="damageMark" style="left:${+d.x*100}%;top:${+d.y*100}%;width:${+d.width*100}%;height:${+d.height*100}%"></span>`).join('')}</div>${ds.map(d=>`<span class="damageBadge">⚠ ${esc(d.damage_type)}${d.note?' – '+esc(d.note):''}</span>`).join('')}`}
 
-async function downloadWeeklyZip(){
- if(!adminSession)return alert('Az admin munkamenet lejárt. Jelentkezz be újra.');
- let el=document.querySelector('#weekPicker,#weekInput,input[type="week"]'),raw=el?.value||'',weekDate='';
- if(/^\d{4}-W\d{2}$/.test(raw)){let [y,w]=raw.split('-W').map(Number),d=new Date(y,0,4),day=(d.getDay()+6)%7;d.setDate(d.getDate()-day+(w-1)*7);weekDate=d.toISOString().slice(0,10)}else if(/^\d{4}-\d{2}-\d{2}$/.test(raw))weekDate=raw;else{let d=new Date(),day=(d.getDay()+6)%7;d.setDate(d.getDate()-day);weekDate=d.toISOString().slice(0,10)}
- let b=document.getElementById('weeklyZipBtn'),old=b?.innerHTML;if(b){b.disabled=true;b.innerHTML='⏳ ZIP készítése…'}
- try{let r=await fetch(`${SUPA_URL}/functions/v1/admin-weekly-export`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({session:adminSession,week:weekDate})});if(!r.ok){let e=await r.json().catch(()=>({}));throw new Error(e.error||'A heti csomag nem készíthető el.')}let blob=await r.blob(),cd=r.headers.get('content-disposition')||'',m=cd.match(/filename="?([^";]+)/),name=m?.[1]||`Flottafoto_${weekDate}.zip`,a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),2000)}catch(e){alert(e.message)}finally{if(b){b.disabled=false;b.innerHTML=old}}
+async function downloadWeeklyZip(week){
+  try{
+    const targetWeek=week||$('weeklyZipWeek')?.value||$('weekPicker')?.value||new Date().toISOString().slice(0,10);
+    if(!adminSession){alert('Az admin munkamenet lejárt. Jelentkezz be újra.');return;}
+    const btn=event?.currentTarget;
+    const oldText=btn?.textContent;
+    if(btn){btn.disabled=true;btn.textContent='Csomag készítése…';}
+    const res=await fetch(`${SUPABASE_URL}/functions/v1/admin-weekly-export`,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({session:adminSession,week:targetWeek})
+    });
+    if(!res.ok){
+      let msg='A heti csomag nem készíthető el.';
+      try{const j=await res.json();if(j?.error)msg=j.error}catch{}
+      throw new Error(msg);
+    }
+    const blob=await res.blob();
+    if(!blob.size)throw new Error('A létrehozott ZIP üres.');
+    const cd=res.headers.get('content-disposition')||'';
+    const fm=cd.match(/filename="?([^";]+)"?/i);
+    const filename=fm?.[1]||`Flottafoto_${targetWeek}.zip`;
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(blob);
+    a.download=filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(()=>URL.revokeObjectURL(a.href),30000);
+    if(btn){btn.disabled=false;btn.textContent=oldText||'Heti fotók letöltése (ZIP)';}
+  }catch(e){
+    const btn=event?.currentTarget;
+    if(btn)btn.disabled=false;
+    alert(e?.message||'A heti csomag nem készíthető el.');
+  }
 }
 function installWeeklyExportButton(){let t=[...document.querySelectorAll('h1,h2,h3')].find(e=>/heti áttekintés/i.test(e.textContent||'')),host=t?.parentElement;if(!host||document.getElementById('weeklyZipBtn'))return;let b=document.createElement('button');b.id='weeklyZipBtn';b.className='btn';b.style.margin='8px 0';b.innerHTML='📦 Heti fotók letöltése (.ZIP)';b.onclick=downloadWeeklyZip;t.insertAdjacentElement('afterend',b)}
 new MutationObserver(installWeeklyExportButton).observe(document.body,{subtree:true,childList:true});setTimeout(installWeeklyExportButton,700);
