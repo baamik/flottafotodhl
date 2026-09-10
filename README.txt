@@ -1,17 +1,16 @@
-Flottafotó V11.0.4 – Weekly Export Fix
+Flottafotó V11.0.5 – Valid ZIP Fix
 
-Backend:
-- admin-weekly-export Edge Function frissítve v2-re.
-- JSZip helyett streaming ZIP készítés (fflate).
-- Az export nem tartja egyszerre memóriában az összes fotót és a teljes ZIP-et.
-- JPEG/HEIC képek újratömörítése megszűnt, így gyorsabb és kevésbé memóriaigényes.
-- Korábbi és aktuális hetek ugyanazzal a p_week paraméterrel működnek.
+A V11.0.4-ben a streaming ZIP válasz letöltődött, de a ZIP központi könyvtára
+nem minden esetben jutott el érvényesen a klienshez, ezért a Windows hibás ZIP-nek látta.
 
-Frontend:
-- A heti letöltés most a backend valódi hibaüzenetét mutatja.
-- Letöltés alatt a gomb 'Csomag készítése…' állapotot kap.
-- A szerver által küldött ZIP-fájlnevet használja.
+V11.0.5:
+- admin-weekly-export Edge Function v3
+- a ZIP most teljesen elkészül a szerveren, és csak utána kerül HTTP válaszba
+- STORE mód: a már tömörített fotókat nem tömörítjük újra
+- minden storage fájl letöltése ellenőrzött
+- Content-Length beállítva
+- PK ZIP aláírás ellenőrzött a szerveren
+- aktuális és korábbi hetek támogatása megmarad
+- frontend funkciók változatlanok
 
-Ellenőrzés:
-- Edge Function deploy: ACTIVE, version 2
-- JavaScript syntax check: OK
+JavaScript syntax check: OK
